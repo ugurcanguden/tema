@@ -41,9 +41,68 @@
                             </div>
                         </div>
                     </div>
-                    <a href="#/share" class="gh-button gh-button-share">
+                    <a href="{{url absolute="true"}}" class="gh-button gh-button-share" data-share-url="{{url absolute="true"}}" data-share-title="{{title}}">
                         {{t "Share"}}
                     </a>
+                    <script>
+                        (function () {
+                            var shareButton = document.querySelector('.gh-button-share');
+                            if (!shareButton || shareButton.dataset.shareReady === 'true') return;
+                            shareButton.dataset.shareReady = 'true';
+
+                            var originalText = shareButton.textContent.trim();
+                            var shareUrl = shareButton.dataset.shareUrl || window.location.href;
+                            var shareTitle = shareButton.dataset.shareTitle || document.title;
+
+                            function showTemporaryLabel(label) {
+                                shareButton.textContent = label;
+                                setTimeout(function () {
+                                    shareButton.textContent = originalText;
+                                }, 1800);
+                            }
+
+                            function copyShareUrl() {
+                                if (navigator.clipboard && window.isSecureContext) {
+                                    return navigator.clipboard.writeText(shareUrl);
+                                }
+
+                                var input = document.createElement('textarea');
+                                input.value = shareUrl;
+                                input.setAttribute('readonly', '');
+                                input.style.position = 'fixed';
+                                input.style.left = '-9999px';
+                                document.body.appendChild(input);
+                                input.select();
+                                document.execCommand('copy');
+                                input.remove();
+                                return Promise.resolve();
+                            }
+
+                            shareButton.addEventListener('click', function (event) {
+                                event.preventDefault();
+
+                                if (navigator.share) {
+                                    navigator.share({
+                                        title: shareTitle,
+                                        url: shareUrl
+                                    }).catch(function (error) {
+                                        if (!error || error.name !== 'AbortError') {
+                                            showTemporaryLabel('Kopyalanamadı');
+                                        }
+                                    });
+                                    return;
+                                }
+
+                                copyShareUrl()
+                                    .then(function () {
+                                        showTemporaryLabel('Link kopyalandı');
+                                    })
+                                    .catch(function () {
+                                        showTemporaryLabel('Kopyalanamadı');
+                                    });
+                            });
+                        })();
+                    </script>
                 </div>
             {{/if}}
 

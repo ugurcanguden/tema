@@ -142,11 +142,12 @@
 </div>
 
 <div class="th-section" id="secTaksim">
-<div class="th-field"><label class="th-label">Toplam Beyan Değeri</label><div class="th-input-wrap"><span class="th-input-prefix">₺</span><input class="th-input money-input" id="taksimBeyanDegeri" type="text" inputmode="decimal" placeholder="Örn: 2.500.000" autocomplete="off"/></div></div>
+<div class="th-field"><label class="th-label">Maktu Harca Düşen Hissedar Sayısı <span class="th-label-hint">(opsiyonel)</span></label><input class="th-input no-prefix" id="taksimHissedarMaktu" type="number" min="0" step="1" placeholder="Örn: 3" autocomplete="off"/></div>
+<div class="th-field"><label class="th-label">Maktuya Düşmeyen Toplam Bedel <span class="th-label-hint">(opsiyonel)</span></label><div class="th-input-wrap"><span class="th-input-prefix">₺</span><input class="th-input money-input" id="taksimBeyanDegeri" type="text" inputmode="decimal" placeholder="Örn: 2.500.000" autocomplete="off"/></div></div>
 <div class="th-field"><label class="th-label">Döner Sermaye Ana Tutarı <span class="th-label-hint">(opsiyonel)</span></label><div class="th-input-wrap"><span class="th-input-prefix">₺</span><input class="th-input money-input" id="taksimDoner" type="text" inputmode="decimal" placeholder="Örn: 5.000" autocomplete="off"/></div></div>
 <div class="th-field"><label class="th-label">Taşınmaz Sayısı <span class="th-label-hint">(opsiyonel)</span></label><input class="th-input no-prefix" id="taksimTabsinmaz" type="number" min="1" step="1" placeholder="Örn: 3" autocomplete="off"/></div>
 <div class="th-field"><label class="th-label">Yetki Talepli İşlem</label><label class="th-toggle-option" id="taksimYetkiOption" style="margin-top:4px"><input type="checkbox" id="taksimYetki" style="display:none"/><span class="th-toggle-dot"></span><span class="th-toggle-text">Yetki talepli işlem <span class="th-label-hint">— seçiliyse döner sermaye 2 kat hesaplanır</span></span></label></div>
-<div class="th-info-inline"><svg width="14" height="14" viewBox="0 0 14 14" fill="none"><circle cx="7" cy="7" r="6" stroke="#C8A24A" stroke-width="1.2"/><path d="M7 6v4M7 4.5v.5" stroke="#C8A24A" stroke-width="1.2" stroke-linecap="round"/></svg> Taksim harcı, toplam beyan değeri üzerinden %2,277 yani binde 22,77 oranında hesaplanır. Ayrıca taşınmaz sayısına göre döner sermaye uygulanır.</div>
+<div class="th-info-inline"><svg width="14" height="14" viewBox="0 0 14 14" fill="none"><circle cx="7" cy="7" r="6" stroke="#C8A24A" stroke-width="1.2"/><path d="M7 6v4M7 4.5v.5" stroke="#C8A24A" stroke-width="1.2" stroke-linecap="round"/></svg> Maktu harca düşen hissedarlar için kişi başı 411,60 TL harç hesaplanır. Maktuya düşmeyen toplam bedel için ayrıca %2,277 yani binde 22,77 oranında taksim harcı hesaplanır. Taşınmaz sayısına göre döner sermaye uygulanır.</div>
 </div>
 
 <div class="th-error" id="thError"><svg width="15" height="15" viewBox="0 0 15 15" fill="none"><circle cx="7.5" cy="7.5" r="6.5" stroke="#b91c1c" stroke-width="1.5"/><path d="M7.5 4v4M7.5 10.5v.5" stroke="#b91c1c" stroke-width="1.5" stroke-linecap="round"/></svg><span id="thErrorMsg"></span></div>
@@ -742,25 +743,29 @@ html+=row('Tashih (Düzeltme) Harcı',fmt(TASHIH_SABIT));
 }
 
 else if(currentType==='taksim'){
+var taksimHissedarMaktuRaw=document.getElementById('taksimHissedarMaktu').value;
+var taksimHissedarMaktu=taksimHissedarMaktuRaw===''?0:parseInt(taksimHissedarMaktuRaw,10);
 var beyanDegeri=parseMoney(document.getElementById('taksimBeyanDegeri').value);
 var taksimDoner=parseMoney(document.getElementById('taksimDoner').value);
-if(!validateMoneyField('taksimBeyanDegeri','Toplam beyan değeri'))return;
+if(!validateMoneyField('taksimBeyanDegeri','Maktuya düşmeyen toplam bedel'))return;
 if(!validateMoneyField('taksimDoner','Döner sermaye ana tutarı'))return;
 var taksimTabsinmazRaw=document.getElementById('taksimTabsinmaz').value;
 var taksimTabsinmaz=taksimTabsinmazRaw===''||taksimTabsinmazRaw==='0'?1:parseInt(taksimTabsinmazRaw,10);
 var taksimYetki=document.getElementById('taksimYetki').checked;
-if(beyanDegeri<=0){showError('Toplam beyan değeri girilmelidir.');return}
-if(taksimDoner<0){showError('Döner sermaye tutarı negatif olamaz.');return}
+if(taksimHissedarMaktu===0&&beyanDegeri===0){showError('Lütfen en az bir tutar veya maktu hissedar sayısı girin.');return}
+if(isNaN(taksimHissedarMaktu)||taksimHissedarMaktu<0){showError('Maktu harca düşen hissedar sayısı negatif olamaz.');return}
+if(taksimHissedarMaktuRaw!==''&&(parseFloat(taksimHissedarMaktuRaw)!==Math.floor(parseFloat(taksimHissedarMaktuRaw)))){showError('Hissedar sayısı tam sayı olmalıdır.');return}
+if(beyanDegeri<0||taksimDoner<0){showError('Tutar alanları negatif olamaz.');return}
 if(isNaN(taksimTabsinmaz)||taksimTabsinmaz<0){showError('Taşınmaz sayısı negatif olamaz.');return}
 if(taksimTabsinmazRaw!==''&&taksimTabsinmazRaw!=='0'&&(parseFloat(taksimTabsinmazRaw)!==Math.floor(parseFloat(taksimTabsinmazRaw)))){showError('Taşınmaz sayısı tam sayı olmalıdır.');return}
+var taksimMaktuHarc=taksimHissedarMaktu*MAKTU_HARC;
 var taksimHarc=beyanDegeri*AKTIF_TAKSIM_HARC_ORANI;
 var taksimIlave=calcIlaveDoner(taksimDoner,taksimTabsinmaz);
 var taksimDonerAraToplam=taksimIlave.araToplam;
 var taksimDonerHesap=taksimDonerAraToplam*(taksimYetki?YETKI_CARPAN:1);
-grand=taksimHarc+taksimDonerHesap;
-html+=row('Toplam Beyan Değeri',fmt(beyanDegeri));
-html+=row('Taksim Harcı Oranı','%2,277');
-html+=row('Taksim Tapu Harcı',fmt(taksimHarc));
+grand=taksimMaktuHarc+taksimHarc+taksimDonerHesap;
+if(taksimHissedarMaktu>0){html+=row('Maktu Harca Düşen Hissedar Sayısı',taksimHissedarMaktu+' kişi');html+=row('Maktu Harç Toplamı',fmt(taksimMaktuHarc))}
+if(beyanDegeri>0){html+=row('Maktuya Düşmeyen Toplam Bedel',fmt(beyanDegeri));html+=row('Taksim Harcı Oranı','%2,277');html+=row('Taksim Tapu Harcı',fmt(taksimHarc))}
 if(taksimDoner>0||taksimTabsinmaz>1){html+=row('Döner Sermaye Ana Tutarı',fmt(taksimDoner));if(taksimDoner>0&&taksimTabsinmaz>1){html+=row('Taşınmaz Sayısı',taksimTabsinmaz+' adet');html+=row('İlave Taşınmaz Sayısı',taksimIlave.fazla+' adet');html+=row('İlave Döner Sermaye Oranı','%'+((DONER_SERMAYE_ILAVE_ORANI*100).toFixed(4).replace('.',',')));html+=row('İlave Döner Sermaye Tutarı',fmt(taksimIlave.ilave));html+=row('Döner Sermaye Ara Toplamı',fmt(taksimDonerAraToplam))}else{html+=row('İlave Döner Sermaye Tutarı',fmt(0))}if(taksimYetki&&taksimDonerAraToplam>0){html+=row('Yetki Talepli İşlem','Evet — döner sermaye ara toplamı 2 kat uygulandı')}html+=row('Hesaplanan Döner Sermaye',fmt(taksimDonerHesap))}
 }
 
