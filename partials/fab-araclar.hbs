@@ -1,0 +1,314 @@
+{{!-- ── Araçlar FAB ──────────────────────────────────────────── --}}
+<style>
+  /* ── FAB container ───────────────────────────── */
+  .fab-wrap {
+    position: fixed;
+    right: 24px;
+    bottom: 28px;
+    z-index: 9999;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    gap: 10px;
+  }
+
+  /* ── Menu panel ──────────────────────────────── */
+  .fab-menu {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    align-items: flex-end;
+    pointer-events: none;
+    opacity: 0;
+    transform: translateY(12px) scale(.97);
+    transition: opacity .22s ease, transform .22s ease;
+  }
+
+  .fab-menu.is-open {
+    pointer-events: auto;
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+
+  /* ── Menu items ──────────────────────────────── */
+  .fab-item {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 10px 16px 10px 12px;
+    background: #ffffff;
+    border: 1px solid rgba(30,58,95,.10);
+    border-radius: 99px;
+    box-shadow: 0 4px 18px rgba(15,28,46,.13);
+    text-decoration: none;
+    white-space: nowrap;
+    transition: transform .15s ease, box-shadow .15s ease, background .15s ease;
+  }
+
+  .fab-item:hover {
+    transform: translateX(-3px);
+    box-shadow: 0 6px 24px rgba(15,28,46,.18);
+    background: #fafbfc;
+  }
+
+  .fab-item-icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    background: rgba(200,162,74,.13);
+    flex-shrink: 0;
+  }
+
+  .fab-item-icon svg {
+    width: 15px;
+    height: 15px;
+    fill: #C8A24A;
+  }
+
+  .fab-item-label {
+    display: flex;
+    flex-direction: column;
+    gap: 1px;
+  }
+
+  .fab-item-main {
+    font-size: 13.5px;
+    font-weight: 700;
+    color: #1E3A5F;
+    line-height: 1.2;
+  }
+
+  .fab-item-sub {
+    font-size: 11.5px;
+    color: #7a90a8;
+    font-weight: 400;
+    line-height: 1.2;
+  }
+
+  /* ── Coming soon badge ───────────────────────── */
+  .fab-badge {
+    display: inline-block;
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: .05em;
+    text-transform: uppercase;
+    color: #C8A24A;
+    background: rgba(200,162,74,.12);
+    border-radius: 4px;
+    padding: 1px 5px;
+    margin-left: 4px;
+    vertical-align: middle;
+  }
+
+  /* ── Main FAB button ─────────────────────────── */
+  .fab-btn {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    height: 50px;
+    padding: 0 20px 0 16px;
+    background: linear-gradient(135deg, #1E3A5F 0%, #2a4f7c 100%);
+    border: none;
+    border-radius: 99px;
+    box-shadow: 0 6px 24px rgba(30,58,95,.35);
+    cursor: pointer;
+    transition: transform .18s ease, box-shadow .18s ease;
+    color: #ffffff;
+    font-size: 14px;
+    font-weight: 700;
+    letter-spacing: .01em;
+  }
+
+  .fab-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 10px 32px rgba(30,58,95,.42);
+  }
+
+  .fab-btn:active {
+    transform: translateY(0);
+  }
+
+  .fab-btn-icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 26px;
+    height: 26px;
+    background: rgba(200,162,74,.22);
+    border-radius: 50%;
+    flex-shrink: 0;
+    transition: background .18s ease;
+  }
+
+  .fab-btn.is-open .fab-btn-icon {
+    background: rgba(200,162,74,.35);
+  }
+
+  .fab-btn-icon svg {
+    width: 14px;
+    height: 14px;
+    fill: #C8A24A;
+    transition: transform .22s ease;
+  }
+
+  .fab-btn.is-open .fab-btn-icon svg {
+    transform: rotate(45deg);
+  }
+
+  /* ── Mobile tweaks ───────────────────────────── */
+  @media (max-width: 600px) {
+    .fab-wrap {
+      right: 16px;
+      bottom: 20px;
+    }
+
+    .fab-btn {
+      height: 46px;
+      padding: 0 16px 0 12px;
+      font-size: 13px;
+    }
+
+    .fab-item-sub {
+      display: none;
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .fab-menu, .fab-btn, .fab-item, .fab-btn-icon svg {
+      transition: none;
+    }
+  }
+</style>
+
+<div class="fab-wrap" id="fabWrap">
+
+  <!-- Menu -->
+  <div class="fab-menu" id="fabMenu" role="menu" aria-label="Araçlar menüsü">
+
+    <!-- Tapu Harcı Hesaplama -->
+    <a class="fab-item" href="/tapu-harci-hesaplama/" role="menuitem">
+      <span class="fab-item-icon">
+        <svg viewBox="0 0 24 24" aria-hidden="true">
+          <path d="M7 2H17C18.1 2 19 2.9 19 4V20C19 21.1 18.1 22 17 22H7C5.9 22 5 21.1 5 20V4C5 2.9 5.9 2 7 2ZM7 4V20H17V4H7ZM9 7H15V9H9V7ZM9 11H15V13H9V11ZM9 15H13V17H9V15Z"/>
+        </svg>
+      </span>
+      <span class="fab-item-label">
+        <span class="fab-item-main">Tapu Harcı Hesaplama</span>
+        <span class="fab-item-sub">Alıcı &amp; satıcı harcını hesapla</span>
+      </span>
+    </a>
+
+    <!-- Hisse Payda Eşitleme -->
+    <a class="fab-item" href="/hisse-payda-esleme/" data-open-modal="modal-hisse-payda" role="menuitem">
+      <span class="fab-item-icon">
+        <svg viewBox="0 0 24 24" aria-hidden="true">
+          <path d="M7 5C7 6.1 6.1 7 5 7C3.9 7 3 6.1 3 5C3 3.9 3.9 3 5 3C6.1 3 7 3.9 7 5ZM21 19C21 20.1 20.1 21 19 21C17.9 21 17 20.1 17 19C17 17.9 17.9 17 19 17C20.1 17 21 17.9 21 19ZM5.41 3L20 18.59L18.59 20L4 4.41L5.41 3Z"/>
+        </svg>
+      </span>
+      <span class="fab-item-label">
+        <span class="fab-item-main">Hisse Payda Eşitleme</span>
+        <span class="fab-item-sub">Ortak paydaya dönüştürme aracı</span>
+      </span>
+    </a>
+
+    <!-- İpotek Tesisi Masraf Hesaplama -->
+    <a class="fab-item" href="/ipotek-doner-sermaye-hesaplama/" data-open-modal="modal-ipotek" role="menuitem">
+      <span class="fab-item-icon">
+        <svg viewBox="0 0 24 24" aria-hidden="true">
+          <path d="M12 3L2 9H4V20H20V9H22L12 3ZM18 18H6V10.08L12 6.27L18 10.08V18ZM10 18V13H14V18H10Z"/>
+        </svg>
+      </span>
+      <span class="fab-item-label">
+        <span class="fab-item-main">İpotek Tesisi Masraf Hesaplama</span>
+        <span class="fab-item-sub">İpotek bedeli, damga vergisi, harç ve döner sermaye</span>
+      </span>
+    </a>
+
+    <!-- Kira Artış Hesaplama -->
+    <a class="fab-item" href="/kira-artis-hesaplama/" role="menuitem">
+      <span class="fab-item-icon">
+        <svg viewBox="0 0 24 24" aria-hidden="true">
+          <path d="M3 8L12 3L21 8V18C21 18.6 20.6 19 20 19H4C3.4 19 3 18.6 3 18V8ZM5 9.3V17H19V9.3L12 5.2L5 9.3ZM9 17V12H15V17"/>
+        </svg>
+      </span>
+      <span class="fab-item-label">
+        <span class="fab-item-main">Kira Artış Hesaplama</span>
+        <span class="fab-item-sub">TÜFE oranıyla yasal zam hesapla</span>
+      </span>
+    </a>
+<!-- Değer Artış Kazancı Hesaplama -->
+    <a class="fab-item" href="/deger-artis-kazanci-hesaplama/" role="menuitem">
+      <span class="fab-item-icon">
+        <svg viewBox="0 0 24 24" aria-hidden="true">
+          <path d="M16 6L18.29 8.29L13.41 13.17L9.41 9.17L2 16.59L3.41 18L9.41 12L13.41 16L19.71 9.71L22 12V6H16Z"/>
+        </svg>
+      </span>
+      <span class="fab-item-label">
+        <span class="fab-item-main">Değer Artış Kazancı</span>
+        <span class="fab-item-sub">Gayrimenkul satış vergisi hesapla</span>
+      </span>
+    </a>
+  </div>
+
+  <!-- FAB button -->
+  <button class="fab-btn" id="fabBtn" aria-haspopup="true" aria-expanded="false" aria-controls="fabMenu">
+    <span class="fab-btn-icon">
+      <svg viewBox="0 0 24 24" aria-hidden="true">
+        <path d="M19 13H13V19H11V13H5V11H11V5H13V11H19V13Z"/>
+      </svg>
+    </span>
+    Hesaplama Araçları
+  </button> 
+</div>
+
+<script>
+(function () {
+  var btn  = document.getElementById('fabBtn');
+  var menu = document.getElementById('fabMenu');
+  var wrap = document.getElementById('fabWrap');
+  if (!btn || !menu) return;
+
+  function open() {
+    menu.classList.add('is-open');
+    btn.classList.add('is-open');
+    btn.setAttribute('aria-expanded', 'true');
+  }
+
+  function close() {
+    menu.classList.remove('is-open');
+    btn.classList.remove('is-open');
+    btn.setAttribute('aria-expanded', 'false');
+  }
+
+  function toggle() {
+    menu.classList.contains('is-open') ? close() : open();
+  }
+
+  btn.addEventListener('click', function (e) {
+    e.stopPropagation();
+    toggle();
+  });
+
+  // Dışarı tıklayınca kapat
+  document.addEventListener('click', function (e) {
+    if (!wrap.contains(e.target)) close();
+  });
+
+  // Escape tuşu
+  document.addEventListener('keydown', function (e) {
+    if (e.key === 'Escape') close();
+  });
+
+  // Modal-triggering items: override href and open modal instead
+  document.querySelectorAll('.fab-item[data-open-modal]').forEach(function (link) {
+    link.addEventListener('click', function (e) {
+      var modalId = this.getAttribute('data-open-modal');
+      var modal = document.getElementById(modalId);
+      if (modal) { e.preventDefault(); close(); modal.classList.add('is-open'); }
+    });
+  });
+})();
+</script>

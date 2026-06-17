@@ -1,0 +1,773 @@
+{{!< default}}
+{{> "tm-money-utils"}}
+<style>
+.th-page *,.th-page *::before,.th-page *::after{box-sizing:border-box;margin:0;padding:0}
+:root{--navy:#1E3A5F;--navy-dark:#142840;--navy-light:#2a4f7c;--gold:#C8A24A;--gold-light:#debb6e;--surface:#fff;--surface-2:#f7f9fc;--surface-3:#eef2f7;--border:#dde3ec;--text-1:#0f1c2e;--text-2:#3d5068;--text-3:#7a90a8;--radius-sm:8px;--radius-md:14px;--radius-lg:22px;--shadow-md:0 8px 28px rgba(15,28,46,.10);--transition:.18s ease;--font-sans:'Inter',system-ui,-apple-system,sans-serif;--font-mono:'JetBrains Mono','Fira Code',monospace}
+.th-page{font-family:var(--font-sans);background:var(--surface-2);min-height:100vh;color:var(--text-1)}
+.th-hero{background:linear-gradient(135deg,var(--navy-dark),var(--navy) 55%,var(--navy-light));padding:56px 24px 52px;text-align:center;position:relative;overflow:hidden}
+.th-hero::before{content:'';position:absolute;inset:0;background:radial-gradient(ellipse 60% 80% at 80% 20%,rgba(200,162,74,.13),transparent 70%),radial-gradient(ellipse 40% 60% at 20% 80%,rgba(200,162,74,.08),transparent 60%);pointer-events:none}
+.th-hero-badge{display:inline-flex;align-items:center;gap:6px;background:rgba(200,162,74,.18);border:1px solid rgba(200,162,74,.35);border-radius:99px;padding:5px 14px;font-size:12px;font-weight:600;letter-spacing:.06em;text-transform:uppercase;color:var(--gold-light);margin-bottom:20px}
+.th-hero h1{font-size:clamp(26px,5vw,42px);font-weight:800;color:#fff;line-height:1.15;letter-spacing:-.02em;margin-bottom:14px}.th-hero h1 span{color:var(--gold)}
+.th-hero p{font-size:16px;color:rgba(255,255,255,.72);max-width:520px;margin:0 auto;line-height:1.6}
+.th-container{max-width:960px;margin:0 auto;padding:0 20px 64px}
+.th-grid{display:grid;grid-template-columns:1fr 1fr;gap:20px;margin-top:20px}
+.th-card{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius-lg);padding:28px;box-shadow:var(--shadow-md)}
+.th-card-title{font-size:13px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--text-3);margin-bottom:22px;display:flex;align-items:center;gap:8px}
+.th-card-title::before{content:'';width:3px;height:14px;background:var(--gold);border-radius:2px}
+.th-tabs{display:flex;gap:6px;flex-wrap:wrap;margin-top:20px;max-width:960px;margin-left:auto;margin-right:auto;padding:0 20px}
+.th-tab{padding:8px 16px;border-radius:99px;font-size:13px;font-weight:600;border:1.5px solid var(--border);background:var(--surface);color:var(--text-2);cursor:pointer;transition:all var(--transition);white-space:nowrap;display:flex;align-items:center;gap:6px}
+.th-tab:hover{border-color:var(--navy-light);background:var(--surface-3)}
+.th-tab.active{border-color:var(--navy);background:var(--navy);color:#fff}
+.th-tab.active svg{fill:#fff}.th-tab svg{width:14px;height:14px;fill:var(--text-3);transition:fill var(--transition)}
+.th-tool-actions{max-width:960px;margin:20px auto 0;padding:0 20px;display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.th-tool-action{width:100%;display:flex;align-items:center;gap:14px;text-align:left;padding:16px 18px;border:1.5px solid var(--border);border-radius:var(--radius-md);background:var(--surface);color:var(--text-1);cursor:pointer;box-shadow:0 3px 12px rgba(15,28,46,.07);transition:transform var(--transition),border-color var(--transition),box-shadow var(--transition)}
+.th-tool-action:hover{transform:translateY(-1px);border-color:var(--navy-light);box-shadow:0 7px 20px rgba(15,28,46,.12)}
+.th-tool-action-icon{width:40px;height:40px;border-radius:50%;display:flex;align-items:center;justify-content:center;flex-shrink:0;background:rgba(30,58,95,.08);color:var(--navy)}
+.th-tool-action-icon svg{width:19px;height:19px;fill:currentColor}
+.th-tool-action-copy{display:flex;flex-direction:column;gap:3px}
+.th-tool-action-title{font-size:14px;font-weight:750;line-height:1.35}
+.th-tool-action-sub{font-size:12px;color:var(--text-3);line-height:1.4}
+.th-field{margin-bottom:16px}.th-label{display:block;font-size:13px;font-weight:600;color:var(--text-2);margin-bottom:7px}.th-label-hint{font-weight:400;color:var(--text-3)}
+.th-input-wrap{position:relative}.th-input-prefix{position:absolute;left:14px;top:50%;transform:translateY(-50%);font-size:14px;font-weight:700;color:var(--text-3);pointer-events:none;font-family:var(--font-mono)}
+.th-input{width:100%;height:48px;border:1.5px solid var(--border);border-radius:var(--radius-md);padding:0 14px 0 36px;font-size:15px;font-family:var(--font-mono);font-weight:600;color:var(--text-1);background:var(--surface);outline:none;-webkit-appearance:none;transition:border-color var(--transition),box-shadow var(--transition)}
+.th-input:focus{border-color:var(--navy);box-shadow:0 0 0 3px rgba(30,58,95,.10)}
+.th-input::placeholder{color:var(--text-3);font-weight:400;font-family:var(--font-sans)}
+.th-input.no-prefix{padding-left:14px}
+.th-row{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.th-toggle-group{display:flex;flex-direction:column;gap:8px;margin-top:4px}
+.th-toggle-option{display:flex;align-items:center;gap:10px;padding:11px 14px;border:1.5px solid var(--border);border-radius:var(--radius-md);cursor:pointer;transition:border-color var(--transition),background var(--transition);user-select:none}
+.th-toggle-option:hover{border-color:var(--navy-light);background:var(--surface-3)}
+.th-toggle-option input[type="radio"]{display:none}
+.th-toggle-dot{width:18px;height:18px;border-radius:50%;border:2px solid var(--border);flex-shrink:0;display:flex;align-items:center;justify-content:center;transition:border-color var(--transition)}
+.th-toggle-dot::after{content:'';width:8px;height:8px;border-radius:50%;background:transparent;transition:background var(--transition)}
+.th-toggle-option.active{border-color:var(--navy);background:rgba(30,58,95,.04)}
+.th-toggle-option.active .th-toggle-dot{border-color:var(--navy)}
+.th-toggle-option.active .th-toggle-dot::after{background:var(--navy)}
+.th-toggle-text{font-size:13.5px;font-weight:500;color:var(--text-2);line-height:1.3}
+.th-info-inline{display:flex;align-items:flex-start;gap:8px;padding:10px 12px;background:rgba(200,162,74,.06);border:1px solid rgba(200,162,74,.18);border-radius:var(--radius-sm);font-size:12px;color:var(--text-2);line-height:1.5;margin-top:12px}
+.th-info-inline svg{flex-shrink:0;margin-top:1px}
+.th-btn{display:flex;align-items:center;justify-content:center;gap:8px;width:100%;height:52px;margin-top:20px;border:none;border-radius:var(--radius-md);background:linear-gradient(135deg,var(--navy),var(--navy-light));color:#fff;font-size:15px;font-weight:700;cursor:pointer;transition:transform var(--transition),box-shadow var(--transition);box-shadow:0 4px 16px rgba(30,58,95,.28);letter-spacing:.02em}
+.th-btn:hover{transform:translateY(-1px);box-shadow:0 8px 24px rgba(30,58,95,.36)}.th-btn:active{transform:translateY(0)}
+.th-error{display:none;align-items:center;gap:8px;background:#fff5f5;border:1px solid #fecaca;border-radius:var(--radius-sm);padding:10px 14px;font-size:13px;font-weight:500;color:#b91c1c;margin-top:12px}
+.th-error.visible{display:flex}
+.th-empty-state{display:flex;flex-direction:column;align-items:center;justify-content:center;padding:40px 20px;text-align:center;color:var(--text-3);gap:12px;min-height:260px}
+.th-empty-icon{width:52px;height:52px;background:var(--surface-3);border-radius:50%;display:flex;align-items:center;justify-content:center}
+.th-empty-state p{font-size:14px;line-height:1.5;max-width:200px}
+.th-result-card{display:none;flex-direction:column}.th-result-card.visible{display:flex;animation:slideIn .28s ease}
+@keyframes slideIn{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:translateY(0)}}
+.th-result-row{display:flex;justify-content:space-between;align-items:center;padding:12px 0;border-bottom:1px solid var(--surface-3)}.th-result-row:last-child{border-bottom:none}
+.th-result-label{font-size:13.5px;color:var(--text-2);font-weight:500}
+.th-result-value{font-size:14px;font-weight:700;color:var(--text-1);font-family:var(--font-mono);letter-spacing:-.01em}
+.th-grand-total{background:linear-gradient(135deg,var(--navy-dark),var(--navy));border-radius:var(--radius-md);padding:18px 20px;display:flex;justify-content:space-between;align-items:center;margin:16px 0}
+.th-grand-total-label{font-size:14px;font-weight:600;color:rgba(255,255,255,.8)}
+.th-grand-total-value{font-size:22px;font-weight:800;color:var(--gold);font-family:var(--font-mono);letter-spacing:-.02em}
+.th-split{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:4px}
+.th-split-card{background:var(--surface-2);border:1px solid var(--border);border-radius:var(--radius-md);padding:14px 16px;text-align:center}
+.th-split-role{font-size:11px;font-weight:700;letter-spacing:.07em;text-transform:uppercase;color:var(--text-3);margin-bottom:6px}
+.th-split-amount{font-size:17px;font-weight:800;color:var(--navy);font-family:var(--font-mono);letter-spacing:-.02em}
+.th-split-amount.zero{color:var(--text-3);font-weight:600}
+.th-maktu-badge{display:inline-flex;align-items:center;gap:5px;background:rgba(200,162,74,.1);border:1px solid rgba(200,162,74,.25);border-radius:6px;padding:4px 10px;font-size:12px;font-weight:600;color:var(--gold);margin-top:8px}
+.th-disclaimer{margin-top:20px;background:var(--surface);border:1px solid var(--border);border-radius:var(--radius-lg);padding:20px 24px;box-shadow:0 2px 8px rgba(15,28,46,.07)}
+.th-disclaimer-head{display:flex;align-items:center;gap:8px;margin-bottom:10px}
+.th-disclaimer-head span{font-size:13px;font-weight:700;color:var(--text-2)}
+.th-disclaimer p{font-size:13px;color:var(--text-3);line-height:1.7}
+.th-section{display:none}.th-section.visible{display:block}
+@media(max-width:700px){.th-hero{padding:44px 20px 48px}.th-tool-actions{grid-template-columns:1fr}.th-grid{grid-template-columns:1fr}.th-card{padding:22px 18px}.th-grand-total-value{font-size:18px}.th-tabs{gap:5px}.th-tab{padding:7px 12px;font-size:12px}.th-row{gap:8px}}
+@media(prefers-reduced-motion:reduce){.th-result-card.visible{animation:none}.th-btn{transition:none}}
+</style>
+
+<div class="th-page">
+<div class="th-hero">
+<div class="th-hero-badge"><svg width="10" height="10" viewBox="0 0 10 10" fill="none"><circle cx="5" cy="5" r="4" fill="currentColor" opacity=".7"/></svg> Bilgilendirme Aracı</div>
+<h1>Tapu Harcı <span>Hesaplama</span></h1>
+<p>İşlem türünü seçin, harcınızı ve masraflarınızı anında hesaplayın.</p>
+</div>
+
+<div class="th-tool-actions" aria-label="Diğer hesaplama araçları">
+<button class="th-tool-action" type="button" data-open-modal="modal-hisse-payda">
+<span class="th-tool-action-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M7 5C7 6.1 6.1 7 5 7C3.9 7 3 6.1 3 5C3 3.9 3.9 3 5 3C6.1 3 7 3.9 7 5ZM21 19C21 20.1 20.1 21 19 21C17.9 21 17 20.1 17 19C17 17.9 17.9 17 19 17C20.1 17 21 17.9 21 19ZM5.41 3L20 18.59L18.59 20L4 4.41L5.41 3Z"/></svg></span>
+<span class="th-tool-action-copy"><span class="th-tool-action-title">Hisse Payda Eşitleme</span><span class="th-tool-action-sub">Ortak paydaya dönüştürme aracı</span></span>
+</button>
+<button class="th-tool-action" type="button" data-open-modal="modal-ipotek">
+<span class="th-tool-action-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3L2 9H4V20H20V9H22L12 3ZM18 18H6V10.08L12 6.27L18 10.08V18ZM10 18V13H14V18H10Z"/></svg></span>
+<span class="th-tool-action-copy"><span class="th-tool-action-title">İpotek Tesisi Masraf Hesaplama</span><span class="th-tool-action-sub">İpotek bedeli, damga vergisi, harç ve döner sermaye</span></span>
+</button>
+</div>
+
+<div class="th-tabs" id="thTabs">
+<button class="th-tab active" data-type="satis"><svg viewBox="0 0 24 24"><path d="M3 11L12 4L21 11V20A1 1 0 0120 21H4A1 1 0 013 20V11Z"/></svg> Satış</button>
+<button class="th-tab" data-type="bagis"><svg viewBox="0 0 24 24"><path d="M12 21.35L10.55 20.03C5.4 15.36 2 12.27 2 8.5C2 5.41 4.42 3 7.5 3C9.24 3 10.91 3.81 12 5.08C13.09 3.81 14.76 3 16.5 3C19.58 3 22 5.41 22 8.5C22 12.27 18.6 15.36 13.45 20.03L12 21.35Z"/></svg> Bağış</button>
+<button class="th-tab" data-type="ipotek"><svg viewBox="0 0 24 24"><path d="M18 8H17V6A5 5 0 007 6V8H6A2 2 0 004 10V20A2 2 0 006 22H18A2 2 0 0020 20V10A2 2 0 0018 8ZM12 17A2 2 0 1114 15 2 2 0 0112 17ZM15 8H9V6A3 3 0 0115 6V8Z"/></svg> İpotek Terkini</button>
+<button class="th-tab" data-type="intikal"><svg viewBox="0 0 24 24"><path d="M14 2H6A2 2 0 004 4V20A2 2 0 006 22H18A2 2 0 0020 20V8L14 2ZM16 18H8V16H16V18ZM16 14H8V12H16V14ZM13 9V3.5L18.5 9H13Z"/></svg> İntikal</button>
+<button class="th-tab" data-type="tashih"><svg viewBox="0 0 24 24"><path d="M3 17.25V21H6.75L17.81 9.94L14.06 6.19L3 17.25ZM20.71 7.04A1 1 0 0020.71 5.63L18.37 3.29A1 1 0 0016.96 3.29L15.13 5.12L18.88 8.87L20.71 7.04Z"/></svg> Tashih</button>
+<button class="th-tab" data-type="taksim"><svg viewBox="0 0 24 24"><path d="M4 3H10V21H4V3ZM14 3H20V21H14V3Z"/></svg> Taksim İşlemi</button>
+</div>
+
+<div class="th-container">
+<div class="th-grid">
+<div class="th-card">
+<div class="th-card-title">Bilgileri Girin</div>
+
+<div class="th-section visible" id="secSatis">
+<div class="th-field"><label class="th-label">Maktu Harca Düşen Hissedar Sayısı <span class="th-label-hint">(opsiyonel)</span></label><input class="th-input no-prefix" id="satisHissedarMaktu" type="number" min="0" step="1" placeholder="Örn: 3" autocomplete="off"/></div>
+<div class="th-field"><label class="th-label">Maktuya Düşmeyen Toplam Satış Bedeli <span class="th-label-hint">(opsiyonel)</span></label><div class="th-input-wrap"><span class="th-input-prefix">₺</span><input class="th-input money-input" id="satisBedelOranli" type="text" inputmode="decimal" placeholder="Örn: 1.500.000" autocomplete="off"/></div></div>
+<div class="th-field"><label class="th-label">Döner Sermaye <span class="th-label-hint">(opsiyonel)</span></label><div class="th-input-wrap"><span class="th-input-prefix">₺</span><input class="th-input money-input" id="satisDoner" type="text" inputmode="decimal" placeholder="1.500" autocomplete="off"/></div></div>
+<div class="th-field"><label class="th-label">Taşınmaz Sayısı <span class="th-label-hint">(opsiyonel)</span></label><input class="th-input no-prefix" id="satisTabsinmaz" type="number" min="1" step="1" placeholder="1" autocomplete="off"/></div>
+<div class="th-field"><label class="th-label">Yetki Talepli İşlem</label><label class="th-toggle-option" id="satisYetkiOption" style="margin-top:4px"><input type="checkbox" id="satisYetki" style="display:none"/><span class="th-toggle-dot"></span><span class="th-toggle-text">Yetki talepli işlem <span class="th-label-hint">— seçiliyse döner sermaye bedeli 2 kat hesaplanır</span></span></label></div>
+<div class="th-field"><label class="th-label">Masrafı Kim Ödeyecek?</label>
+<div class="th-toggle-group"><label class="th-toggle-option active"><input type="radio" name="satisPayment" value="separate" checked/><span class="th-toggle-dot"></span><span class="th-toggle-text">Alıcı ve satıcı ayrı ayrı ödesin</span></label><label class="th-toggle-option"><input type="radio" name="satisPayment" value="buyer"/><span class="th-toggle-dot"></span><span class="th-toggle-text">Tüm masrafı alıcı ödesin</span></label><label class="th-toggle-option"><input type="radio" name="satisPayment" value="seller"/><span class="th-toggle-dot"></span><span class="th-toggle-text">Tüm masrafı satıcı ödesin</span></label></div></div>
+<div class="th-info-inline"><svg width="14" height="14" viewBox="0 0 14 14" fill="none"><circle cx="7" cy="7" r="6" stroke="#C8A24A" stroke-width="1.2"/><path d="M7 6v4M7 4.5v.5" stroke="#C8A24A" stroke-width="1.2" stroke-linecap="round"/></svg> Maktu harca düşen hissedarlar için kişi başı 411,60 TL harç hesaplanır. Maktuya düşmeyen toplam satış bedeli için ayrıca %4 oranında tapu harcı hesaplanır. Yetki talepli işlem seçilirse döner sermaye bedeli 2 kat uygulanır. Maktu harç toplamı alıcı ve satıcı arasında eşit paylaştırılır. Döner sermaye ayrıca hesaplanır.</div>
+</div>
+
+<div class="th-section" id="secBagis">
+<div class="th-field"><label class="th-label">Gayrimenkul Değeri</label><div class="th-input-wrap"><span class="th-input-prefix">₺</span><input class="th-input money-input" id="bagisBedel" type="text" inputmode="decimal" placeholder="2.000.000" autocomplete="off"/></div></div>
+<div class="th-field"><label class="th-label">Döner Sermaye <span class="th-label-hint">(opsiyonel)</span></label><div class="th-input-wrap"><span class="th-input-prefix">₺</span><input class="th-input money-input" id="bagisDoner" type="text" inputmode="decimal" placeholder="1.500" autocomplete="off"/></div></div>
+<div class="th-info-inline"><svg width="14" height="14" viewBox="0 0 14 14" fill="none"><circle cx="7" cy="7" r="6" stroke="#C8A24A" stroke-width="1.2"/><path d="M7 6v4M7 4.5v.5" stroke="#C8A24A" stroke-width="1.2" stroke-linecap="round"/></svg> Bağış harcı %6,831 oranında hesaplanır ve alan kişi tarafından ödenir.</div>
+</div>
+
+<div class="th-section" id="secIpotek">
+<div class="th-field"><label class="th-label">İşlem Adedi</label><input class="th-input no-prefix" id="ipotekAdet" type="number" min="1" value="1"/></div>
+<div class="th-field"><label class="th-label">Döner Sermaye <span class="th-label-hint">(opsiyonel)</span></label><div class="th-input-wrap"><span class="th-input-prefix">₺</span><input class="th-input money-input" id="ipotekDoner" type="text" inputmode="decimal" placeholder="1.500" autocomplete="off"/></div></div>
+<div class="th-field"><label class="th-label">Taşınmaz Sayısı <span class="th-label-hint">(opsiyonel)</span></label><input class="th-input no-prefix" id="ipotekTabsinmaz" type="number" min="1" step="1" placeholder="1" autocomplete="off"/></div>
+<div class="th-info-inline"><svg width="14" height="14" viewBox="0 0 14 14" fill="none"><circle cx="7" cy="7" r="6" stroke="#C8A24A" stroke-width="1.2"/><path d="M7 6v4M7 4.5v.5" stroke="#C8A24A" stroke-width="1.2" stroke-linecap="round"/></svg> Her bir ipotek terkini işlemi için 504,80 ₺ sabit harç alınır. Taşınmaz sayısına göre ilave döner sermaye hesaplanır.</div>
+</div>
+
+<div class="th-section" id="secIntikal">
+<div class="th-field"><label class="th-label">Döner Sermaye Bedeli <span class="th-label-hint">(tapu müdürlüğünüze göre değişir)</span></label><div class="th-input-wrap"><span class="th-input-prefix">₺</span><input class="th-input money-input" id="intikalDoner" type="text" inputmode="decimal" placeholder="1.500" autocomplete="off"/></div></div>
+<div class="th-info-inline"><svg width="14" height="14" viewBox="0 0 14 14" fill="none"><circle cx="7" cy="7" r="6" stroke="#C8A24A" stroke-width="1.2"/><path d="M7 6v4M7 4.5v.5" stroke="#C8A24A" stroke-width="1.2" stroke-linecap="round"/></svg> İntikal (miras) işlemlerinde tapu harcı alınmaz, sadece döner sermaye bedeli ödenir. Taşınmaz sayısı tutarı değiştirmez.</div>
+</div>
+
+<div class="th-section" id="secTashih">
+<div class="th-info-inline"><svg width="14" height="14" viewBox="0 0 14 14" fill="none"><circle cx="7" cy="7" r="6" stroke="#C8A24A" stroke-width="1.2"/><path d="M7 6v4M7 4.5v.5" stroke="#C8A24A" stroke-width="1.2" stroke-linecap="round"/></svg> Tashih (düzeltme) işlemlerinde sabit 2.371,80 ₺ harç alınır.</div>
+</div>
+
+<div class="th-section" id="secTaksim">
+<div class="th-field"><label class="th-label">Toplam Beyan Değeri</label><div class="th-input-wrap"><span class="th-input-prefix">₺</span><input class="th-input money-input" id="taksimBeyanDegeri" type="text" inputmode="decimal" placeholder="Örn: 2.500.000" autocomplete="off"/></div></div>
+<div class="th-field"><label class="th-label">Döner Sermaye Ana Tutarı <span class="th-label-hint">(opsiyonel)</span></label><div class="th-input-wrap"><span class="th-input-prefix">₺</span><input class="th-input money-input" id="taksimDoner" type="text" inputmode="decimal" placeholder="Örn: 5.000" autocomplete="off"/></div></div>
+<div class="th-field"><label class="th-label">Taşınmaz Sayısı <span class="th-label-hint">(opsiyonel)</span></label><input class="th-input no-prefix" id="taksimTabsinmaz" type="number" min="1" step="1" placeholder="Örn: 3" autocomplete="off"/></div>
+<div class="th-field"><label class="th-label">Yetki Talepli İşlem</label><label class="th-toggle-option" id="taksimYetkiOption" style="margin-top:4px"><input type="checkbox" id="taksimYetki" style="display:none"/><span class="th-toggle-dot"></span><span class="th-toggle-text">Yetki talepli işlem <span class="th-label-hint">— seçiliyse döner sermaye 2 kat hesaplanır</span></span></label></div>
+<div class="th-info-inline"><svg width="14" height="14" viewBox="0 0 14 14" fill="none"><circle cx="7" cy="7" r="6" stroke="#C8A24A" stroke-width="1.2"/><path d="M7 6v4M7 4.5v.5" stroke="#C8A24A" stroke-width="1.2" stroke-linecap="round"/></svg> Taksim harcı, toplam beyan değeri üzerinden %2,277 yani binde 22,77 oranında hesaplanır. Ayrıca taşınmaz sayısına göre döner sermaye uygulanır.</div>
+</div>
+
+<div class="th-error" id="thError"><svg width="15" height="15" viewBox="0 0 15 15" fill="none"><circle cx="7.5" cy="7.5" r="6.5" stroke="#b91c1c" stroke-width="1.5"/><path d="M7.5 4v4M7.5 10.5v.5" stroke="#b91c1c" stroke-width="1.5" stroke-linecap="round"/></svg><span id="thErrorMsg"></span></div>
+<button class="th-btn" id="thCalcBtn" type="button"><svg width="16" height="16" viewBox="0 0 16 16" fill="none"><rect x="2" y="2" width="5" height="5" rx="1" stroke="white" stroke-width="1.5"/><rect x="9" y="2" width="5" height="5" rx="1" stroke="white" stroke-width="1.5"/><rect x="2" y="9" width="5" height="5" rx="1" stroke="white" stroke-width="1.5"/><path d="M9 11.5h5M11.5 9v5" stroke="white" stroke-width="1.5" stroke-linecap="round"/></svg> Hesapla</button>
+</div>
+
+<div class="th-card">
+<div class="th-empty-state" id="thEmpty"><div class="th-empty-icon"><svg width="22" height="22" viewBox="0 0 22 22" fill="none"><rect x="3" y="3" width="7" height="7" rx="1.5" stroke="#7a90a8" stroke-width="1.5"/><rect x="12" y="3" width="7" height="7" rx="1.5" stroke="#7a90a8" stroke-width="1.5"/><rect x="3" y="12" width="7" height="7" rx="1.5" stroke="#7a90a8" stroke-width="1.5"/><path d="M12 15.5h7M15.5 12v7" stroke="#7a90a8" stroke-width="1.5" stroke-linecap="round"/></svg></div><p>İşlem türünü seçip bilgileri girin.</p></div>
+<div class="th-result-card" id="thResult"><div class="th-card-title">Hesaplama Sonucu</div><div id="thResultRows"></div><div class="th-grand-total"><span class="th-grand-total-label">Genel Toplam</span><span class="th-grand-total-value" id="thGrandTotal">—</span></div><div id="thSplitArea"></div><div id="thMaktuArea"></div></div>
+</div>
+</div>
+
+<div class="th-disclaimer"><div class="th-disclaimer-head"><svg width="16" height="16" viewBox="0 0 16 16" fill="none"><circle cx="8" cy="8" r="6.5" stroke="#7a90a8" stroke-width="1.5"/><path d="M8 7v5M8 5v.5" stroke="#7a90a8" stroke-width="1.5" stroke-linecap="round"/></svg><span>Bilgilendirme Notu</span></div><p>Bu hesaplama araçları bilgilendirme amaçlıdır. Harç, damga vergisi ve döner sermaye tutarları işlem türüne, muafiyet durumuna, taşınmaz sayısına, yetki talepli işlem olup olmamasına ve resmi tahakkuk ekranına göre değişebilir. Kesin tutarlar için ilgili Tapu Müdürlüğü ve resmi ödeme/tahakkuk ekranları esas alınmalıdır.</p></div>
+</div>
+</div>
+
+<style>
+.fab-wrap{position:fixed;bottom:24px;right:24px;z-index:9999;display:flex;flex-direction:column;align-items:flex-end;gap:10px}
+.fab-items{display:flex;flex-direction:column;align-items:flex-end;gap:8px;pointer-events:none;opacity:0;transform:translateY(8px);transition:opacity .2s ease,transform .2s ease}
+.fab-items.open{pointer-events:auto;opacity:1;transform:translateY(0)}
+.fab-item{display:flex;align-items:center;gap:8px;text-decoration:none}
+.fab-lbl{background:rgba(20,40,64,.92);color:#fff;font-size:12px;font-weight:600;padding:6px 12px;border-radius:8px;white-space:nowrap;letter-spacing:.01em;box-shadow:0 2px 8px rgba(15,28,46,.25)}
+.fab-dot{width:38px;height:38px;border-radius:50%;display:flex;align-items:center;justify-content:center;background:var(--surface,#fff);border:2px solid var(--border,#dde3ec);box-shadow:0 2px 8px rgba(15,28,46,.12);transition:background .15s,border-color .15s,color .15s;flex-shrink:0;color:#3d5068}
+.fab-item:hover .fab-dot{background:#2a4f7c;border-color:#2a4f7c;color:#fff}
+.fab-item.fab-active .fab-dot{background:#C8A24A;border-color:#C8A24A;color:#142840;box-shadow:0 2px 10px rgba(200,162,74,.4)}
+.fab-item.fab-active .fab-lbl{background:rgba(200,162,74,.12);color:#debb6e;border:1px solid rgba(200,162,74,.3)}
+.fab-item.fab-active{pointer-events:none;cursor:default}
+.fab-toggle{width:50px;height:50px;border-radius:50%;background:#1E3A5F;border:none;cursor:pointer;display:flex;align-items:center;justify-content:center;box-shadow:0 4px 16px rgba(15,28,46,.35);transition:transform .2s ease,background .2s ease;flex-shrink:0}
+.fab-toggle:hover{background:#2a4f7c;transform:scale(1.06)}.fab-toggle:active{transform:scale(.96)}
+.fab-toggle.open{background:#142840}
+.fab-ti{transition:transform .25s ease;display:flex;align-items:center;justify-content:center}
+.fab-toggle.open .fab-ti{transform:rotate(45deg)}
+@media(max-width:480px){.fab-wrap{bottom:16px;right:16px}.fab-lbl{font-size:11px;padding:5px 10px}}
+@media(prefers-reduced-motion:reduce){.fab-items,.fab-toggle,.fab-ti{transition:none}}
+</style>
+
+<div class="fab-wrap" id="fabWrap">
+<div class="fab-items" id="fabItems">
+<a class="fab-item fab-active" href="/tapu-harci-hesaplama/"><span class="fab-lbl">Tapu Harcı Hesaplama</span><span class="fab-dot"><svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M4 2h8v12l-2-1.5L8 14l-2-1.5L4 14V2z" stroke="currentColor" stroke-width="1.4" stroke-linejoin="round"/><path d="M6 6h4M6 8.5h2.5" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"/></svg></span></a>
+<a class="fab-item" href="/hisse-payda-esleme/" data-open-modal="modal-hisse-payda"><span class="fab-lbl">Hisse Payda Eşitleme</span><span class="fab-dot"><svg width="16" height="16" viewBox="0 0 16 16" fill="none"><circle cx="5" cy="4.5" r="1.7" stroke="currentColor" stroke-width="1.3"/><circle cx="11" cy="11.5" r="1.7" stroke="currentColor" stroke-width="1.3"/><path d="M4 13.5L12 2.5" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"/></svg></span></a>
+<a class="fab-item" href="/ipotek-doner-sermaye-hesaplama/" data-open-modal="modal-ipotek"><span class="fab-lbl">İpotek Tesisi Masraf Hesaplama</span><span class="fab-dot"><svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M8 2L1.5 6.5h13L8 2z" stroke="currentColor" stroke-width="1.3" stroke-linejoin="round"/><path d="M3.5 6.5V13M6 6.5V13M10 6.5V13M12.5 6.5V13" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"/><path d="M2 13h12" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"/></svg></span></a>
+</div>
+<button class="fab-toggle" id="fabToggle" type="button" aria-label="Araçlar menüsü"><span class="fab-ti"><svg width="18" height="18" viewBox="0 0 18 18" fill="none"><rect x="2.5" y="2.5" width="5" height="5" rx="1" stroke="white" stroke-width="1.5"/><rect x="10.5" y="2.5" width="5" height="5" rx="1" stroke="white" stroke-width="1.5"/><rect x="2.5" y="10.5" width="5" height="5" rx="1" stroke="white" stroke-width="1.5"/><rect x="10.5" y="10.5" width="5" height="5" rx="1" stroke="white" stroke-width="1.5"/></svg></span></button>
+</div>
+<script>(function(){var t=document.getElementById('fabToggle'),i=document.getElementById('fabItems');t.addEventListener('click',function(){var o=i.classList.toggle('open');t.classList.toggle('open',o)});document.addEventListener('click',function(e){if(!document.getElementById('fabWrap').contains(e.target)){i.classList.remove('open');t.classList.remove('open')}})})();</script>
+
+<style>
+/* ── Modal overlay ── */
+.tm-overlay{position:fixed;inset:0;z-index:10000;background:rgba(10,20,35,.65);backdrop-filter:blur(4px);display:none;align-items:flex-start;justify-content:center;padding:24px 16px;overflow-y:auto}
+.tm-overlay.is-open{display:flex;animation:tmFadeIn .22s ease}
+@keyframes tmFadeIn{from{opacity:0}to{opacity:1}}
+.tm-panel{background:#fff;border-radius:20px;width:100%;max-width:960px;box-shadow:0 24px 64px rgba(10,20,35,.35);margin:auto;animation:tmSlideIn .22s ease;overflow:hidden}
+@keyframes tmSlideIn{from{transform:translateY(14px)}to{transform:translateY(0)}}
+.tm-head{display:flex;justify-content:space-between;align-items:center;padding:18px 24px;border-bottom:1px solid #eef2f7;background:#fff}
+.tm-title{font-size:17px;font-weight:800;color:#1E3A5F;letter-spacing:-.01em}
+.tm-sub{font-size:12px;color:#7a90a8;margin-top:2px}
+.tm-close{width:34px;height:34px;border-radius:50%;border:1.5px solid #dde3ec;background:#fff;cursor:pointer;display:flex;align-items:center;justify-content:center;flex-shrink:0;transition:all .15s ease;color:#3d5068}
+.tm-close:hover{border-color:#1E3A5F;background:#1E3A5F;color:#fff}
+.tm-body{padding:24px;background:#f7f9fc;overflow-y:auto;max-height:calc(100vh - 100px)}
+@media(max-width:600px){.tm-overlay{padding:12px 8px}.tm-body{padding:14px}.tm-head{padding:14px 16px}.tm-title{font-size:15px}}
+/* ── hp- component styles ── */
+.hp-page *,.hp-page *::before,.hp-page *::after{box-sizing:border-box;margin:0;padding:0}
+.hp-page{font-family:var(--font-sans);background:var(--surface-2);min-height:100vh;color:var(--text-1)}
+.hp-container{max-width:960px;margin:0 auto;padding:0 20px 64px}
+.hp-grid{display:grid;grid-template-columns:1fr 1fr;gap:20px;margin-top:20px}
+.hp-card{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius-lg);padding:28px;box-shadow:var(--shadow-md)}
+.hp-card-title{font-size:13px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--text-3);margin-bottom:20px;display:flex;align-items:center;gap:8px}
+.hp-card-title::before{content:'';width:3px;height:14px;background:var(--gold);border-radius:2px}
+.hp-qi{margin-bottom:16px;padding-bottom:16px;border-bottom:1px solid var(--surface-3)}
+.hp-qi-lbl{display:block;font-size:13px;font-weight:600;color:var(--text-2);margin-bottom:7px}
+.hp-qi-lbl span{font-weight:400;color:var(--text-3)}
+.hp-qi-row{display:flex;gap:8px}
+.hp-qi-input{flex:1;height:44px;border:1.5px solid var(--border);border-radius:var(--radius-md);padding:0 14px;font-size:14px;font-family:var(--font-mono);font-weight:600;color:var(--text-1);background:var(--surface);outline:none}
+.hp-qi-input:focus{border-color:var(--navy);box-shadow:0 0 0 3px rgba(30,58,95,.10)}
+.hp-qi-input::placeholder{color:var(--text-3);font-weight:400;font-family:var(--font-sans)}
+.hp-qi-btn{height:44px;padding:0 14px;border:1.5px solid var(--navy);border-radius:var(--radius-md);background:var(--navy);color:#fff;font-size:13px;font-weight:700;cursor:pointer;flex-shrink:0}
+.hp-qi-btn:hover{background:var(--navy-light)}
+.hp-rows{margin-bottom:4px}
+.hp-row{display:flex;align-items:flex-end;gap:8px;padding:8px 0;border-bottom:1px solid var(--surface-3)}
+.hp-row:last-child{border-bottom:none}
+.hp-row-num{width:18px;flex-shrink:0;font-size:12px;font-weight:700;color:var(--text-3);text-align:right;padding-bottom:13px}
+.hp-frac{display:flex;align-items:flex-end;gap:6px;flex:1}
+.hp-frac-f{flex:1;display:flex;flex-direction:column;gap:5px;min-width:0}
+.hp-frac-lbl{font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.06em;color:var(--text-3)}
+.hp-frac-inp{width:100%;height:44px;border:1.5px solid var(--border);border-radius:var(--radius-md);padding:0 10px;font-size:16px;font-family:var(--font-mono);font-weight:700;color:var(--text-1);background:var(--surface);outline:none;-webkit-appearance:none;text-align:center}
+.hp-frac-inp:focus{border-color:var(--navy);box-shadow:0 0 0 3px rgba(30,58,95,.10)}
+.hp-frac-inp::placeholder{color:var(--text-3);font-weight:400;font-family:var(--font-sans);font-size:13px;text-align:left}
+.hp-frac-sep{font-size:22px;font-weight:800;color:var(--text-3);padding-bottom:8px;flex-shrink:0;user-select:none;line-height:1}
+.hp-del{height:44px;width:36px;border:1.5px solid var(--border);border-radius:var(--radius-sm);background:var(--surface);color:var(--text-3);font-size:18px;cursor:pointer;flex-shrink:0;display:flex;align-items:center;justify-content:center;line-height:1}
+.hp-del:hover{border-color:#fca5a5;color:#b91c1c;background:#fff5f5}
+.hp-add{display:flex;align-items:center;justify-content:center;gap:6px;width:100%;height:40px;margin-top:8px;border:1.5px dashed var(--border);border-radius:var(--radius-md);background:transparent;color:var(--text-2);font-size:13px;font-weight:600;cursor:pointer}
+.hp-add:hover{border-color:var(--navy-light);color:var(--navy);background:rgba(30,58,95,.03)}
+.hp-err{display:none;align-items:center;gap:8px;background:#fff5f5;border:1px solid #fecaca;border-radius:var(--radius-sm);padding:10px 14px;font-size:13px;font-weight:500;color:#b91c1c;margin-top:10px}
+.hp-err.on{display:flex}
+.hp-warn{display:none;align-items:flex-start;gap:8px;background:rgba(254,243,199,.6);border:1px solid rgba(252,211,77,.4);border-radius:var(--radius-sm);padding:10px 14px;font-size:12px;font-weight:500;color:#92400e;margin-top:8px;line-height:1.5}
+.hp-warn.on{display:flex}
+.hp-info{display:flex;align-items:flex-start;gap:8px;padding:10px 12px;background:rgba(200,162,74,.06);border:1px solid rgba(200,162,74,.18);border-radius:var(--radius-sm);font-size:12px;color:var(--text-2);line-height:1.5;margin-top:12px}
+.hp-info svg{flex-shrink:0;margin-top:1px}
+.hp-btns{display:flex;gap:8px;margin-top:16px}
+.hp-calc{flex:1;height:50px;border:none;border-radius:var(--radius-md);background:linear-gradient(135deg,var(--navy),var(--navy-light));color:#fff;font-size:15px;font-weight:700;cursor:pointer;box-shadow:0 4px 16px rgba(30,58,95,.28);display:flex;align-items:center;justify-content:center;gap:8px}
+.hp-calc:hover{transform:translateY(-1px);box-shadow:0 8px 24px rgba(30,58,95,.36)}.hp-calc:active{transform:translateY(0)}
+.hp-clear{height:50px;padding:0 18px;border:1.5px solid var(--border);border-radius:var(--radius-md);background:var(--surface);color:var(--text-2);font-size:14px;font-weight:600;cursor:pointer;flex-shrink:0}
+.hp-clear:hover{border-color:var(--navy-light);color:var(--navy)}
+.hp-empty{display:flex;flex-direction:column;align-items:center;justify-content:center;padding:40px 20px;text-align:center;color:var(--text-3);gap:12px;min-height:260px}
+.hp-empty-icon{width:52px;height:52px;background:var(--surface-3);border-radius:50%;display:flex;align-items:center;justify-content:center}
+.hp-empty p{font-size:14px;line-height:1.5;max-width:200px}
+.hp-res{display:none;flex-direction:column}.hp-res.on{display:flex;animation:hpIn .28s ease}
+@keyframes hpIn{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:translateY(0)}}
+.hp-payda-box{background:linear-gradient(135deg,var(--navy-dark),var(--navy));border-radius:var(--radius-md);padding:14px 18px;display:flex;justify-content:space-between;align-items:center;margin-bottom:16px}
+.hp-payda-lbl{font-size:13px;font-weight:600;color:rgba(255,255,255,.75)}
+.hp-payda-val{font-size:28px;font-weight:800;color:var(--gold);font-family:var(--font-mono);letter-spacing:-.02em}
+.hp-tbl{width:100%;border-collapse:collapse;font-size:13px;margin-bottom:14px}
+.hp-tbl th{text-align:left;padding:7px 8px;font-size:11px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:var(--text-3);border-bottom:2px solid var(--surface-3)}
+.hp-tbl td{padding:9px 8px;border-bottom:1px solid var(--surface-3)}
+.hp-tbl tr:last-child td{border-bottom:none}
+.hp-td-n{color:var(--text-3);font-weight:600;font-size:12px}
+.hp-td-orig,.hp-td-mono{color:var(--text-2);font-family:var(--font-mono);font-weight:600}
+.hp-td-x{color:var(--text-3);font-family:var(--font-mono);font-size:12px}
+.hp-td-eq{color:var(--navy);font-family:var(--font-mono);font-weight:800;font-size:14px}
+.hp-total{border-radius:var(--radius-md);padding:14px 16px;display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap}
+.hp-total-ok{background:rgba(34,197,94,.08);border:1px solid rgba(34,197,94,.25)}
+.hp-total-low{background:rgba(251,191,36,.08);border:1px solid rgba(251,191,36,.28)}
+.hp-total-hi{background:rgba(239,68,68,.08);border:1px solid rgba(239,68,68,.25)}
+.hp-total-sublbl{font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.06em;color:var(--text-3);margin-bottom:4px}
+.hp-total-frac{font-size:20px;font-weight:800;font-family:var(--font-mono);color:var(--text-1)}
+.hp-total-msg{font-size:12.5px;font-weight:600;line-height:1.5;text-align:right;max-width:180px}
+.hp-total-ok .hp-total-msg{color:#16a34a}.hp-total-low .hp-total-msg{color:#d97706}.hp-total-hi .hp-total-msg{color:#dc2626}
+.hp-disc{margin-top:20px;background:var(--surface);border:1px solid var(--border);border-radius:var(--radius-lg);padding:20px 24px;box-shadow:0 2px 8px rgba(15,28,46,.07)}
+.hp-disc-head{display:flex;align-items:center;gap:8px;margin-bottom:10px}
+.hp-disc-head span{font-size:13px;font-weight:700;color:var(--text-2)}
+.hp-disc p{font-size:13px;color:var(--text-3);line-height:1.7}
+@media(max-width:700px){.hp-grid{grid-template-columns:1fr}.hp-card{padding:22px 18px}.hp-payda-val{font-size:22px}.hp-btns{flex-direction:column}.hp-clear{width:100%}.hp-col-pay,.hp-col-payda{display:none}}
+/* ── ids- component styles ── */
+.ids-page *,.ids-page *::before,.ids-page *::after{box-sizing:border-box;margin:0;padding:0}
+.ids-page{font-family:var(--font-sans);background:var(--surface-2);min-height:100vh;color:var(--text-1)}
+.ids-container{max-width:960px;margin:0 auto;padding:0 20px 64px}
+.ids-grid{display:grid;grid-template-columns:1fr 1fr;gap:20px;margin-top:20px}
+.ids-card{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius-lg);padding:28px;box-shadow:var(--shadow-md)}
+.ids-card-title{font-size:13px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--text-3);margin-bottom:22px;display:flex;align-items:center;gap:8px}
+.ids-card-title::before{content:'';width:3px;height:14px;background:var(--gold);border-radius:2px}
+.ids-field{margin-bottom:20px}
+.ids-label{display:block;font-size:14px;font-weight:600;color:var(--text-1);margin-bottom:5px}
+.ids-help{font-size:12px;color:var(--text-3);margin-bottom:8px;line-height:1.5}
+.ids-hint{font-weight:400;color:var(--text-3)}
+.ids-input-wrap{display:flex;align-items:center;border:1.5px solid var(--border);border-radius:var(--radius-md);background:var(--surface);overflow:hidden}
+.ids-input-wrap:focus-within{border-color:var(--navy);box-shadow:0 0 0 3px rgba(30,58,95,.10)}
+.ids-prefix{padding:0 12px;font-size:14px;font-weight:700;color:var(--text-3);background:var(--surface-2);border-right:1.5px solid var(--border);height:46px;display:flex;align-items:center;flex-shrink:0;user-select:none}
+.ids-input{width:100%;height:46px;border:none;outline:none;padding:0 14px;font-size:15px;font-weight:600;color:var(--text-1);background:transparent;font-family:var(--font-mono)}
+.ids-input::placeholder{color:var(--text-3);font-weight:400;font-family:var(--font-sans);font-size:14px}
+.ids-no-prefix{height:46px;border:1.5px solid var(--border);border-radius:var(--radius-md);padding:0 14px;font-size:15px;font-weight:600;color:var(--text-1);background:var(--surface);outline:none;-webkit-appearance:none;width:100%}
+.ids-no-prefix:focus{border-color:var(--navy);box-shadow:0 0 0 3px rgba(30,58,95,.10)}
+.ids-no-prefix::placeholder{color:var(--text-3);font-weight:400;font-family:var(--font-sans);font-size:14px}
+.ids-toggle{display:flex;align-items:center;gap:10px;cursor:pointer;padding:10px 12px;border-radius:var(--radius-sm);border:1.5px solid var(--border)}
+.ids-toggle.active{border-color:var(--navy);background:rgba(30,58,95,.04)}
+.ids-toggle-dot{width:18px;height:18px;border-radius:50%;border:2px solid var(--border);background:var(--surface);flex-shrink:0}
+.ids-toggle.active .ids-toggle-dot{background:var(--navy);border-color:var(--navy);box-shadow:0 0 0 3px rgba(30,58,95,.12)}
+.ids-toggle-txt{font-size:13.5px;color:var(--text-2);line-height:1.4}
+.ids-toggle.active .ids-toggle-txt{color:var(--text-1)}
+.ids-err{display:none;align-items:center;gap:8px;background:#fff5f5;border:1px solid #fecaca;border-radius:var(--radius-sm);padding:10px 14px;font-size:13px;font-weight:500;color:#b91c1c;margin-bottom:16px}
+.ids-err.on{display:flex}
+.ids-btns{display:flex;gap:8px;margin-bottom:16px}
+.ids-calc{flex:1;height:50px;border:none;border-radius:var(--radius-md);background:linear-gradient(135deg,var(--navy),var(--navy-light));color:#fff;font-size:15px;font-weight:700;cursor:pointer;box-shadow:0 4px 16px rgba(30,58,95,.28);display:flex;align-items:center;justify-content:center;gap:8px}
+.ids-calc:hover{transform:translateY(-1px);box-shadow:0 8px 24px rgba(30,58,95,.36)}.ids-calc:active{transform:translateY(0)}
+.ids-clear{height:50px;padding:0 18px;border:1.5px solid var(--border);border-radius:var(--radius-md);background:var(--surface);color:var(--text-2);font-size:14px;font-weight:600;cursor:pointer;flex-shrink:0}
+.ids-clear:hover{border-color:var(--navy-light);color:var(--navy)}
+.ids-info{display:flex;align-items:flex-start;gap:8px;padding:12px 14px;background:rgba(200,162,74,.06);border:1px solid rgba(200,162,74,.18);border-radius:var(--radius-sm);font-size:12px;color:var(--text-2);line-height:1.6}
+.ids-info svg{flex-shrink:0;margin-top:1px}
+.ids-empty{display:flex;flex-direction:column;align-items:center;justify-content:center;padding:40px 20px;text-align:center;color:var(--text-3);gap:12px;min-height:300px}
+.ids-empty-icon{width:52px;height:52px;background:var(--surface-3);border-radius:50%;display:flex;align-items:center;justify-content:center}
+.ids-empty p{font-size:14px;line-height:1.5;max-width:200px}
+.ids-res{display:none;flex-direction:column}.ids-res.on{display:flex;animation:idsIn .28s ease}
+@keyframes idsIn{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:translateY(0)}}
+.ids-res-title{font-size:13px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--text-3);margin-bottom:16px;display:flex;align-items:center;gap:8px}
+.ids-res-title::before{content:'';width:3px;height:14px;background:var(--gold);border-radius:2px}
+.ids-res-rows{display:flex;flex-direction:column;gap:0}
+.ids-res-row{display:flex;justify-content:space-between;align-items:baseline;gap:12px;padding:8px 0;border-bottom:1px solid var(--surface-3)}
+.ids-res-row:last-child{border-bottom:none}
+.ids-res-lbl{font-size:13px;color:var(--text-2);flex-shrink:0;max-width:55%}
+.ids-res-val{font-size:13px;font-weight:700;color:var(--text-1);font-family:var(--font-mono);text-align:right}
+.ids-res-val-em{color:var(--navy)}
+.ids-res-val-plain{font-family:var(--font-sans);font-weight:600}
+.ids-res-divider{height:1px;background:var(--surface-3);margin:10px 0}
+.ids-res-note{font-size:12px;color:var(--text-2);background:rgba(200,162,74,.06);border:1px solid rgba(200,162,74,.18);border-radius:var(--radius-sm);padding:8px 12px;margin:6px 0;line-height:1.5}
+.ids-badge-evet{display:inline-block;font-family:var(--font-sans);font-size:12px;font-weight:700;padding:2px 8px;border-radius:99px;background:rgba(30,58,95,.08);color:var(--navy)}
+.ids-badge-hayir{display:inline-block;font-family:var(--font-sans);font-size:12px;font-weight:600;padding:2px 8px;border-radius:99px;background:var(--surface-3);color:var(--text-3)}
+.ids-grand{display:flex;justify-content:space-between;align-items:center;background:linear-gradient(135deg,var(--navy-dark),var(--navy));border-radius:var(--radius-md);padding:14px 18px;margin-top:10px}
+.ids-grand-lbl{font-size:13px;font-weight:600;color:rgba(255,255,255,.75)}
+.ids-grand-val{font-size:22px;font-weight:800;color:var(--gold);font-family:var(--font-mono);letter-spacing:-.02em}
+.ids-disc{margin-top:20px;background:var(--surface);border:1px solid var(--border);border-radius:var(--radius-lg);padding:20px 24px;box-shadow:0 2px 8px rgba(15,28,46,.07)}
+.ids-disc-head{display:flex;align-items:center;gap:8px;margin-bottom:10px}
+.ids-disc-head span{font-size:13px;font-weight:700;color:var(--text-2)}
+.ids-disc p{font-size:13px;color:var(--text-3);line-height:1.7}
+@media(max-width:700px){.ids-grid{grid-template-columns:1fr}.ids-card{padding:22px 18px}.ids-grand-val{font-size:18px}.ids-btns{flex-direction:column}.ids-clear{width:100%}}
+</style>
+
+<!-- Modal: Hisse Payda Eşitleme -->
+<div class="tm-overlay" id="modal-hisse-payda">
+<div class="tm-panel">
+<div class="tm-head">
+<div><div class="tm-title">Kat İrtifakı / Kat Mülkiyeti; Hisselerin paydalarını eşitleme aracı</div><div class="tm-sub">Ortak paydaya dönüştürme aracı</div></div>
+<button class="tm-close" data-close-modal="modal-hisse-payda" aria-label="Kapat"><svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M1 1l12 12M13 1L1 13" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg></button>
+</div>
+<div class="tm-body">
+<div class="hp-page" style="min-height:0;background:transparent;font-family:inherit">
+<div class="hp-container" style="padding:0 0 16px">
+<div class="hp-grid">
+<div class="hp-card">
+<div class="hp-card-title">Hisseler</div>
+<div class="hp-qi">
+<label class="hp-qi-lbl">Hızlı Giriş <span>(opsiyonel — 1/5, 2/4, 3/10)</span></label>
+<div class="hp-qi-row">
+<input class="hp-qi-input" id="hpQiInput" type="text" placeholder="Örn: 1/5, 2/4, 3/10" autocomplete="off"/>
+<button class="hp-qi-btn" id="hpQiBtn" type="button">Aktar</button>
+</div>
+</div>
+<div id="hpRows" class="hp-rows"></div>
+<button class="hp-add" id="hpAddBtn" type="button"><svg width="12" height="12" viewBox="0 0 12 12" fill="none"><path d="M6 1v10M1 6h10" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg> Hisse Ekle</button>
+<div class="hp-err" id="hpErr"><svg width="15" height="15" viewBox="0 0 15 15" fill="none"><circle cx="7.5" cy="7.5" r="6.5" stroke="#b91c1c" stroke-width="1.5"/><path d="M7.5 4v4M7.5 10.5v.5" stroke="#b91c1c" stroke-width="1.5" stroke-linecap="round"/></svg><span id="hpErrMsg"></span></div>
+<div class="hp-warn" id="hpWarn"><svg width="15" height="15" viewBox="0 0 15 15" fill="none"><path d="M7.5 2L14 13H1L7.5 2Z" stroke="#d97706" stroke-width="1.3" stroke-linejoin="round"/><path d="M7.5 6v3M7.5 10.5v.5" stroke="#d97706" stroke-width="1.3" stroke-linecap="round"/></svg><span id="hpWarnMsg"></span></div>
+<div class="hp-btns">
+<button class="hp-calc" id="hpCalcBtn" type="button"><svg width="16" height="16" viewBox="0 0 16 16" fill="none"><rect x="2" y="2" width="5" height="5" rx="1" stroke="white" stroke-width="1.5"/><rect x="9" y="2" width="5" height="5" rx="1" stroke="white" stroke-width="1.5"/><rect x="2" y="9" width="5" height="5" rx="1" stroke="white" stroke-width="1.5"/><path d="M9 11.5h5M11.5 9v5" stroke="white" stroke-width="1.5" stroke-linecap="round"/></svg> Hesapla</button>
+<button class="hp-clear" id="hpClearBtn" type="button">Temizle</button>
+</div>
+<div class="hp-info"><svg width="14" height="14" viewBox="0 0 14 14" fill="none"><circle cx="7" cy="7" r="6" stroke="#C8A24A" stroke-width="1.2"/><path d="M7 6v4M7 4.5v.5" stroke="#C8A24A" stroke-width="1.2" stroke-linecap="round"/></svg> Girilen hisse oranlarının en küçük ortak paydası (EKOK) hesaplanarak tüm hisseler aynı payda üzerinden yeniden ifade edilir.</div>
+</div>
+<div class="hp-card">
+<div class="hp-empty" id="hpEmpty"><div class="hp-empty-icon"><svg width="22" height="22" viewBox="0 0 22 22" fill="none"><path d="M6 5H9M6 9H9M6 13H9M13 5H16M13 9H16M13 13H16" stroke="#7a90a8" stroke-width="1.5" stroke-linecap="round"/><rect x="3" y="3" width="8" height="16" rx="1.5" stroke="#7a90a8" stroke-width="1.5"/><rect x="11" y="3" width="8" height="16" rx="1.5" stroke="#7a90a8" stroke-width="1.5"/></svg></div><p>Hisseleri girin ve Hesapla butonuna basın.</p></div>
+<div class="hp-res" id="hpRes"></div>
+</div>
+</div>
+<div class="hp-disc">
+<div class="hp-disc-head"><svg width="16" height="16" viewBox="0 0 16 16" fill="none"><circle cx="8" cy="8" r="6.5" stroke="#7a90a8" stroke-width="1.5"/><path d="M8 7v5M8 5v.5" stroke="#7a90a8" stroke-width="1.5" stroke-linecap="round"/></svg><span>Bilgilendirme Notu</span></div>
+<p>Bu araç, farklı paydalara sahip hisse oranlarını ortak paydaya dönüştürmek için hazırlanmıştır. Kat irtifakı, kat mülkiyeti ve benzeri işlemlerde teknik kontrol amacıyla kullanılabilir. Resmi işlem ve tescil süreçlerinde ilgili Tapu Müdürlüğü ve yetkili uzmanların değerlendirmesi esas alınmalıdır.</p>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+
+<!-- Modal: İpotek Tesisi Döner Sermaye Hesaplama -->
+<div class="tm-overlay" id="modal-ipotek">
+<div class="tm-panel">
+<div class="tm-head">
+<div><div class="tm-title">İpotek Tesisi Masraf Hesaplama</div><div class="tm-sub">İpotek bedeline ve taşınmaz sayısına göre masraf hesabı</div></div>
+<button class="tm-close" data-close-modal="modal-ipotek" aria-label="Kapat"><svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M1 1l12 12M13 1L1 13" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg></button>
+</div>
+<div class="tm-body">
+<div class="ids-page" style="min-height:0;background:transparent;font-family:inherit">
+<div class="ids-container" style="padding:0 0 16px">
+<div class="ids-grid">
+<div class="ids-card">
+<div class="ids-card-title">Hesaplama Girdileri</div>
+<div class="ids-field">
+<label class="ids-label" for="imIpotekBedeli">İpotek Bedeli</label>
+<p class="ids-help">İpotekle teminat altına alınan borç veya ipotek miktarını girin.</p>
+<div class="ids-input-wrap"><span class="ids-prefix">₺</span><input class="ids-input" id="imIpotekBedeli" type="text" inputmode="decimal" placeholder="Örn: 1.000.000" autocomplete="off"/></div>
+</div>
+<div class="ids-field">
+<label class="ids-label">Harçtan Muaf mı?</label>
+<label class="ids-toggle" id="imMuafOption" style="margin-top:4px"><input type="checkbox" id="imMuaf" style="display:none"/><span class="ids-toggle-dot"></span><span class="ids-toggle-txt">Harçtan muaf mı? <span class="ids-hint">— seçiliyse ipotek bedeli üzerinden damga vergisi ve tapu harcı hesaplanmaz; sadece döner sermaye hesaplanır</span></span></label>
+</div>
+<div class="ids-field">
+<label class="ids-label" for="imAnaTutar">Döner Sermaye Ana Tutarı</label>
+<p class="ids-help">Tek taşınmaz için esas alınacak döner sermaye tutarını girin.</p>
+<div class="ids-input-wrap"><span class="ids-prefix">₺</span><input class="ids-input" id="imAnaTutar" type="text" inputmode="decimal" placeholder="Örn: 5.000" autocomplete="off"/></div>
+</div>
+<div class="ids-field">
+<label class="ids-label" for="imTabsinmaz">Taşınmaz Sayısı</label>
+<p class="ids-help">İpotek tesis edilecek toplam taşınmaz sayısını girin. İlk taşınmaz ana döner sermayeye dahildir; ilave her taşınmaz için ek döner sermaye hesaplanır.</p>
+<input class="ids-no-prefix" id="imTabsinmaz" type="number" min="1" step="1" placeholder="Örn: 3" autocomplete="off"/>
+</div>
+<div class="ids-field">
+<label class="ids-label">Yetki Talepli İşlem</label>
+<label class="ids-toggle" id="imYetkiOption" style="margin-top:4px"><input type="checkbox" id="imYetki" style="display:none"/><span class="ids-toggle-dot"></span><span class="ids-toggle-txt">Yetki talepli işlem <span class="ids-hint">— seçiliyse döner sermaye 2 kat uygulanır</span></span></label>
+</div>
+<div class="ids-err" id="imErr"><svg width="15" height="15" viewBox="0 0 15 15" fill="none"><circle cx="7.5" cy="7.5" r="6.5" stroke="#b91c1c" stroke-width="1.5"/><path d="M7.5 4v4M7.5 10.5v.5" stroke="#b91c1c" stroke-width="1.5" stroke-linecap="round"/></svg><span id="imErrMsg"></span></div>
+<div class="ids-btns">
+<button class="ids-calc" id="imCalcBtn" type="button"><svg width="16" height="16" viewBox="0 0 16 16" fill="none"><rect x="2" y="2" width="5" height="5" rx="1" stroke="white" stroke-width="1.5"/><rect x="9" y="2" width="5" height="5" rx="1" stroke="white" stroke-width="1.5"/><rect x="2" y="9" width="5" height="5" rx="1" stroke="white" stroke-width="1.5"/><path d="M9 11.5h5M11.5 9v5" stroke="white" stroke-width="1.5" stroke-linecap="round"/></svg> Hesapla</button>
+<button class="ids-clear" id="imClearBtn" type="button">Temizle</button>
+</div>
+<div class="ids-info"><svg width="14" height="14" viewBox="0 0 14 14" fill="none"><circle cx="7" cy="7" r="6" stroke="#C8A24A" stroke-width="1.2"/><path d="M7 6v4M7 4.5v.5" stroke="#C8A24A" stroke-width="1.2" stroke-linecap="round"/></svg> İpotek tesisinde ipotek bedeli üzerinden damga vergisi ve tapu harcı; taşınmaz sayısına göre ise döner sermaye hesaplanır. Harçtan muaf işlemlerde yalnızca döner sermaye hesaplanır.</div>
+</div>
+<div class="ids-card">
+<div class="ids-empty" id="imEmpty"><div class="ids-empty-icon"><svg width="24" height="24" viewBox="0 0 24 24" fill="none"><rect x="4" y="4" width="6" height="16" rx="1.5" stroke="#7a90a8" stroke-width="1.5"/><rect x="14" y="4" width="6" height="16" rx="1.5" stroke="#7a90a8" stroke-width="1.5"/><path d="M7 9h1M7 12h1M17 9h1M17 12h1" stroke="#7a90a8" stroke-width="1.5" stroke-linecap="round"/></svg></div><p>Girdileri doldurun ve Hesapla butonuna basın.</p></div>
+<div class="ids-res" id="imRes"></div>
+</div>
+</div>
+<div class="ids-disc">
+<div class="ids-disc-head"><svg width="16" height="16" viewBox="0 0 16 16" fill="none"><circle cx="8" cy="8" r="6.5" stroke="#7a90a8" stroke-width="1.5"/><path d="M8 7v5M8 5v.5" stroke="#7a90a8" stroke-width="1.5" stroke-linecap="round"/></svg><span>Bilgilendirme Notu</span></div>
+<p>Bu hesaplama araçları bilgilendirme amaçlıdır. Harç, damga vergisi ve döner sermaye tutarları işlem türüne, muafiyet durumuna, taşınmaz sayısına, yetki talepli işlem olup olmamasına ve resmi tahakkuk ekranına göre değişebilir. Kesin tutarlar için ilgili Tapu Müdürlüğü ve resmi ödeme/tahakkuk ekranları esas alınmalıdır.</p>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+
+<script>
+(function(){
+document.querySelectorAll('[data-open-modal]').forEach(function(trigger){
+trigger.addEventListener('click',function(e){
+var m=document.getElementById(this.getAttribute('data-open-modal'));
+if(!m)return;
+e.preventDefault();
+m.classList.add('is-open');
+document.body.style.overflow='hidden';
+var fabItems=document.getElementById('fabItems'),fabToggle=document.getElementById('fabToggle');
+if(fabItems)fabItems.classList.remove('open');
+if(fabToggle)fabToggle.classList.remove('open');
+});
+});
+// Modal kapatma: X butonu
+document.querySelectorAll('[data-close-modal]').forEach(function(btn){
+btn.addEventListener('click',function(){
+var m=document.getElementById(this.getAttribute('data-close-modal'));
+if(m)m.classList.remove('is-open');
+document.body.style.overflow='';
+});
+});
+// Overlay'e tıklayınca kapat
+document.querySelectorAll('.tm-overlay').forEach(function(ov){
+ov.addEventListener('click',function(e){if(e.target===this){this.classList.remove('is-open');document.body.style.overflow=''}});
+});
+// Escape tuşu
+document.addEventListener('keydown',function(e){
+if(e.key==='Escape'){document.querySelectorAll('.tm-overlay.is-open').forEach(function(m){m.classList.remove('is-open')});document.body.style.overflow=''}
+});
+})();
+</script>
+
+<script>
+(function(){
+'use strict';
+var MAX_CD=100000000;
+var rowCounter=0;
+function gcd(a,b){while(b!==0){var t=b;b=a%b;a=t}return Math.abs(a)}
+function lcm(a,b){return(Math.abs(a)/gcd(a,b))*Math.abs(b)}
+function lcmAll(arr){return arr.reduce(function(acc,v){return lcm(acc,v)},1)}
+function addRow(pv,pdv){rowCounter++;var div=document.createElement('div');div.className='hp-row';div.innerHTML='<span class="hp-row-num"></span><div class="hp-frac"><div class="hp-frac-f"><span class="hp-frac-lbl">Pay</span><input class="hp-frac-inp" type="number" min="1" step="1" placeholder="Örn: 1"'+(pv!==null&&pv!==''?' value="'+pv+'"':'')+'/></div><span class="hp-frac-sep">/</span><div class="hp-frac-f"><span class="hp-frac-lbl">Payda</span><input class="hp-frac-inp" type="number" min="1" step="1" placeholder="Örn: 5"'+(pdv!==null&&pdv!==''?' value="'+pdv+'"':'')+'/></div></div><button class="hp-del" type="button" title="Sil">&#x2715;</button>';div.querySelector('.hp-del').addEventListener('click',function(){if(document.querySelectorAll('#hpRows .hp-row').length>1){div.remove();updateNums()}else showHpErr('En az bir hisse satırı olmalıdır.')});div.querySelectorAll('.hp-frac-inp').forEach(function(inp){inp.addEventListener('keydown',function(e){if(e.key==='Enter')hpCalculate()})});document.getElementById('hpRows').appendChild(div);updateNums()}
+function updateNums(){document.querySelectorAll('#hpRows .hp-row').forEach(function(r,i){var n=r.querySelector('.hp-row-num');if(n)n.textContent=(i+1)+'.';})}
+function getData(){var shares=[];document.querySelectorAll('#hpRows .hp-row').forEach(function(r){var inp=r.querySelectorAll('.hp-frac-inp');shares.push({pay:inp[0].value.trim(),payda:inp[1].value.trim()})});return shares}
+function validate(shares){if(shares.length===0)return'En az bir hisse girmelisiniz.';for(var i=0;i<shares.length;i++){var s=shares[i],n=i+1;if(s.pay==='')return n+'. hisse: Pay alanı boş bırakılamaz.';if(s.payda==='')return n+'. hisse: Payda alanı boş bırakılamaz.';var pv=parseFloat(s.pay),pdv=parseFloat(s.payda);if(isNaN(pv)||pv!==Math.floor(pv)||pv<=0)return n+'. hisse: Pay pozitif tam sayı olmalıdır.';if(isNaN(pdv)||pdv!==Math.floor(pdv)||pdv<=0)return n+'. hisse: Payda pozitif tam sayı olmalıdır (0 olamaz).'}return null}
+function hpCalculate(){clearHpErr();clearHpWarn();var raw=getData();var err=validate(raw);if(err){showHpErr(err);return}var shares=raw.map(function(s){return{pay:parseInt(s.pay,10),payda:parseInt(s.payda,10)}});var denoms=shares.map(function(s){return s.payda});var cd=lcmAll(denoms);if(cd>MAX_CD)showHpWarn('Ortak payda çok büyük oluştu ('+cd.toLocaleString('tr-TR')+'). Lütfen hisseleri kontrol edin.');var norm=shares.map(function(s){var mult=cd/s.payda;return{origPay:s.pay,origPayda:s.payda,newPay:s.pay*mult,newPayda:cd,mult:mult}});var totalPay=norm.reduce(function(a,n){return a+n.newPay},0);renderHpResults(norm,cd,totalPay)}
+function renderHpResults(norm,cd,totalPay){var h='';h+='<div class="hp-card-title">Payda Eşitleme Sonucu</div>';h+='<div class="hp-payda-box"><span class="hp-payda-lbl">Ortak Payda</span><span class="hp-payda-val">'+cd+'</span></div>';h+='<table class="hp-tbl"><thead><tr><th>#</th><th>Girilen</th><th class="hp-col-pay">Pay</th><th class="hp-col-payda">Payda</th><th>Çarpan</th><th>Eşitlenmiş</th></tr></thead><tbody>';norm.forEach(function(n,i){h+='<tr><td class="hp-td-n">'+(i+1)+'</td><td class="hp-td-orig">'+n.origPay+'/'+n.origPayda+'</td><td class="hp-td-mono hp-col-pay">'+n.origPay+'</td><td class="hp-td-mono hp-col-payda">'+n.origPayda+'</td><td class="hp-td-x">&#215;'+n.mult+'</td><td class="hp-td-eq">'+n.newPay+'/'+n.newPayda+'</td></tr>'});h+='</tbody></table>';var cls,msg;if(totalPay===cd){cls='hp-total-ok';msg='Girilen hisselerin toplamı<br>tam hisseye eşittir.'}else if(totalPay<cd){cls='hp-total-low';msg='Tam hisseyi tamamlamıyor.<br>Eksik: '+(cd-totalPay)+'/'+cd}else{cls='hp-total-hi';msg='Tam hisseden fazladır.<br>Fazla: '+(totalPay-cd)+'/'+cd}h+='<div class="hp-total '+cls+'"><div><div class="hp-total-sublbl">Toplam Hisse</div><div class="hp-total-frac">'+totalPay+'/'+cd+'</div></div><div class="hp-total-msg">'+msg+'</div></div>';var res=document.getElementById('hpRes');res.innerHTML=h;res.classList.add('on');document.getElementById('hpEmpty').style.display='none'}
+function hpResetAll(){document.getElementById('hpRows').innerHTML='';rowCounter=0;addRow(null,null);addRow(null,null);clearHpErr();clearHpWarn();var res=document.getElementById('hpRes');res.classList.remove('on');res.innerHTML='';document.getElementById('hpEmpty').style.display='';document.getElementById('hpQiInput').value=''}
+function parseQuickInput(){var text=document.getElementById('hpQiInput').value.trim();if(!text)return;var parts=text.split(',');var newShares=[];for(var i=0;i<parts.length;i++){var part=parts[i].trim();var sl=part.split('/');if(sl.length!==2||!sl[0].trim()||!sl[1].trim()||isNaN(sl[0].trim())||isNaN(sl[1].trim())){showHpErr('Hisse formatı geçersiz. Lütfen 1/5, 2/4 gibi pay/payda formatında girin.');return}newShares.push({pay:sl[0].trim(),payda:sl[1].trim()})}if(newShares.length===0){showHpErr('Hisse bulunamadı.');return}document.getElementById('hpRows').innerHTML='';rowCounter=0;clearHpErr();newShares.forEach(function(s){addRow(s.pay,s.payda)});document.getElementById('hpQiInput').value=''}
+function showHpErr(m){document.getElementById('hpErrMsg').textContent=m;document.getElementById('hpErr').classList.add('on')}
+function clearHpErr(){document.getElementById('hpErr').classList.remove('on')}
+function showHpWarn(m){document.getElementById('hpWarnMsg').textContent=m;document.getElementById('hpWarn').classList.add('on')}
+function clearHpWarn(){document.getElementById('hpWarn').classList.remove('on')}
+document.getElementById('hpCalcBtn').addEventListener('click',hpCalculate);
+document.getElementById('hpClearBtn').addEventListener('click',hpResetAll);
+document.getElementById('hpAddBtn').addEventListener('click',function(){addRow(null,null)});
+document.getElementById('hpQiBtn').addEventListener('click',parseQuickInput);
+document.getElementById('hpQiInput').addEventListener('keydown',function(e){if(e.key==='Enter')parseQuickInput()});
+addRow(null,null);addRow(null,null);
+})();
+</script>
+
+<script>
+(function(){
+'use strict';
+var IPOTEK_DAMGA_VERGISI_ORANI=TM.IPOTEK_DAMGA_VERGISI_ORANI;
+var IPOTEK_TAPU_HARCI_ORANI=TM.IPOTEK_TAPU_HARCI_ORANI;
+var YETKI_TALEPLI_CARPAN=TM.YETKI_TALEPLI_CARPAN;
+function formatTL(n){return TM.formatTurkishCurrency(n)}
+function formatMoneyDisplay(n){return TM.formatMoneyInput(n)}
+function calculateIpotekTesisiMasraf(ipotekBedeli,harctanMuaf,donerAnaTutar,tasinmazSayisi,yetkiTalepli){
+var damgaVergisi=harctanMuaf?0:ipotekBedeli*IPOTEK_DAMGA_VERGISI_ORANI;
+var ipotekTapuHarci=harctanMuaf?0:ipotekBedeli*IPOTEK_TAPU_HARCI_ORANI;
+var doner=TM.calculateRevolvingFundByPropertyCount(donerAnaTutar,tasinmazSayisi);
+var hesaplananDonerSermaye=doner.araToplam*(yetkiTalepli?YETKI_TALEPLI_CARPAN:1);
+var genelToplam=damgaVergisi+ipotekTapuHarci+hesaplananDonerSermaye;
+return{ipotekBedeli:ipotekBedeli,harctanMuaf:harctanMuaf,damgaVergisi:damgaVergisi,ipotekTapuHarci:ipotekTapuHarci,donerAnaTutar:donerAnaTutar,tasinmazSayisi:tasinmazSayisi,ilaveTasinmazSayisi:doner.fazla,ilaveDonerSermaye:doner.ilave,donerAraToplam:doner.araToplam,yetkiTalepli:yetkiTalepli,hesaplananDonerSermaye:hesaplananDonerSermaye,genelToplam:genelToplam};
+}
+function validateMortgageInputs(){
+var ipotekBedeliStr=document.getElementById('imIpotekBedeli').value.trim();
+var harctanMuaf=document.getElementById('imMuaf').checked;
+var anaTutarStr=document.getElementById('imAnaTutar').value.trim();
+var tabsinmazStr=document.getElementById('imTabsinmaz').value.trim();
+if(!harctanMuaf){
+if(!ipotekBedeliStr)return'İpotek bedeli girilmelidir.';
+if(!TM.isValidTurkishCurrency(ipotekBedeliStr))return'İpotek bedeli geçerli bir para formatında olmalıdır.';
+var ib=TM.parseTurkishCurrency(ipotekBedeliStr);
+if(ib<0)return'İpotek bedeli negatif olamaz.';
+if(ib===0)return'İpotek bedeli 0\'dan büyük olmalıdır.';
+}else if(ipotekBedeliStr!==''){
+if(!TM.isValidTurkishCurrency(ipotekBedeliStr))return'İpotek bedeli geçerli bir para formatında olmalıdır.';
+var ib2=TM.parseTurkishCurrency(ipotekBedeliStr);
+if(ib2<0)return'İpotek bedeli negatif olamaz.';
+}
+if(!anaTutarStr)return'Döner sermaye ana tutarı girilmelidir.';
+if(!TM.isValidTurkishCurrency(anaTutarStr))return'Döner sermaye ana tutarı geçerli bir para formatında olmalıdır.';
+var baseAmount=TM.parseTurkishCurrency(anaTutarStr);
+if(baseAmount<0)return'Döner sermaye ana tutarı negatif olamaz.';
+if(baseAmount===0)return'Döner sermaye ana tutarı 0\'dan büyük olmalıdır.';
+if(tabsinmazStr!==''){var tv=parseFloat(tabsinmazStr);if(isNaN(tv)||tv<1||tv!==Math.floor(tv))return'Taşınmaz sayısı 1 veya daha büyük tam sayı olmalıdır.'}
+return null;
+}
+function resRow(lbl,val,valClass){return'<div class="ids-res-row"><span class="ids-res-lbl">'+lbl+'</span><span class="ids-res-val'+(valClass?' '+valClass:'')+'">' +val+'</span></div>'}
+function idsCalculate(){
+clearIdsErr();
+var err=validateMortgageInputs();
+if(err){showIdsErr(err);return}
+var ipotekBedeli=TM.parseTurkishCurrency(document.getElementById('imIpotekBedeli').value.trim());
+var harctanMuaf=document.getElementById('imMuaf').checked;
+var donerAnaTutar=TM.parseTurkishCurrency(document.getElementById('imAnaTutar').value.trim());
+var tabsinmazStr=document.getElementById('imTabsinmaz').value.trim();
+var tasinmazSayisi=tabsinmazStr===''?1:Math.max(1,parseInt(tabsinmazStr,10));
+var yetkiTalepli=document.getElementById('imYetki').checked;
+var r=calculateIpotekTesisiMasraf(ipotekBedeli,harctanMuaf,donerAnaTutar,tasinmazSayisi,yetkiTalepli);
+renderIdsResults(r);
+}
+function renderIdsResults(r){
+var h='';
+h+='<div class="ids-res-title">İpotek Tesisi Masraf Hesaplama Sonucu</div>';
+h+='<div class="ids-res-rows">';
+if(r.ipotekBedeli>0)h+=resRow('İpotek Bedeli',formatTL(r.ipotekBedeli));
+h+=resRow('Harçtan Muaf',r.harctanMuaf?'<span class="ids-badge-evet">Evet</span>':'<span class="ids-badge-hayir">Hayır</span>');
+if(!r.harctanMuaf){
+h+=resRow('Damga Vergisi Oranı','%0,95','ids-res-val-plain');
+h+=resRow('Damga Vergisi',formatTL(r.damgaVergisi));
+h+=resRow('Tapu Harcı Oranı','%0,455','ids-res-val-plain');
+h+=resRow('İpotek Tapu Harcı',formatTL(r.ipotekTapuHarci));
+}else{
+h+='<div class="ids-res-note">Harçtan muaf seçildiği için ipotek bedeli üzerinden damga vergisi ve tapu harcı hesaplanmamıştır.</div>';
+}
+h+='</div>';
+h+='<div class="ids-res-divider"></div>';
+h+='<div class="ids-res-rows">';
+h+=resRow('Döner Sermaye Ana Tutarı',formatTL(r.donerAnaTutar));
+h+=resRow('Taşınmaz Sayısı',r.tasinmazSayisi+' adet','ids-res-val-plain');
+h+=resRow('İlave Taşınmaz Sayısı',r.ilaveTasinmazSayisi+' adet','ids-res-val-plain');
+h+=resRow('İlave Döner Sermaye Oranı','%13,7854','ids-res-val-plain');
+h+=resRow('İlave Döner Sermaye Tutarı',formatTL(r.ilaveDonerSermaye));
+h+=resRow('Döner Sermaye Ara Toplamı',formatTL(r.donerAraToplam),'ids-res-val-em');
+h+='</div>';
+h+='<div class="ids-res-divider"></div>';
+h+='<div class="ids-res-rows">';
+if(r.yetkiTalepli){h+=resRow('Yetki Talepli İşlem','<span class="ids-badge-evet">Evet</span>');h+='<div class="ids-res-note">Yetki talepli işlem seçildiği için döner sermaye ara toplamı 2 kat uygulanmıştır.</div>'}else{h+=resRow('Yetki Talepli İşlem','<span class="ids-badge-hayir">Hayır</span>')}
+h+=resRow('Hesaplanan Döner Sermaye',formatTL(r.hesaplananDonerSermaye),'ids-res-val-em');
+h+='</div>';
+h+='<div class="ids-grand"><span class="ids-grand-lbl">Genel Toplam</span><span class="ids-grand-val">'+formatTL(r.genelToplam)+'</span></div>';
+var resEl=document.getElementById('imRes');resEl.innerHTML=h;resEl.classList.add('on');document.getElementById('imEmpty').style.display='none';
+}
+function idsResetAll(){
+document.getElementById('imIpotekBedeli').value='';
+document.getElementById('imAnaTutar').value='';
+document.getElementById('imTabsinmaz').value='';
+var muafCb=document.getElementById('imMuaf');muafCb.checked=false;document.getElementById('imMuafOption').classList.remove('active');
+var cb=document.getElementById('imYetki');cb.checked=false;document.getElementById('imYetkiOption').classList.remove('active');
+clearIdsErr();
+var resEl=document.getElementById('imRes');resEl.classList.remove('on');resEl.innerHTML='';
+document.getElementById('imEmpty').style.display='';
+}
+function showIdsErr(m){document.getElementById('imErrMsg').textContent=m;document.getElementById('imErr').classList.add('on')}
+function clearIdsErr(){document.getElementById('imErr').classList.remove('on')}
+document.getElementById('imCalcBtn').addEventListener('click',idsCalculate);
+document.getElementById('imClearBtn').addEventListener('click',idsResetAll);
+document.getElementById('imYetkiOption').addEventListener('click',function(){var cb=document.getElementById('imYetki');cb.checked=!cb.checked;this.classList.toggle('active',cb.checked)});
+document.getElementById('imMuafOption').addEventListener('click',function(){var cb=document.getElementById('imMuaf');cb.checked=!cb.checked;this.classList.toggle('active',cb.checked)});
+document.getElementById('imIpotekBedeli').addEventListener('blur',function(){var v=TM.parseTurkishCurrency(this.value);if(v>0)this.value=formatMoneyDisplay(v);else if(this.value.trim()!=='')this.value=''});
+document.getElementById('imIpotekBedeli').addEventListener('keydown',function(e){if(e.key==='Enter')idsCalculate()});
+document.getElementById('imAnaTutar').addEventListener('blur',function(){var v=TM.parseTurkishCurrency(this.value);if(v>0)this.value=formatMoneyDisplay(v);else if(this.value.trim()!=='')this.value=''});
+document.getElementById('imAnaTutar').addEventListener('keydown',function(e){if(e.key==='Enter')idsCalculate()});
+document.getElementById('imTabsinmaz').addEventListener('keydown',function(e){if(e.key==='Enter')idsCalculate()});
+})();
+</script>
+
+<script>
+(function(){
+'use strict';
+var SATIS_RATE_TOPLAM=0.04,BAGIS_RATE=0.06831,IPOTEK_SABIT=504.80,TASHIH_SABIT=2371.80,MAKTU_HARC=411.60,YETKI_CARPAN=TM.YETKI_TALEPLI_CARPAN,DONER_SERMAYE_ILAVE_ORANI=TM.DONER_SERMAYE_ILAVE_ORANI,AKTIF_TAKSIM_HARC_ORANI=TM.TAKSIM_HARC_ORANI;
+var tabs=document.querySelectorAll('.th-tab');
+var sections={satis:document.getElementById('secSatis'),bagis:document.getElementById('secBagis'),ipotek:document.getElementById('secIpotek'),intikal:document.getElementById('secIntikal'),tashih:document.getElementById('secTashih'),taksim:document.getElementById('secTaksim')};
+var calcBtn=document.getElementById('thCalcBtn'),errorEl=document.getElementById('thError'),errorMsg=document.getElementById('thErrorMsg');
+var emptyEl=document.getElementById('thEmpty'),resultEl=document.getElementById('thResult');
+var rowsEl=document.getElementById('thResultRows'),grandEl=document.getElementById('thGrandTotal');
+var splitArea=document.getElementById('thSplitArea'),maktuArea=document.getElementById('thMaktuArea');
+var currentType='satis';
+
+function fmt(n){return TM.formatTurkishCurrency(n)}
+function parseMoney(v){return TM.parseTurkishCurrency(v)}
+function validateMoneyField(id,label){
+var value=document.getElementById(id).value.trim();
+if(value!==''&&!TM.isValidTurkishCurrency(value)){showError(label+' geçerli bir para formatında olmalıdır.');return false}
+return true;
+}
+function showError(m){errorMsg.textContent=m;errorEl.classList.add('visible')}
+function hideError(){errorEl.classList.remove('visible')}
+function row(l,v){return'<div class="th-result-row"><span class="th-result-label">'+l+'</span><span class="th-result-value">'+v+'</span></div>'}
+function calcIlaveDoner(anaTutar,tasinmazSayisi){return TM.calculateRevolvingFundByPropertyCount(anaTutar,tasinmazSayisi)}
+function calculateSalesFixedFeeDistribution(maktuHarc,oranliHarc,donerHesap,payment){
+var aliciMaktu=maktuHarc/2,saticiMaktu=maktuHarc/2;
+var aliciOranli=oranliHarc/2,saticiOranli=oranliHarc/2;
+var aliciHarcToplami=aliciMaktu+aliciOranli,saticiHarcToplami=saticiMaktu+saticiOranli;
+var bt,st;
+if(payment==='buyer'){bt=maktuHarc+oranliHarc+donerHesap;st=0}
+else if(payment==='seller'){bt=0;st=maktuHarc+oranliHarc+donerHesap}
+else{bt=aliciHarcToplami;st=saticiHarcToplami}
+return{aliciMaktu:aliciMaktu,saticiMaktu:saticiMaktu,aliciOranli:aliciOranli,saticiOranli:saticiOranli,aliciHarcToplami:aliciHarcToplami,saticiHarcToplami:saticiHarcToplami,bt:bt,st:st};
+}
+
+document.querySelectorAll('.money-input').forEach(function(el){el.addEventListener('blur',function(){var v=TM.parseTurkishCurrency(this.value);if(v>0)this.value=TM.formatMoneyInput(v);else if(this.value.trim()!=='')this.value=''})});
+tabs.forEach(function(tab){tab.addEventListener('click',function(){tabs.forEach(function(t){t.classList.remove('active')});tab.classList.add('active');currentType=tab.getAttribute('data-type');Object.keys(sections).forEach(function(k){sections[k].classList.remove('visible')});sections[currentType].classList.add('visible');emptyEl.style.display='';resultEl.classList.remove('visible');hideError()})});
+document.querySelectorAll('.th-toggle-group .th-toggle-option').forEach(function(opt){opt.addEventListener('click',function(){var g=opt.closest('.th-toggle-group');g.querySelectorAll('.th-toggle-option').forEach(function(o){o.classList.remove('active')});opt.classList.add('active')})});
+var yetkiOption=document.getElementById('satisYetkiOption');
+if(yetkiOption){yetkiOption.addEventListener('click',function(){var cb=document.getElementById('satisYetki');cb.checked=!cb.checked;yetkiOption.classList.toggle('active',cb.checked)})}
+var taksimYetkiOption=document.getElementById('taksimYetkiOption');
+if(taksimYetkiOption){taksimYetkiOption.addEventListener('click',function(){var cb=document.getElementById('taksimYetki');cb.checked=!cb.checked;taksimYetkiOption.classList.toggle('active',cb.checked)})}
+document.querySelectorAll('.th-input').forEach(function(el){el.addEventListener('keydown',function(e){if(e.key==='Enter')calculate()})});
+
+function calculate(){
+hideError();var html='',grand=0;splitArea.innerHTML='';maktuArea.innerHTML='';
+
+if(currentType==='satis'){
+var hissedarMaktuRaw=document.getElementById('satisHissedarMaktu').value;
+var hissedarMaktu=hissedarMaktuRaw===''?0:parseInt(hissedarMaktuRaw,10);
+if(!validateMoneyField('satisBedelOranli','Maktuya düşmeyen toplam satış bedeli'))return;
+if(!validateMoneyField('satisDoner','Döner sermaye'))return;
+var bedelOranli=parseMoney(document.getElementById('satisBedelOranli').value);
+var doner=parseMoney(document.getElementById('satisDoner').value);
+var tasinmazRaw=document.getElementById('satisTabsinmaz').value;
+var tasinmaz=tasinmazRaw===''||tasinmazRaw==='0'?1:parseInt(tasinmazRaw,10);
+var yetkiSecili=document.getElementById('satisYetki').checked;
+var payment=(document.querySelector('input[name="satisPayment"]:checked')||{}).value||'separate';
+if(hissedarMaktu===0&&bedelOranli===0){showError('Lütfen en az bir tutar veya maktu hissedar sayısı girin.');return}
+if(isNaN(hissedarMaktu)||hissedarMaktu<0){showError('Maktu harca düşen hissedar sayısı negatif olamaz.');return}
+if(hissedarMaktuRaw!==''&&(parseFloat(hissedarMaktuRaw)!==Math.floor(parseFloat(hissedarMaktuRaw)))){showError('Hissedar sayısı tam sayı olmalıdır.');return}
+if(bedelOranli<0||doner<0){showError('Tutar alanları negatif olamaz.');return}
+if(isNaN(tasinmaz)||tasinmaz<0){showError('Taşınmaz sayısı negatif olamaz.');return}
+if(tasinmazRaw!==''&&tasinmazRaw!=='0'&&(parseFloat(tasinmazRaw)!==Math.floor(parseFloat(tasinmazRaw)))){showError('Taşınmaz sayısı tam sayı olmalıdır.');return}
+var maktuHarc=hissedarMaktu*MAKTU_HARC;
+var oranliHarc=bedelOranli*SATIS_RATE_TOPLAM;
+var ilaveDoner=calcIlaveDoner(doner,tasinmaz);
+var donerAraToplam=ilaveDoner.araToplam;
+var donerHesap=donerAraToplam*(yetkiSecili?YETKI_CARPAN:1);
+grand=maktuHarc+oranliHarc+donerHesap;
+if(hissedarMaktu>0){html+=row('Maktu Harca Düşen Hissedar Sayısı',hissedarMaktu+' kişi');html+=row('Maktu Harç Toplamı',fmt(maktuHarc))}
+if(bedelOranli>0){html+=row('Maktuya Düşmeyen Toplam Satış Bedeli',fmt(bedelOranli));html+=row('Oranlı Satış Harcı Toplamı',fmt(oranliHarc))}
+var dist=calculateSalesFixedFeeDistribution(maktuHarc,oranliHarc,donerHesap,payment);
+if(maktuHarc>0){html+=row('Alıcı Maktu Harç Payı',fmt(dist.aliciMaktu));html+=row('Satıcı Maktu Harç Payı',fmt(dist.saticiMaktu))}
+if(oranliHarc>0){html+=row('Alıcı Oranlı Harç Payı',fmt(dist.aliciOranli));html+=row('Satıcı Oranlı Harç Payı',fmt(dist.saticiOranli))}
+if(maktuHarc>0||oranliHarc>0){html+=row('Alıcı Harç Toplamı',fmt(dist.aliciHarcToplami));html+=row('Satıcı Harç Toplamı',fmt(dist.saticiHarcToplami))}
+if(doner>0){html+=row('Döner Sermaye Ana Tutarı',fmt(doner));if(tasinmaz>1){html+=row('Taşınmaz Sayısı',tasinmaz+' adet');html+=row('İlave Taşınmaz Sayısı',ilaveDoner.fazla+' adet');html+=row('İlave Döner Sermaye Oranı','%'+((DONER_SERMAYE_ILAVE_ORANI*100).toFixed(4).replace('.',',')));html+=row('İlave Döner Sermaye Tutarı',fmt(ilaveDoner.ilave));html+=row('Döner Sermaye Ara Toplamı',fmt(donerAraToplam))}else{html+=row('İlave Döner Sermaye Tutarı',fmt(0))}if(yetkiSecili){html+=row('Yetki Talepli İşlem','Evet — döner sermaye ara toplamı 2 kat uygulandı')}html+=row('Hesaplanan Döner Sermaye',fmt(donerHesap))}
+var bt=dist.bt,st=dist.st;
+var splitNote=payment==='separate'&&donerHesap>0?'<div class="th-info-inline" style="margin-top:8px"><svg width="14" height="14" viewBox="0 0 14 14" fill="none"><circle cx="7" cy="7" r="6" stroke="#C8A24A" stroke-width="1.2"/><path d="M7 6v4M7 4.5v.5" stroke="#C8A24A" stroke-width="1.2" stroke-linecap="round"/></svg> Döner sermaye uygulamada işlem özelinde tahsil edilir, alıcı/satıcı tutarlarına dahil değildir.</div>':'';
+splitArea.innerHTML='<div class="th-split"><div class="th-split-card"><div class="th-split-role">Alıcı Öder</div><div class="th-split-amount'+(bt===0?' zero':'')+'">'+fmt(bt)+'</div></div><div class="th-split-card"><div class="th-split-role">Satıcı Öder</div><div class="th-split-amount'+(st===0?' zero':'')+'">'+fmt(st)+'</div></div></div>'+splitNote;
+}
+
+else if(currentType==='bagis'){
+var bedel=parseMoney(document.getElementById('bagisBedel').value);
+var doner=parseMoney(document.getElementById('bagisDoner').value);
+if(!validateMoneyField('bagisBedel','Gayrimenkul değeri'))return;
+if(!validateMoneyField('bagisDoner','Döner sermaye'))return;
+if(bedel<=0){showError('Lütfen geçerli bir gayrimenkul değeri girin.');return}
+var harc=bedel*BAGIS_RATE;grand=harc+doner;
+html+=row('Bağış Harcı (%6,831)',fmt(harc));
+if(doner>0)html+=row('Döner Sermaye',fmt(doner));
+html+=row('Ödeyen','Alan kişi');
+}
+
+else if(currentType==='ipotek'){
+var adet=parseInt(document.getElementById('ipotekAdet').value)||1;
+if(!validateMoneyField('ipotekDoner','Döner sermaye'))return;
+var ipotekDoner=parseMoney(document.getElementById('ipotekDoner').value);
+var ipotekTabsinmazRaw=document.getElementById('ipotekTabsinmaz').value;
+var ipotekTabsinmaz=ipotekTabsinmazRaw===''||ipotekTabsinmazRaw==='0'?1:parseInt(ipotekTabsinmazRaw,10);
+if(isNaN(ipotekTabsinmaz)||ipotekTabsinmaz<0){showError('Taşınmaz sayısı negatif olamaz.');return}
+var ipotekHarc=IPOTEK_SABIT*adet;
+var ipotekIlave=calcIlaveDoner(ipotekDoner,ipotekTabsinmaz);
+var ipotekDonerHesap=ipotekIlave.araToplam;
+grand=ipotekHarc+ipotekDonerHesap;
+html+=row('İşlem Adedi',adet+' adet');
+html+=row('İşlem Başı Harç',fmt(IPOTEK_SABIT));
+if(adet>1)html+=row('Toplam Sabit Harç',fmt(ipotekHarc));
+if(ipotekDoner>0){html+=row('Döner Sermaye Ana Tutarı',fmt(ipotekDoner));if(ipotekIlave.fazla>0){html+=row('Taşınmaz Sayısı',ipotekTabsinmaz+' adet');html+=row('İlave Taşınmaz Sayısı',ipotekIlave.fazla+' adet');html+=row('İlave Döner Sermaye Oranı','%'+((DONER_SERMAYE_ILAVE_ORANI*100).toFixed(4).replace('.',',')));html+=row('İlave Döner Sermaye Tutarı',fmt(ipotekIlave.ilave));html+=row('Döner Sermaye Ara Toplamı',fmt(ipotekDonerHesap))}else{html+=row('İlave Döner Sermaye Tutarı',fmt(0))}html+=row('Hesaplanan Döner Sermaye',fmt(ipotekDonerHesap))}
+}
+
+else if(currentType==='intikal'){
+var doner=parseMoney(document.getElementById('intikalDoner').value);
+if(!validateMoneyField('intikalDoner','Döner sermaye bedeli'))return;
+if(doner<=0){showError('Lütfen döner sermaye bedelini girin.');return}
+grand=doner;
+html+=row('Tapu Harcı',fmt(0));
+html+=row('Döner Sermaye',fmt(doner));
+}
+
+else if(currentType==='tashih'){
+grand=TASHIH_SABIT;
+html+=row('Tashih (Düzeltme) Harcı',fmt(TASHIH_SABIT));
+}
+
+else if(currentType==='taksim'){
+var beyanDegeri=parseMoney(document.getElementById('taksimBeyanDegeri').value);
+var taksimDoner=parseMoney(document.getElementById('taksimDoner').value);
+if(!validateMoneyField('taksimBeyanDegeri','Toplam beyan değeri'))return;
+if(!validateMoneyField('taksimDoner','Döner sermaye ana tutarı'))return;
+var taksimTabsinmazRaw=document.getElementById('taksimTabsinmaz').value;
+var taksimTabsinmaz=taksimTabsinmazRaw===''||taksimTabsinmazRaw==='0'?1:parseInt(taksimTabsinmazRaw,10);
+var taksimYetki=document.getElementById('taksimYetki').checked;
+if(beyanDegeri<=0){showError('Toplam beyan değeri girilmelidir.');return}
+if(taksimDoner<0){showError('Döner sermaye tutarı negatif olamaz.');return}
+if(isNaN(taksimTabsinmaz)||taksimTabsinmaz<0){showError('Taşınmaz sayısı negatif olamaz.');return}
+if(taksimTabsinmazRaw!==''&&taksimTabsinmazRaw!=='0'&&(parseFloat(taksimTabsinmazRaw)!==Math.floor(parseFloat(taksimTabsinmazRaw)))){showError('Taşınmaz sayısı tam sayı olmalıdır.');return}
+var taksimHarc=beyanDegeri*AKTIF_TAKSIM_HARC_ORANI;
+var taksimIlave=calcIlaveDoner(taksimDoner,taksimTabsinmaz);
+var taksimDonerAraToplam=taksimIlave.araToplam;
+var taksimDonerHesap=taksimDonerAraToplam*(taksimYetki?YETKI_CARPAN:1);
+grand=taksimHarc+taksimDonerHesap;
+html+=row('Toplam Beyan Değeri',fmt(beyanDegeri));
+html+=row('Taksim Harcı Oranı','%2,277');
+html+=row('Taksim Tapu Harcı',fmt(taksimHarc));
+if(taksimDoner>0||taksimTabsinmaz>1){html+=row('Döner Sermaye Ana Tutarı',fmt(taksimDoner));if(taksimDoner>0&&taksimTabsinmaz>1){html+=row('Taşınmaz Sayısı',taksimTabsinmaz+' adet');html+=row('İlave Taşınmaz Sayısı',taksimIlave.fazla+' adet');html+=row('İlave Döner Sermaye Oranı','%'+((DONER_SERMAYE_ILAVE_ORANI*100).toFixed(4).replace('.',',')));html+=row('İlave Döner Sermaye Tutarı',fmt(taksimIlave.ilave));html+=row('Döner Sermaye Ara Toplamı',fmt(taksimDonerAraToplam))}else{html+=row('İlave Döner Sermaye Tutarı',fmt(0))}if(taksimYetki&&taksimDonerAraToplam>0){html+=row('Yetki Talepli İşlem','Evet — döner sermaye ara toplamı 2 kat uygulandı')}html+=row('Hesaplanan Döner Sermaye',fmt(taksimDonerHesap))}
+}
+
+rowsEl.innerHTML=html;grandEl.textContent=fmt(grand);
+emptyEl.style.display='none';resultEl.classList.remove('visible');
+void resultEl.offsetWidth;resultEl.classList.add('visible');
+}
+calcBtn.addEventListener('click',calculate);
+})();
+</script>

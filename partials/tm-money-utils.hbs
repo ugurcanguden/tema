@@ -1,0 +1,34 @@
+<script>
+window.TM=window.TM||{};
+TM.DONER_SERMAYE_ILAVE_ORANI=0.137854;
+TM.YETKI_TALEPLI_CARPAN=2;
+TM.IPOTEK_DAMGA_VERGISI_ORANI=0.0095;
+TM.IPOTEK_TAPU_HARCI_ORANI=0.00455;
+TM.TAKSIM_HARC_ORANI=0.02277;
+TM.isValidTurkishCurrency=function(v){
+if(v===null||v===undefined)return false;
+v=String(v).trim();
+if(v==='')return true;
+if(v.indexOf('-')!==-1&&v.indexOf('-')!==0)return false;
+return /^-?(?:\d+|\d{1,3}(?:\.\d{3})+)(?:,\d{1,2})?$/.test(v);
+};
+TM.parseTurkishCurrency=function(v){
+if(v===null||v===undefined)return 0;
+v=String(v).trim();
+if(v==='')return 0;
+var cleaned=v.replace(/\./g,'').replace(',','.').replace(/[^\d.\-]/g,'');
+var n=parseFloat(cleaned);
+return isNaN(n)?0:n;
+};
+TM.formatTurkishCurrency=function(n){
+return new Intl.NumberFormat('tr-TR',{minimumFractionDigits:2,maximumFractionDigits:2}).format(n)+' TL';
+};
+TM.formatMoneyInput=function(n){
+return new Intl.NumberFormat('tr-TR',{minimumFractionDigits:0,maximumFractionDigits:2}).format(n);
+};
+TM.calculateRevolvingFundByPropertyCount=function(anaTutar,tasinmazSayisi){
+var fazla=Math.max((tasinmazSayisi||1)-1,0);
+var ilave=anaTutar*TM.DONER_SERMAYE_ILAVE_ORANI*fazla;
+return{fazla:fazla,ilave:ilave,araToplam:anaTutar+ilave};
+};
+</script>

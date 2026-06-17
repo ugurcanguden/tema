@@ -1,0 +1,19 @@
+{
+  "guncelleme": "2026-06-05",
+  "kaynak": "TÜİK - TÜFE 12 Aylık Ortalama Değişim Oranı",
+  "aciklama": "Her ay TÜİK yeni veri açıkladığında bu dosyayı güncelleyin. Oran yüzde (%) olarak yazılır.",
+  "oranlar": [
+    { "ay": "2025-07", "etiket": "Temmuz 2025",  "oran": 43.23 },
+    { "ay": "2025-08", "etiket": "Ağustos 2025",  "oran": 41.13 },
+    { "ay": "2025-09", "etiket": "Eylül 2025",    "oran": 39.62 },
+    { "ay": "2025-10", "etiket": "Ekim 2025",     "oran": 38.36 },
+    { "ay": "2025-11", "etiket": "Kasım 2025",    "oran": 37.15 },
+    { "ay": "2025-12", "etiket": "Aralık 2025",   "oran": 35.91 },
+    { "ay": "2026-01", "etiket": "Ocak 2026",     "oran": 34.88 },
+    { "ay": "2026-02", "etiket": "Şubat 2026",    "oran": 33.98 },
+    { "ay": "2026-03", "etiket": "Mart 2026",     "oran": 33.39 },
+    { "ay": "2026-04", "etiket": "Nisan 2026",    "oran": 32.82 },
+    { "ay": "2026-05", "etiket": "Mayıs 2026",    "oran": 32.43 },
+    { "ay": "2026-06", "etiket": "Haziran 2026",  "oran": 32.24 }
+  ]
+}

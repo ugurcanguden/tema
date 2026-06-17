@@ -1,0 +1,381 @@
+{{!< default}}
+{{> "tm-money-utils"}}
+<style>
+.ids-page *,.ids-page *::before,.ids-page *::after{box-sizing:border-box;margin:0;padding:0}
+:root{--navy:#1E3A5F;--navy-dark:#142840;--navy-light:#2a4f7c;--gold:#C8A24A;--gold-light:#debb6e;--surface:#fff;--surface-2:#f7f9fc;--surface-3:#eef2f7;--border:#dde3ec;--text-1:#0f1c2e;--text-2:#3d5068;--text-3:#7a90a8;--radius-sm:8px;--radius-md:14px;--radius-lg:22px;--shadow-md:0 8px 28px rgba(15,28,46,.10);--transition:.18s ease;--font-sans:'Inter',system-ui,-apple-system,sans-serif;--font-mono:'JetBrains Mono','Fira Code',monospace}
+.ids-page{font-family:var(--font-sans);background:var(--surface-2);min-height:100vh;color:var(--text-1)}
+
+.ids-hero{background:linear-gradient(135deg,var(--navy-dark),var(--navy) 55%,var(--navy-light));padding:56px 24px 52px;text-align:center;position:relative;overflow:hidden}
+.ids-hero::before{content:'';position:absolute;inset:0;background:radial-gradient(ellipse 60% 80% at 80% 20%,rgba(200,162,74,.13),transparent 70%),radial-gradient(ellipse 40% 60% at 20% 80%,rgba(200,162,74,.08),transparent 60%);pointer-events:none}
+.ids-hero-badge{display:inline-flex;align-items:center;gap:6px;background:rgba(200,162,74,.18);border:1px solid rgba(200,162,74,.35);border-radius:99px;padding:5px 14px;font-size:12px;font-weight:600;letter-spacing:.06em;text-transform:uppercase;color:var(--gold-light);margin-bottom:20px}
+.ids-hero h1{font-size:clamp(24px,4.5vw,40px);font-weight:800;color:#fff;line-height:1.15;letter-spacing:-.02em;margin-bottom:14px}.ids-hero h1 span{color:var(--gold)}
+.ids-hero p{font-size:16px;color:rgba(255,255,255,.72);max-width:520px;margin:0 auto;line-height:1.6}
+
+.ids-container{max-width:960px;margin:0 auto;padding:0 20px 64px}
+.ids-grid{display:grid;grid-template-columns:1fr 1fr;gap:20px;margin-top:20px}
+
+.ids-card{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius-lg);padding:28px;box-shadow:var(--shadow-md)}
+.ids-card-title{font-size:13px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--text-3);margin-bottom:22px;display:flex;align-items:center;gap:8px}
+.ids-card-title::before{content:'';width:3px;height:14px;background:var(--gold);border-radius:2px}
+
+.ids-field{margin-bottom:20px}
+.ids-label{display:block;font-size:14px;font-weight:600;color:var(--text-1);margin-bottom:5px}
+.ids-help{font-size:12px;color:var(--text-3);margin-bottom:8px;line-height:1.5}
+.ids-hint{font-weight:400;color:var(--text-3)}
+
+.ids-input-wrap{display:flex;align-items:center;border:1.5px solid var(--border);border-radius:var(--radius-md);background:var(--surface);transition:border-color var(--transition),box-shadow var(--transition);overflow:hidden}
+.ids-input-wrap:focus-within{border-color:var(--navy);box-shadow:0 0 0 3px rgba(30,58,95,.10)}
+.ids-prefix{padding:0 12px;font-size:14px;font-weight:700;color:var(--text-3);background:var(--surface-2);border-right:1.5px solid var(--border);height:46px;display:flex;align-items:center;flex-shrink:0;user-select:none}
+.ids-input{width:100%;height:46px;border:none;outline:none;padding:0 14px;font-size:15px;font-weight:600;color:var(--text-1);background:transparent;font-family:var(--font-mono)}
+.ids-input::placeholder{color:var(--text-3);font-weight:400;font-family:var(--font-sans);font-size:14px}
+.ids-no-prefix{height:46px;border:1.5px solid var(--border);border-radius:var(--radius-md);padding:0 14px;font-size:15px;font-weight:600;color:var(--text-1);background:var(--surface);outline:none;-webkit-appearance:none;width:100%;transition:border-color var(--transition),box-shadow var(--transition)}
+.ids-no-prefix:focus{border-color:var(--navy);box-shadow:0 0 0 3px rgba(30,58,95,.10)}
+.ids-no-prefix::placeholder{color:var(--text-3);font-weight:400;font-family:var(--font-sans);font-size:14px}
+
+.ids-toggle{display:flex;align-items:center;gap:10px;cursor:pointer;padding:10px 12px;border-radius:var(--radius-sm);border:1.5px solid var(--border);transition:all var(--transition)}
+.ids-toggle.active{border-color:var(--navy);background:rgba(30,58,95,.04)}
+.ids-toggle-dot{width:18px;height:18px;border-radius:50%;border:2px solid var(--border);background:var(--surface);transition:all var(--transition);flex-shrink:0}
+.ids-toggle.active .ids-toggle-dot{background:var(--navy);border-color:var(--navy);box-shadow:0 0 0 3px rgba(30,58,95,.12)}
+.ids-toggle-txt{font-size:13.5px;color:var(--text-2);line-height:1.4}
+.ids-toggle.active .ids-toggle-txt{color:var(--text-1)}
+
+.ids-err{display:none;align-items:center;gap:8px;background:#fff5f5;border:1px solid #fecaca;border-radius:var(--radius-sm);padding:10px 14px;font-size:13px;font-weight:500;color:#b91c1c;margin-bottom:16px}
+.ids-err.on{display:flex}
+
+.ids-btns{display:flex;gap:8px;margin-bottom:16px}
+.ids-calc{flex:1;height:50px;border:none;border-radius:var(--radius-md);background:linear-gradient(135deg,var(--navy),var(--navy-light));color:#fff;font-size:15px;font-weight:700;cursor:pointer;transition:transform var(--transition),box-shadow var(--transition);box-shadow:0 4px 16px rgba(30,58,95,.28);display:flex;align-items:center;justify-content:center;gap:8px;letter-spacing:.01em}
+.ids-calc:hover{transform:translateY(-1px);box-shadow:0 8px 24px rgba(30,58,95,.36)}.ids-calc:active{transform:translateY(0)}
+.ids-clear{height:50px;padding:0 18px;border:1.5px solid var(--border);border-radius:var(--radius-md);background:var(--surface);color:var(--text-2);font-size:14px;font-weight:600;cursor:pointer;flex-shrink:0;transition:all var(--transition)}
+.ids-clear:hover{border-color:var(--navy-light);color:var(--navy)}
+
+.ids-info{display:flex;align-items:flex-start;gap:8px;padding:12px 14px;background:rgba(200,162,74,.06);border:1px solid rgba(200,162,74,.18);border-radius:var(--radius-sm);font-size:12px;color:var(--text-2);line-height:1.6}
+.ids-info svg{flex-shrink:0;margin-top:1px}
+
+.ids-empty{display:flex;flex-direction:column;align-items:center;justify-content:center;padding:40px 20px;text-align:center;color:var(--text-3);gap:12px;min-height:300px}
+.ids-empty-icon{width:52px;height:52px;background:var(--surface-3);border-radius:50%;display:flex;align-items:center;justify-content:center}
+.ids-empty p{font-size:14px;line-height:1.5;max-width:200px}
+
+.ids-res{display:none;flex-direction:column}.ids-res.on{display:flex;animation:idsIn .28s ease}
+@keyframes idsIn{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:translateY(0)}}
+
+.ids-res-title{font-size:13px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--text-3);margin-bottom:16px;display:flex;align-items:center;gap:8px}
+.ids-res-title::before{content:'';width:3px;height:14px;background:var(--gold);border-radius:2px}
+
+.ids-res-rows{display:flex;flex-direction:column;gap:0}
+.ids-res-row{display:flex;justify-content:space-between;align-items:baseline;gap:12px;padding:8px 0;border-bottom:1px solid var(--surface-3)}
+.ids-res-row:last-child{border-bottom:none}
+.ids-res-lbl{font-size:13px;color:var(--text-2);flex-shrink:0;max-width:55%}
+.ids-res-val{font-size:13px;font-weight:700;color:var(--text-1);font-family:var(--font-mono);text-align:right}
+.ids-res-val-em{color:var(--navy)}
+.ids-res-val-plain{font-family:var(--font-sans);font-weight:600}
+
+.ids-res-divider{height:1px;background:var(--surface-3);margin:10px 0}
+.ids-res-note{font-size:12px;color:var(--text-2);background:rgba(200,162,74,.06);border:1px solid rgba(200,162,74,.18);border-radius:var(--radius-sm);padding:8px 12px;margin:6px 0;line-height:1.5}
+
+.ids-badge-evet{display:inline-block;font-family:var(--font-sans);font-size:12px;font-weight:700;padding:2px 8px;border-radius:99px;background:rgba(30,58,95,.08);color:var(--navy)}
+.ids-badge-hayir{display:inline-block;font-family:var(--font-sans);font-size:12px;font-weight:600;padding:2px 8px;border-radius:99px;background:var(--surface-3);color:var(--text-3)}
+
+.ids-grand{display:flex;justify-content:space-between;align-items:center;background:linear-gradient(135deg,var(--navy-dark),var(--navy));border-radius:var(--radius-md);padding:14px 18px;margin-top:10px}
+.ids-grand-lbl{font-size:13px;font-weight:600;color:rgba(255,255,255,.75)}
+.ids-grand-val{font-size:22px;font-weight:800;color:var(--gold);font-family:var(--font-mono);letter-spacing:-.02em}
+
+.ids-disc{margin-top:20px;background:var(--surface);border:1px solid var(--border);border-radius:var(--radius-lg);padding:20px 24px;box-shadow:0 2px 8px rgba(15,28,46,.07)}
+.ids-disc-head{display:flex;align-items:center;gap:8px;margin-bottom:10px}
+.ids-disc-head span{font-size:13px;font-weight:700;color:var(--text-2)}
+.ids-disc p{font-size:13px;color:var(--text-3);line-height:1.7}
+
+@media(max-width:700px){.ids-hero{padding:44px 20px 48px}.ids-grid{grid-template-columns:1fr}.ids-card{padding:22px 18px}.ids-grand-val{font-size:18px}.ids-btns{flex-direction:column}.ids-clear{width:100%}}
+@media(prefers-reduced-motion:reduce){.ids-res.on{animation:none}.ids-calc{transition:none}}
+</style>
+
+<div class="ids-page">
+<div class="ids-hero">
+<div class="ids-hero-badge"><svg width="10" height="10" viewBox="0 0 10 10" fill="none"><circle cx="5" cy="5" r="4" fill="currentColor" opacity=".7"/></svg> Hesaplama Aracı</div>
+<h1>İpotek Tesisi <span>Masraf</span> Hesaplama</h1>
+<p>İpotek tesisinde ipotek bedeline göre damga vergisi ve tapu harcı ile taşınmaz sayısına göre döner sermaye tutarını hesaplar.</p>
+</div>
+
+<div class="ids-container">
+<div class="ids-grid">
+
+<div class="ids-card">
+<div class="ids-card-title">Hesaplama Girdileri</div>
+
+<div class="ids-field">
+<label class="ids-label" for="imIpotekBedeli">İpotek Bedeli</label>
+<p class="ids-help">İpotekle teminat altına alınan borç veya ipotek miktarını girin.</p>
+<div class="ids-input-wrap">
+<span class="ids-prefix">₺</span>
+<input class="ids-input" id="imIpotekBedeli" type="text" inputmode="decimal" placeholder="Örn: 1.000.000" autocomplete="off"/>
+</div>
+</div>
+
+<div class="ids-field">
+<label class="ids-label">Harçtan Muaf mı?</label>
+<label class="ids-toggle" id="imMuafOption" style="margin-top:4px">
+<input type="checkbox" id="imMuaf" style="display:none"/>
+<span class="ids-toggle-dot"></span>
+<span class="ids-toggle-txt">Harçtan muaf mı? <span class="ids-hint">— seçiliyse ipotek bedeli üzerinden damga vergisi ve tapu harcı hesaplanmaz; sadece döner sermaye hesaplanır</span></span>
+</label>
+</div>
+
+<div class="ids-field">
+<label class="ids-label" for="imAnaTutar">Döner Sermaye Ana Tutarı</label>
+<p class="ids-help">Tek taşınmaz için esas alınacak döner sermaye tutarını girin.</p>
+<div class="ids-input-wrap">
+<span class="ids-prefix">₺</span>
+<input class="ids-input" id="imAnaTutar" type="text" inputmode="decimal" placeholder="Örn: 5.000" autocomplete="off"/>
+</div>
+</div>
+
+<div class="ids-field">
+<label class="ids-label" for="imTabsinmaz">Taşınmaz Sayısı</label>
+<p class="ids-help">İpotek tesis edilecek toplam taşınmaz sayısını girin. İlk taşınmaz ana döner sermayeye dahildir; ilave her taşınmaz için ek döner sermaye hesaplanır.</p>
+<input class="ids-no-prefix" id="imTabsinmaz" type="number" min="1" step="1" placeholder="Örn: 3" autocomplete="off"/>
+</div>
+
+<div class="ids-field">
+<label class="ids-label">Yetki Talepli İşlem</label>
+<label class="ids-toggle" id="imYetkiOption" style="margin-top:4px">
+<input type="checkbox" id="imYetki" style="display:none"/>
+<span class="ids-toggle-dot"></span>
+<span class="ids-toggle-txt">Yetki talepli işlem <span class="ids-hint">— seçiliyse döner sermaye 2 kat uygulanır</span></span>
+</label>
+</div>
+
+<div class="ids-err" id="imErr">
+<svg width="15" height="15" viewBox="0 0 15 15" fill="none"><circle cx="7.5" cy="7.5" r="6.5" stroke="#b91c1c" stroke-width="1.5"/><path d="M7.5 4v4M7.5 10.5v.5" stroke="#b91c1c" stroke-width="1.5" stroke-linecap="round"/></svg>
+<span id="imErrMsg"></span>
+</div>
+
+<div class="ids-btns">
+<button class="ids-calc" id="imCalcBtn" type="button">
+<svg width="16" height="16" viewBox="0 0 16 16" fill="none"><rect x="2" y="2" width="5" height="5" rx="1" stroke="white" stroke-width="1.5"/><rect x="9" y="2" width="5" height="5" rx="1" stroke="white" stroke-width="1.5"/><rect x="2" y="9" width="5" height="5" rx="1" stroke="white" stroke-width="1.5"/><path d="M9 11.5h5M11.5 9v5" stroke="white" stroke-width="1.5" stroke-linecap="round"/></svg>
+Hesapla
+</button>
+<button class="ids-clear" id="imClearBtn" type="button">Temizle</button>
+</div>
+
+<div class="ids-info">
+<svg width="14" height="14" viewBox="0 0 14 14" fill="none"><circle cx="7" cy="7" r="6" stroke="#C8A24A" stroke-width="1.2"/><path d="M7 6v4M7 4.5v.5" stroke="#C8A24A" stroke-width="1.2" stroke-linecap="round"/></svg>
+İpotek tesisinde ipotek bedeli üzerinden damga vergisi ve tapu harcı; taşınmaz sayısına göre ise döner sermaye hesaplanır. Harçtan muaf işlemlerde yalnızca döner sermaye hesaplanır.
+</div>
+</div>
+
+<div class="ids-card">
+<div class="ids-empty" id="imEmpty">
+<div class="ids-empty-icon"><svg width="24" height="24" viewBox="0 0 24 24" fill="none"><rect x="4" y="4" width="6" height="16" rx="1.5" stroke="#7a90a8" stroke-width="1.5"/><rect x="14" y="4" width="6" height="16" rx="1.5" stroke="#7a90a8" stroke-width="1.5"/><path d="M7 9h1M7 12h1M17 9h1M17 12h1" stroke="#7a90a8" stroke-width="1.5" stroke-linecap="round"/></svg></div>
+<p>Girdileri doldurun ve Hesapla butonuna basın.</p>
+</div>
+<div class="ids-res" id="imRes"></div>
+</div>
+
+</div>
+
+<div class="ids-disc">
+<div class="ids-disc-head">
+<svg width="16" height="16" viewBox="0 0 16 16" fill="none"><circle cx="8" cy="8" r="6.5" stroke="#7a90a8" stroke-width="1.5"/><path d="M8 7v5M8 5v.5" stroke="#7a90a8" stroke-width="1.5" stroke-linecap="round"/></svg>
+<span>Bilgilendirme Notu</span>
+</div>
+<p>Bu hesaplama araçları bilgilendirme amaçlıdır. Harç, damga vergisi ve döner sermaye tutarları işlem türüne, muafiyet durumuna, taşınmaz sayısına, yetki talepli işlem olup olmamasına ve resmi tahakkuk ekranına göre değişebilir. Kesin tutarlar için ilgili Tapu Müdürlüğü ve resmi ödeme/tahakkuk ekranları esas alınmalıdır.</p>
+</div>
+</div>
+</div>
+
+<style>
+.fab-wrap{position:fixed;bottom:24px;right:24px;z-index:9999;display:flex;flex-direction:column;align-items:flex-end;gap:10px}
+.fab-items{display:flex;flex-direction:column;align-items:flex-end;gap:8px;pointer-events:none;opacity:0;transform:translateY(8px);transition:opacity .2s ease,transform .2s ease}
+.fab-items.open{pointer-events:auto;opacity:1;transform:translateY(0)}
+.fab-item{display:flex;align-items:center;gap:8px;text-decoration:none}
+.fab-lbl{background:rgba(20,40,64,.92);color:#fff;font-size:12px;font-weight:600;padding:6px 12px;border-radius:8px;white-space:nowrap;letter-spacing:.01em;box-shadow:0 2px 8px rgba(15,28,46,.25)}
+.fab-dot{width:38px;height:38px;border-radius:50%;display:flex;align-items:center;justify-content:center;background:var(--surface,#fff);border:2px solid var(--border,#dde3ec);box-shadow:0 2px 8px rgba(15,28,46,.12);transition:background .15s,border-color .15s,color .15s;flex-shrink:0;color:#3d5068}
+.fab-item:hover .fab-dot{background:#2a4f7c;border-color:#2a4f7c;color:#fff}
+.fab-item.fab-active .fab-dot{background:#C8A24A;border-color:#C8A24A;color:#142840;box-shadow:0 2px 10px rgba(200,162,74,.4)}
+.fab-item.fab-active .fab-lbl{background:rgba(200,162,74,.12);color:#debb6e;border:1px solid rgba(200,162,74,.3)}
+.fab-item.fab-active{pointer-events:none;cursor:default}
+.fab-toggle{width:50px;height:50px;border-radius:50%;background:#1E3A5F;border:none;cursor:pointer;display:flex;align-items:center;justify-content:center;box-shadow:0 4px 16px rgba(15,28,46,.35);transition:transform .2s ease,background .2s ease;flex-shrink:0}
+.fab-toggle:hover{background:#2a4f7c;transform:scale(1.06)}.fab-toggle:active{transform:scale(.96)}
+.fab-toggle.open{background:#142840}
+.fab-ti{transition:transform .25s ease;display:flex;align-items:center;justify-content:center}
+.fab-toggle.open .fab-ti{transform:rotate(45deg)}
+@media(max-width:480px){.fab-wrap{bottom:16px;right:16px}.fab-lbl{font-size:11px;padding:5px 10px}}
+@media(prefers-reduced-motion:reduce){.fab-items,.fab-toggle,.fab-ti{transition:none}}
+</style>
+
+<div class="fab-wrap" id="fabWrap">
+<div class="fab-items" id="fabItems">
+<a class="fab-item" href="/tapu-harci-hesaplama/"><span class="fab-lbl">Tapu Harcı Hesaplama</span><span class="fab-dot"><svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M4 2h8v12l-2-1.5L8 14l-2-1.5L4 14V2z" stroke="currentColor" stroke-width="1.4" stroke-linejoin="round"/><path d="M6 6h4M6 8.5h2.5" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"/></svg></span></a>
+<a class="fab-item" href="/hisse-payda-esleme/"><span class="fab-lbl">Hisse Payda Eşitleme</span><span class="fab-dot"><svg width="16" height="16" viewBox="0 0 16 16" fill="none"><circle cx="5" cy="4.5" r="1.7" stroke="currentColor" stroke-width="1.3"/><circle cx="11" cy="11.5" r="1.7" stroke="currentColor" stroke-width="1.3"/><path d="M4 13.5L12 2.5" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"/></svg></span></a>
+<a class="fab-item fab-active" href="/ipotek-doner-sermaye-hesaplama/"><span class="fab-lbl">İpotek Tesisi Masraf Hesaplama</span><span class="fab-dot"><svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M8 2L1.5 6.5h13L8 2z" stroke="currentColor" stroke-width="1.3" stroke-linejoin="round"/><path d="M3.5 6.5V13M6 6.5V13M10 6.5V13M12.5 6.5V13" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"/><path d="M2 13h12" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"/></svg></span></a>
+</div>
+<button class="fab-toggle" id="fabToggle" type="button" aria-label="Araçlar menüsü"><span class="fab-ti"><svg width="18" height="18" viewBox="0 0 18 18" fill="none"><rect x="2.5" y="2.5" width="5" height="5" rx="1" stroke="white" stroke-width="1.5"/><rect x="10.5" y="2.5" width="5" height="5" rx="1" stroke="white" stroke-width="1.5"/><rect x="2.5" y="10.5" width="5" height="5" rx="1" stroke="white" stroke-width="1.5"/><rect x="10.5" y="10.5" width="5" height="5" rx="1" stroke="white" stroke-width="1.5"/></svg></span></button>
+</div>
+<script>(function(){var t=document.getElementById('fabToggle'),i=document.getElementById('fabItems');t.addEventListener('click',function(){var o=i.classList.toggle('open');t.classList.toggle('open',o)});document.addEventListener('click',function(e){if(!document.getElementById('fabWrap').contains(e.target)){i.classList.remove('open');t.classList.remove('open')}})})();</script>
+
+<script>
+(function(){
+'use strict';
+
+var IPOTEK_DAMGA_VERGISI_ORANI=TM.IPOTEK_DAMGA_VERGISI_ORANI;
+var IPOTEK_TAPU_HARCI_ORANI=TM.IPOTEK_TAPU_HARCI_ORANI;
+var YETKI_TALEPLI_CARPAN=TM.YETKI_TALEPLI_CARPAN;
+
+function formatTL(n){return TM.formatTurkishCurrency(n)}
+function formatMoneyDisplay(n){return TM.formatMoneyInput(n)}
+
+function calculateIpotekTesisiMasraf(ipotekBedeli,harctanMuaf,donerAnaTutar,tasinmazSayisi,yetkiTalepli){
+var damgaVergisi=harctanMuaf?0:ipotekBedeli*IPOTEK_DAMGA_VERGISI_ORANI;
+var ipotekTapuHarci=harctanMuaf?0:ipotekBedeli*IPOTEK_TAPU_HARCI_ORANI;
+var doner=TM.calculateRevolvingFundByPropertyCount(donerAnaTutar,tasinmazSayisi);
+var hesaplananDonerSermaye=doner.araToplam*(yetkiTalepli?YETKI_TALEPLI_CARPAN:1);
+var genelToplam=damgaVergisi+ipotekTapuHarci+hesaplananDonerSermaye;
+return{
+ipotekBedeli:ipotekBedeli,
+harctanMuaf:harctanMuaf,
+damgaVergisi:damgaVergisi,
+ipotekTapuHarci:ipotekTapuHarci,
+donerAnaTutar:donerAnaTutar,
+tasinmazSayisi:tasinmazSayisi,
+ilaveTasinmazSayisi:doner.fazla,
+ilaveDonerSermaye:doner.ilave,
+donerAraToplam:doner.araToplam,
+yetkiTalepli:yetkiTalepli,
+hesaplananDonerSermaye:hesaplananDonerSermaye,
+genelToplam:genelToplam
+};
+}
+
+function validateMortgageInputs(){
+var ipotekBedeliStr=document.getElementById('imIpotekBedeli').value.trim();
+var harctanMuaf=document.getElementById('imMuaf').checked;
+var anaTutarStr=document.getElementById('imAnaTutar').value.trim();
+var tabsinmazStr=document.getElementById('imTabsinmaz').value.trim();
+if(!harctanMuaf){
+if(!ipotekBedeliStr)return'İpotek bedeli girilmelidir.';
+if(!TM.isValidTurkishCurrency(ipotekBedeliStr))return'İpotek bedeli geçerli bir para formatında olmalıdır.';
+var ib=TM.parseTurkishCurrency(ipotekBedeliStr);
+if(ib<0)return'İpotek bedeli negatif olamaz.';
+if(ib===0)return'İpotek bedeli 0\'dan büyük olmalıdır.';
+}else if(ipotekBedeliStr!==''){
+if(!TM.isValidTurkishCurrency(ipotekBedeliStr))return'İpotek bedeli geçerli bir para formatında olmalıdır.';
+var ib2=TM.parseTurkishCurrency(ipotekBedeliStr);
+if(ib2<0)return'İpotek bedeli negatif olamaz.';
+}
+if(!anaTutarStr)return'Döner sermaye ana tutarı girilmelidir.';
+if(!TM.isValidTurkishCurrency(anaTutarStr))return'Döner sermaye ana tutarı geçerli bir para formatında olmalıdır.';
+var baseAmount=TM.parseTurkishCurrency(anaTutarStr);
+if(baseAmount<0)return'Döner sermaye ana tutarı negatif olamaz.';
+if(baseAmount===0)return'Döner sermaye ana tutarı 0\'dan büyük olmalıdır.';
+if(tabsinmazStr!==''){
+var tv=parseFloat(tabsinmazStr);
+if(isNaN(tv)||tv<1||tv!==Math.floor(tv))return'Taşınmaz sayısı 1 veya daha büyük tam sayı olmalıdır.';
+}
+return null;
+}
+
+function resRow(lbl,val,valClass){
+return'<div class="ids-res-row"><span class="ids-res-lbl">'+lbl+'</span><span class="ids-res-val'+(valClass?' '+valClass:'')+'">' +val+'</span></div>';
+}
+
+function calculate(){
+clearErr();
+var err=validateMortgageInputs();
+if(err){showErr(err);return}
+var ipotekBedeli=TM.parseTurkishCurrency(document.getElementById('imIpotekBedeli').value.trim());
+var harctanMuaf=document.getElementById('imMuaf').checked;
+var donerAnaTutar=TM.parseTurkishCurrency(document.getElementById('imAnaTutar').value.trim());
+var tabsinmazStr=document.getElementById('imTabsinmaz').value.trim();
+var tasinmazSayisi=tabsinmazStr===''?1:Math.max(1,parseInt(tabsinmazStr,10));
+var yetkiTalepli=document.getElementById('imYetki').checked;
+var r=calculateIpotekTesisiMasraf(ipotekBedeli,harctanMuaf,donerAnaTutar,tasinmazSayisi,yetkiTalepli);
+renderResults(r);
+}
+
+function renderResults(r){
+var h='';
+h+='<div class="ids-res-title">İpotek Tesisi Masraf Hesaplama Sonucu</div>';
+h+='<div class="ids-res-rows">';
+if(r.ipotekBedeli>0)h+=resRow('İpotek Bedeli',formatTL(r.ipotekBedeli));
+h+=resRow('Harçtan Muaf',r.harctanMuaf?'<span class="ids-badge-evet">Evet</span>':'<span class="ids-badge-hayir">Hayır</span>');
+if(!r.harctanMuaf){
+h+=resRow('Damga Vergisi Oranı','%0,95','ids-res-val-plain');
+h+=resRow('Damga Vergisi',formatTL(r.damgaVergisi));
+h+=resRow('Tapu Harcı Oranı','%0,455','ids-res-val-plain');
+h+=resRow('İpotek Tapu Harcı',formatTL(r.ipotekTapuHarci));
+}else{
+h+='<div class="ids-res-note">Harçtan muaf seçildiği için ipotek bedeli üzerinden damga vergisi ve tapu harcı hesaplanmamıştır.</div>';
+}
+h+='</div>';
+h+='<div class="ids-res-divider"></div>';
+h+='<div class="ids-res-rows">';
+h+=resRow('Döner Sermaye Ana Tutarı',formatTL(r.donerAnaTutar));
+h+=resRow('Taşınmaz Sayısı',r.tasinmazSayisi+' adet','ids-res-val-plain');
+h+=resRow('İlave Taşınmaz Sayısı',r.ilaveTasinmazSayisi+' adet','ids-res-val-plain');
+h+=resRow('İlave Döner Sermaye Oranı','%13,7854','ids-res-val-plain');
+h+=resRow('İlave Döner Sermaye Tutarı',formatTL(r.ilaveDonerSermaye));
+h+=resRow('Döner Sermaye Ara Toplamı',formatTL(r.donerAraToplam),'ids-res-val-em');
+h+='</div>';
+h+='<div class="ids-res-divider"></div>';
+h+='<div class="ids-res-rows">';
+if(r.yetkiTalepli){
+h+=resRow('Yetki Talepli İşlem','<span class="ids-badge-evet">Evet</span>');
+h+='<div class="ids-res-note">Yetki talepli işlem seçildiği için döner sermaye ara toplamı 2 kat uygulanmıştır.</div>';
+}else{
+h+=resRow('Yetki Talepli İşlem','<span class="ids-badge-hayir">Hayır</span>');
+}
+h+=resRow('Hesaplanan Döner Sermaye',formatTL(r.hesaplananDonerSermaye),'ids-res-val-em');
+h+='</div>';
+h+='<div class="ids-grand"><span class="ids-grand-lbl">Genel Toplam</span><span class="ids-grand-val">'+formatTL(r.genelToplam)+'</span></div>';
+var resEl=document.getElementById('imRes');
+resEl.innerHTML=h;
+resEl.classList.add('on');
+document.getElementById('imEmpty').style.display='none';
+}
+
+function resetAll(){
+document.getElementById('imIpotekBedeli').value='';
+document.getElementById('imAnaTutar').value='';
+document.getElementById('imTabsinmaz').value='';
+var muafCb=document.getElementById('imMuaf');
+muafCb.checked=false;
+document.getElementById('imMuafOption').classList.remove('active');
+var cb=document.getElementById('imYetki');
+cb.checked=false;
+document.getElementById('imYetkiOption').classList.remove('active');
+clearErr();
+var resEl=document.getElementById('imRes');
+resEl.classList.remove('on');
+resEl.innerHTML='';
+document.getElementById('imEmpty').style.display='';
+}
+
+function showErr(m){document.getElementById('imErrMsg').textContent=m;document.getElementById('imErr').classList.add('on')}
+function clearErr(){document.getElementById('imErr').classList.remove('on')}
+
+document.getElementById('imCalcBtn').addEventListener('click',calculate);
+document.getElementById('imClearBtn').addEventListener('click',resetAll);
+document.getElementById('imYetkiOption').addEventListener('click',function(){
+var cb=document.getElementById('imYetki');
+cb.checked=!cb.checked;
+this.classList.toggle('active',cb.checked);
+});
+document.getElementById('imMuafOption').addEventListener('click',function(){
+var cb=document.getElementById('imMuaf');
+cb.checked=!cb.checked;
+this.classList.toggle('active',cb.checked);
+});
+document.getElementById('imIpotekBedeli').addEventListener('blur',function(){
+var v=TM.parseTurkishCurrency(this.value);
+if(v>0)this.value=formatMoneyDisplay(v);
+else if(this.value.trim()!=='')this.value='';
+});
+document.getElementById('imIpotekBedeli').addEventListener('keydown',function(e){if(e.key==='Enter')calculate()});
+document.getElementById('imAnaTutar').addEventListener('blur',function(){
+var v=TM.parseTurkishCurrency(this.value);
+if(v>0)this.value=formatMoneyDisplay(v);
+else if(this.value.trim()!=='')this.value='';
+});
+document.getElementById('imAnaTutar').addEventListener('keydown',function(e){if(e.key==='Enter')calculate()});
+document.getElementById('imTabsinmaz').addEventListener('keydown',function(e){if(e.key==='Enter')calculate()});
+})();
+</script>
