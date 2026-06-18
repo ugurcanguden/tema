@@ -120,25 +120,29 @@
 </div>
 
 <div class="th-section" id="secBagis">
-<div class="th-field"><label class="th-label">Gayrimenkul Değeri</label><div class="th-input-wrap"><span class="th-input-prefix">₺</span><input class="th-input money-input" id="bagisBedel" type="text" inputmode="decimal" placeholder="2.000.000" autocomplete="off"/></div></div>
-<div class="th-field"><label class="th-label">Döner Sermaye <span class="th-label-hint">(opsiyonel)</span></label><div class="th-input-wrap"><span class="th-input-prefix">₺</span><input class="th-input money-input" id="bagisDoner" type="text" inputmode="decimal" placeholder="1.500" autocomplete="off"/></div></div>
-<div class="th-info-inline"><svg width="14" height="14" viewBox="0 0 14 14" fill="none"><circle cx="7" cy="7" r="6" stroke="#C8A24A" stroke-width="1.2"/><path d="M7 6v4M7 4.5v.5" stroke="#C8A24A" stroke-width="1.2" stroke-linecap="round"/></svg> Bağış harcı %6,831 oranında hesaplanır ve alan kişi tarafından ödenir.</div>
+<div class="th-field"><label class="th-label">Maktu Harca Düşen Hissedar Sayısı <span class="th-label-hint">(opsiyonel)</span></label><input class="th-input no-prefix" id="bagisHissedarMaktu" type="number" min="0" step="1" placeholder="Örn: 3" autocomplete="off"/></div>
+<div class="th-field"><label class="th-label">Maktuya Düşmeyen Toplam İşlem Bedeli <span class="th-label-hint">(opsiyonel)</span></label><div class="th-input-wrap"><span class="th-input-prefix">₺</span><input class="th-input money-input" id="bagisBedelOranli" type="text" inputmode="decimal" placeholder="Örn: 2.000.000" autocomplete="off"/></div></div>
+<div class="th-field"><label class="th-label">Döner Sermaye Ana Tutarı <span class="th-label-hint">(opsiyonel)</span></label><div class="th-input-wrap"><span class="th-input-prefix">₺</span><input class="th-input money-input" id="bagisDoner" type="text" inputmode="decimal" placeholder="1.500" autocomplete="off"/></div></div>
+<div class="th-field"><label class="th-label">Taşınmaz Sayısı <span class="th-label-hint">(opsiyonel)</span></label><input class="th-input no-prefix" id="bagisTabsinmaz" type="number" min="1" step="1" placeholder="1" autocomplete="off"/></div>
+<div class="th-field"><label class="th-label">Yetki Talepli İşlem</label><label class="th-toggle-option" id="bagisYetkiOption" style="margin-top:4px"><input type="checkbox" id="bagisYetki" style="display:none"/><span class="th-toggle-dot"></span><span class="th-toggle-text">Yetki talepli işlem <span class="th-label-hint">— seçiliyse döner sermaye 2 kat hesaplanır</span></span></label></div>
+<div class="th-info-inline"><svg width="14" height="14" viewBox="0 0 14 14" fill="none"><circle cx="7" cy="7" r="6" stroke="#C8A24A" stroke-width="1.2"/><path d="M7 6v4M7 4.5v.5" stroke="#C8A24A" stroke-width="1.2" stroke-linecap="round"/></svg> Maktu harca düşen hissedarlar için kişi başı 411,60 TL harç, maktuya düşmeyen toplam işlem bedeli için %6,831 oranında bağış harcı hesaplanır. Taşınmaz sayısına göre döner sermaye artırılır; yetki talepli işlemlerde döner sermaye 2 kat uygulanır.</div>
 </div>
 
 <div class="th-section" id="secIpotek">
 <div class="th-field"><label class="th-label">İşlem Adedi</label><input class="th-input no-prefix" id="ipotekAdet" type="number" min="1" value="1"/></div>
-<div class="th-field"><label class="th-label">Döner Sermaye <span class="th-label-hint">(opsiyonel)</span></label><div class="th-input-wrap"><span class="th-input-prefix">₺</span><input class="th-input money-input" id="ipotekDoner" type="text" inputmode="decimal" placeholder="1.500" autocomplete="off"/></div></div>
-<div class="th-field"><label class="th-label">Taşınmaz Sayısı <span class="th-label-hint">(opsiyonel)</span></label><input class="th-input no-prefix" id="ipotekTabsinmaz" type="number" min="1" step="1" placeholder="1" autocomplete="off"/></div>
-<div class="th-info-inline"><svg width="14" height="14" viewBox="0 0 14 14" fill="none"><circle cx="7" cy="7" r="6" stroke="#C8A24A" stroke-width="1.2"/><path d="M7 6v4M7 4.5v.5" stroke="#C8A24A" stroke-width="1.2" stroke-linecap="round"/></svg> Her bir ipotek terkini işlemi için 504,80 ₺ sabit harç alınır. Taşınmaz sayısına göre ilave döner sermaye hesaplanır.</div>
+<div class="th-info-inline"><svg width="14" height="14" viewBox="0 0 14 14" fill="none"><circle cx="7" cy="7" r="6" stroke="#C8A24A" stroke-width="1.2"/><path d="M7 6v4M7 4.5v.5" stroke="#C8A24A" stroke-width="1.2" stroke-linecap="round"/></svg> Her bir ipotek terkini işlemi için 504,80 ₺ sabit harç alınır.</div>
 </div>
 
 <div class="th-section" id="secIntikal">
 <div class="th-field"><label class="th-label">Döner Sermaye Bedeli <span class="th-label-hint">(tapu müdürlüğünüze göre değişir)</span></label><div class="th-input-wrap"><span class="th-input-prefix">₺</span><input class="th-input money-input" id="intikalDoner" type="text" inputmode="decimal" placeholder="1.500" autocomplete="off"/></div></div>
-<div class="th-info-inline"><svg width="14" height="14" viewBox="0 0 14 14" fill="none"><circle cx="7" cy="7" r="6" stroke="#C8A24A" stroke-width="1.2"/><path d="M7 6v4M7 4.5v.5" stroke="#C8A24A" stroke-width="1.2" stroke-linecap="round"/></svg> İntikal (miras) işlemlerinde tapu harcı alınmaz, sadece döner sermaye bedeli ödenir. Taşınmaz sayısı tutarı değiştirmez.</div>
+<div class="th-field"><label class="th-label">Yetki Talepli İşlem</label><label class="th-toggle-option" id="intikalYetkiOption" style="margin-top:4px"><input type="checkbox" id="intikalYetki" style="display:none"/><span class="th-toggle-dot"></span><span class="th-toggle-text">Yetki talepli işlem <span class="th-label-hint">— seçiliyse döner sermaye 2 kat hesaplanır</span></span></label></div>
+<div class="th-info-inline"><svg width="14" height="14" viewBox="0 0 14 14" fill="none"><circle cx="7" cy="7" r="6" stroke="#C8A24A" stroke-width="1.2"/><path d="M7 6v4M7 4.5v.5" stroke="#C8A24A" stroke-width="1.2" stroke-linecap="round"/></svg> İntikal (miras) işlemlerinde tapu harcı alınmaz, sadece döner sermaye bedeli ödenir. Yetki talepli işlemlerde döner sermaye 2 kat uygulanır.</div>
 </div>
 
 <div class="th-section" id="secTashih">
-<div class="th-info-inline"><svg width="14" height="14" viewBox="0 0 14 14" fill="none"><circle cx="7" cy="7" r="6" stroke="#C8A24A" stroke-width="1.2"/><path d="M7 6v4M7 4.5v.5" stroke="#C8A24A" stroke-width="1.2" stroke-linecap="round"/></svg> Tashih (düzeltme) işlemlerinde sabit 2.371,80 ₺ harç alınır.</div>
+<div class="th-field"><label class="th-label">Döner Sermaye Ana Tutarı <span class="th-label-hint">(opsiyonel)</span></label><div class="th-input-wrap"><span class="th-input-prefix">₺</span><input class="th-input money-input" id="tashihDoner" type="text" inputmode="decimal" placeholder="1.500" autocomplete="off"/></div></div>
+<div class="th-field"><label class="th-label">Taşınmaz Sayısı <span class="th-label-hint">(opsiyonel)</span></label><input class="th-input no-prefix" id="tashihTabsinmaz" type="number" min="1" step="1" placeholder="1" autocomplete="off"/></div>
+<div class="th-info-inline"><svg width="14" height="14" viewBox="0 0 14 14" fill="none"><circle cx="7" cy="7" r="6" stroke="#C8A24A" stroke-width="1.2"/><path d="M7 6v4M7 4.5v.5" stroke="#C8A24A" stroke-width="1.2" stroke-linecap="round"/></svg> Tashih (düzeltme) işlemlerinde sabit 2.371,80 ₺ harç alınır. Taşınmaz sayısına göre döner sermaye artırılır.</div>
 </div>
 
 <div class="th-section" id="secTaksim">
@@ -657,6 +661,10 @@ tabs.forEach(function(tab){tab.addEventListener('click',function(){tabs.forEach(
 document.querySelectorAll('.th-toggle-group .th-toggle-option').forEach(function(opt){opt.addEventListener('click',function(){var g=opt.closest('.th-toggle-group');g.querySelectorAll('.th-toggle-option').forEach(function(o){o.classList.remove('active')});opt.classList.add('active')})});
 var yetkiOption=document.getElementById('satisYetkiOption');
 if(yetkiOption){yetkiOption.addEventListener('click',function(){var cb=document.getElementById('satisYetki');cb.checked=!cb.checked;yetkiOption.classList.toggle('active',cb.checked)})}
+var bagisYetkiOption=document.getElementById('bagisYetkiOption');
+if(bagisYetkiOption){bagisYetkiOption.addEventListener('click',function(){var cb=document.getElementById('bagisYetki');cb.checked=!cb.checked;bagisYetkiOption.classList.toggle('active',cb.checked)})}
+var intikalYetkiOption=document.getElementById('intikalYetkiOption');
+if(intikalYetkiOption){intikalYetkiOption.addEventListener('click',function(){var cb=document.getElementById('intikalYetki');cb.checked=!cb.checked;intikalYetkiOption.classList.toggle('active',cb.checked)})}
 var taksimYetkiOption=document.getElementById('taksimYetkiOption');
 if(taksimYetkiOption){taksimYetkiOption.addEventListener('click',function(){var cb=document.getElementById('taksimYetki');cb.checked=!cb.checked;taksimYetkiOption.classList.toggle('active',cb.checked)})}
 document.querySelectorAll('.th-input').forEach(function(el){el.addEventListener('keydown',function(e){if(e.key==='Enter')calculate()})});
@@ -700,46 +708,69 @@ splitArea.innerHTML='<div class="th-split"><div class="th-split-card"><div class
 }
 
 else if(currentType==='bagis'){
-var bedel=parseMoney(document.getElementById('bagisBedel').value);
-var doner=parseMoney(document.getElementById('bagisDoner').value);
-if(!validateMoneyField('bagisBedel','Gayrimenkul değeri'))return;
+var bagisHissedarMaktuRaw=document.getElementById('bagisHissedarMaktu').value;
+var bagisHissedarMaktu=bagisHissedarMaktuRaw===''?0:parseInt(bagisHissedarMaktuRaw,10);
+var bagisBedelOranli=parseMoney(document.getElementById('bagisBedelOranli').value);
+var bagisDoner=parseMoney(document.getElementById('bagisDoner').value);
+if(!validateMoneyField('bagisBedelOranli','Maktuya düşmeyen toplam işlem bedeli'))return;
 if(!validateMoneyField('bagisDoner','Döner sermaye'))return;
-if(bedel<=0){showError('Lütfen geçerli bir gayrimenkul değeri girin.');return}
-var harc=bedel*BAGIS_RATE;grand=harc+doner;
-html+=row('Bağış Harcı (%6,831)',fmt(harc));
-if(doner>0)html+=row('Döner Sermaye',fmt(doner));
+var bagisTabsinmazRaw=document.getElementById('bagisTabsinmaz').value;
+var bagisTabsinmaz=bagisTabsinmazRaw===''||bagisTabsinmazRaw==='0'?1:parseInt(bagisTabsinmazRaw,10);
+var bagisYetki=document.getElementById('bagisYetki').checked;
+if(bagisHissedarMaktu===0&&bagisBedelOranli===0){showError('Lütfen en az bir işlem bedeli veya maktu hissedar sayısı girin.');return}
+if(isNaN(bagisHissedarMaktu)||bagisHissedarMaktu<0){showError('Maktu harca düşen hissedar sayısı negatif olamaz.');return}
+if(bagisHissedarMaktuRaw!==''&&(parseFloat(bagisHissedarMaktuRaw)!==Math.floor(parseFloat(bagisHissedarMaktuRaw)))){showError('Hissedar sayısı tam sayı olmalıdır.');return}
+if(bagisBedelOranli<0||bagisDoner<0){showError('Tutar alanları negatif olamaz.');return}
+if(isNaN(bagisTabsinmaz)||bagisTabsinmaz<0){showError('Taşınmaz sayısı negatif olamaz.');return}
+if(bagisTabsinmazRaw!==''&&bagisTabsinmazRaw!=='0'&&(parseFloat(bagisTabsinmazRaw)!==Math.floor(parseFloat(bagisTabsinmazRaw)))){showError('Taşınmaz sayısı tam sayı olmalıdır.');return}
+var bagisMaktuHarc=bagisHissedarMaktu*MAKTU_HARC;
+var bagisOranliHarc=bagisBedelOranli*BAGIS_RATE;
+var bagisIlave=calcIlaveDoner(bagisDoner,bagisTabsinmaz);
+var bagisDonerAraToplam=bagisIlave.araToplam;
+var bagisDonerHesap=bagisDonerAraToplam*(bagisYetki?YETKI_CARPAN:1);
+grand=bagisMaktuHarc+bagisOranliHarc+bagisDonerHesap;
+if(bagisHissedarMaktu>0){html+=row('Maktu Harca Düşen Hissedar Sayısı',bagisHissedarMaktu+' kişi');html+=row('Maktu Harç Toplamı',fmt(bagisMaktuHarc))}
+if(bagisBedelOranli>0){html+=row('Maktuya Düşmeyen Toplam İşlem Bedeli',fmt(bagisBedelOranli));html+=row('Bağış Harcı (%6,831)',fmt(bagisOranliHarc))}
+if(bagisDoner>0){html+=row('Döner Sermaye Ana Tutarı',fmt(bagisDoner));if(bagisTabsinmaz>1){html+=row('Taşınmaz Sayısı',bagisTabsinmaz+' adet');html+=row('İlave Taşınmaz Sayısı',bagisIlave.fazla+' adet');html+=row('İlave Döner Sermaye Oranı','%'+((DONER_SERMAYE_ILAVE_ORANI*100).toFixed(4).replace('.',',')));html+=row('İlave Döner Sermaye Tutarı',fmt(bagisIlave.ilave));html+=row('Döner Sermaye Ara Toplamı',fmt(bagisDonerAraToplam))}else{html+=row('İlave Döner Sermaye Tutarı',fmt(0))}if(bagisYetki){html+=row('Yetki Talepli İşlem','Evet — döner sermaye ara toplamı 2 kat uygulandı')}html+=row('Hesaplanan Döner Sermaye',fmt(bagisDonerHesap))}
 html+=row('Ödeyen','Alan kişi');
 }
 
 else if(currentType==='ipotek'){
 var adet=parseInt(document.getElementById('ipotekAdet').value)||1;
-if(!validateMoneyField('ipotekDoner','Döner sermaye'))return;
-var ipotekDoner=parseMoney(document.getElementById('ipotekDoner').value);
-var ipotekTabsinmazRaw=document.getElementById('ipotekTabsinmaz').value;
-var ipotekTabsinmaz=ipotekTabsinmazRaw===''||ipotekTabsinmazRaw==='0'?1:parseInt(ipotekTabsinmazRaw,10);
-if(isNaN(ipotekTabsinmaz)||ipotekTabsinmaz<0){showError('Taşınmaz sayısı negatif olamaz.');return}
+if(adet<1){showError('İşlem adedi 1 veya daha büyük olmalıdır.');return}
 var ipotekHarc=IPOTEK_SABIT*adet;
-var ipotekIlave=calcIlaveDoner(ipotekDoner,ipotekTabsinmaz);
-var ipotekDonerHesap=ipotekIlave.araToplam;
-grand=ipotekHarc+ipotekDonerHesap;
+grand=ipotekHarc;
 html+=row('İşlem Adedi',adet+' adet');
 html+=row('İşlem Başı Harç',fmt(IPOTEK_SABIT));
 if(adet>1)html+=row('Toplam Sabit Harç',fmt(ipotekHarc));
-if(ipotekDoner>0){html+=row('Döner Sermaye Ana Tutarı',fmt(ipotekDoner));if(ipotekIlave.fazla>0){html+=row('Taşınmaz Sayısı',ipotekTabsinmaz+' adet');html+=row('İlave Taşınmaz Sayısı',ipotekIlave.fazla+' adet');html+=row('İlave Döner Sermaye Oranı','%'+((DONER_SERMAYE_ILAVE_ORANI*100).toFixed(4).replace('.',',')));html+=row('İlave Döner Sermaye Tutarı',fmt(ipotekIlave.ilave));html+=row('Döner Sermaye Ara Toplamı',fmt(ipotekDonerHesap))}else{html+=row('İlave Döner Sermaye Tutarı',fmt(0))}html+=row('Hesaplanan Döner Sermaye',fmt(ipotekDonerHesap))}
 }
 
 else if(currentType==='intikal'){
 var doner=parseMoney(document.getElementById('intikalDoner').value);
 if(!validateMoneyField('intikalDoner','Döner sermaye bedeli'))return;
 if(doner<=0){showError('Lütfen döner sermaye bedelini girin.');return}
-grand=doner;
+var intikalYetki=document.getElementById('intikalYetki').checked;
+var intikalDonerHesap=doner*(intikalYetki?YETKI_CARPAN:1);
+grand=intikalDonerHesap;
 html+=row('Tapu Harcı',fmt(0));
-html+=row('Döner Sermaye',fmt(doner));
+html+=row('Döner Sermaye Ana Tutarı',fmt(doner));
+if(intikalYetki){html+=row('Yetki Talepli İşlem','Evet — döner sermaye 2 kat uygulandı')}
+html+=row('Hesaplanan Döner Sermaye',fmt(intikalDonerHesap));
 }
 
 else if(currentType==='tashih'){
-grand=TASHIH_SABIT;
+if(!validateMoneyField('tashihDoner','Döner sermaye'))return;
+var tashihDoner=parseMoney(document.getElementById('tashihDoner').value);
+var tashihTabsinmazRaw=document.getElementById('tashihTabsinmaz').value;
+var tashihTabsinmaz=tashihTabsinmazRaw===''||tashihTabsinmazRaw==='0'?1:parseInt(tashihTabsinmazRaw,10);
+if(tashihDoner<0){showError('Döner sermaye tutarı negatif olamaz.');return}
+if(isNaN(tashihTabsinmaz)||tashihTabsinmaz<0){showError('Taşınmaz sayısı negatif olamaz.');return}
+if(tashihTabsinmazRaw!==''&&tashihTabsinmazRaw!=='0'&&(parseFloat(tashihTabsinmazRaw)!==Math.floor(parseFloat(tashihTabsinmazRaw)))){showError('Taşınmaz sayısı tam sayı olmalıdır.');return}
+var tashihIlave=calcIlaveDoner(tashihDoner,tashihTabsinmaz);
+var tashihDonerHesap=tashihIlave.araToplam;
+grand=TASHIH_SABIT+tashihDonerHesap;
 html+=row('Tashih (Düzeltme) Harcı',fmt(TASHIH_SABIT));
+if(tashihDoner>0){html+=row('Döner Sermaye Ana Tutarı',fmt(tashihDoner));if(tashihTabsinmaz>1){html+=row('Taşınmaz Sayısı',tashihTabsinmaz+' adet');html+=row('İlave Taşınmaz Sayısı',tashihIlave.fazla+' adet');html+=row('İlave Döner Sermaye Oranı','%'+((DONER_SERMAYE_ILAVE_ORANI*100).toFixed(4).replace('.',',')));html+=row('İlave Döner Sermaye Tutarı',fmt(tashihIlave.ilave))}else{html+=row('İlave Döner Sermaye Tutarı',fmt(0))}html+=row('Hesaplanan Döner Sermaye',fmt(tashihDonerHesap))}
 }
 
 else if(currentType==='taksim'){

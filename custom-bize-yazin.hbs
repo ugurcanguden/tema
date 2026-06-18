@@ -1,0 +1,123 @@
+{{!< default}}
+
+{{#post}}
+<main class="feedback-page">
+    <section class="feedback-hero">
+        <div class="feedback-shell">
+            <span class="feedback-badge">Öneri ve İstekler</span>
+            <h1>{{title}}</h1>
+            <p>Vatandaş Rehberi'ni geliştirmemize yardımcı olacak görüşlerinizi paylaşın.</p>
+        </div>
+    </section>
+
+    <section class="feedback-shell feedback-content">
+        {{#if content}}
+            <div class="feedback-intro gh-content is-body">{{content}}</div>
+        {{/if}}
+
+        <div class="feedback-card">
+            <form id="feedbackForm" novalidate>
+                <div class="feedback-field">
+                    <label for="feedbackUsername">Rumuz <span>(isteğe bağlı)</span></label>
+                    <input id="feedbackUsername" name="username" type="text" maxlength="50" autocomplete="nickname" placeholder="Örn: Bir ziyaretçi">
+                </div>
+
+                <div class="feedback-field">
+                    <label for="feedbackMessage">Öneri veya isteğiniz</label>
+                    <textarea id="feedbackMessage" name="feedback" rows="8" maxlength="3000" required placeholder="Görüşünüzü buraya yazın..."></textarea>
+                    <div class="feedback-meta"><span>En fazla 3.000 karakter</span><span id="feedbackCounter">0 / 3000</span></div>
+                </div>
+
+                <div class="feedback-honeypot" aria-hidden="true">
+                    <label for="feedbackWebsite">Web sitesi</label>
+                    <input id="feedbackWebsite" name="website" type="text" tabindex="-1" autocomplete="off">
+                </div>
+
+                <div class="feedback-notice">
+                    Lütfen ad, soyad, T.C. kimlik numarası, telefon, adres, sağlık bilgisi veya başka kişilere ait kişisel bilgiler paylaşmayın. Size yanıt verilmesini istiyorsanız iletişim bilginizi mesajınıza kendi tercihinizle ekleyebilirsiniz.
+                </div>
+
+                <div class="feedback-status" id="feedbackStatus" role="status" aria-live="polite"></div>
+                <button class="feedback-submit" id="feedbackSubmit" type="submit">Gönder</button>
+            </form>
+        </div>
+    </section>
+</main>
+{{/post}}
+
+<style>
+.feedback-page{--feedback-navy:#142840;--feedback-blue:#1e3a5f;--feedback-gold:#c8a24a;--feedback-border:#dde3ec;--feedback-muted:#63758a;background:#f6f8fb;min-height:70vh}
+.feedback-shell{width:min(760px,calc(100% - 40px));margin:0 auto}
+.feedback-hero{padding:70px 0 96px;background:linear-gradient(135deg,var(--feedback-navy),var(--feedback-blue));color:#fff;text-align:center}
+.feedback-badge{display:inline-flex;padding:6px 14px;border:1px solid rgba(200,162,74,.45);border-radius:999px;background:rgba(200,162,74,.14);color:#e1c77e;font-size:12px;font-weight:700;letter-spacing:.08em;text-transform:uppercase}
+.feedback-hero h1{margin:18px 0 12px;color:#fff;font-size:clamp(32px,5vw,48px);line-height:1.12}
+.feedback-hero p{max-width:600px;margin:0 auto;color:rgba(255,255,255,.76);font-size:17px;line-height:1.7}
+.feedback-content{padding:0 0 80px}
+.feedback-intro{margin:42px 0 24px}
+.feedback-card{margin-top:-54px;padding:34px;background:#fff;border:1px solid var(--feedback-border);border-radius:16px;box-shadow:0 18px 46px rgba(20,40,64,.12)}
+.feedback-intro+.feedback-card{margin-top:0}
+.feedback-field{margin-bottom:22px}
+.feedback-field label{display:block;margin-bottom:8px;color:var(--feedback-navy);font-size:14px;font-weight:700}
+.feedback-field label span{color:var(--feedback-muted);font-size:12px;font-weight:500}
+.feedback-field input,.feedback-field textarea{width:100%;box-sizing:border-box;border:1.5px solid var(--feedback-border);border-radius:10px;background:#fff;color:#26384d;font:inherit;font-size:15px;outline:none;transition:border-color .15s,box-shadow .15s}
+.feedback-field input{height:48px;padding:0 14px}
+.feedback-field textarea{min-height:180px;padding:14px;line-height:1.6;resize:vertical}
+.feedback-field input:focus,.feedback-field textarea:focus{border-color:#52749b;box-shadow:0 0 0 3px rgba(82,116,155,.12)}
+.feedback-meta{display:flex;justify-content:space-between;margin-top:7px;color:var(--feedback-muted);font-size:11px}
+.feedback-notice{margin-bottom:20px;padding:13px 15px;border:1px solid #ead9aa;border-radius:9px;background:#fffbef;color:#6b5a2d;font-size:12px;line-height:1.6}
+.feedback-status{display:none;margin-bottom:16px;padding:12px 14px;border-radius:9px;font-size:13px;line-height:1.5}
+.feedback-status.visible{display:block}
+.feedback-status.success{border:1px solid #b8ddc4;background:#effaf2;color:#216b37}
+.feedback-status.error{border:1px solid #efc2c2;background:#fff2f2;color:#9a2929}
+.feedback-submit{width:100%;height:50px;border:0;border-radius:10px;background:linear-gradient(135deg,var(--feedback-navy),var(--feedback-blue));color:#fff;font-size:15px;font-weight:700;cursor:pointer;box-shadow:0 5px 16px rgba(30,58,95,.24);transition:transform .15s,opacity .15s}
+.feedback-submit:hover{transform:translateY(-1px)}
+.feedback-submit:disabled{cursor:wait;opacity:.65;transform:none}
+.feedback-honeypot{position:absolute!important;left:-9999px!important;width:1px!important;height:1px!important;overflow:hidden!important}
+@media(max-width:600px){.feedback-hero{padding:52px 0 82px}.feedback-shell{width:min(100% - 28px,760px)}.feedback-card{padding:24px 18px;border-radius:13px}}
+</style>
+
+<script>
+(function(){
+'use strict';
+var endpoint='https://pocketbase.vatandasrehberi.net/api/collections/feedback/records';
+var form=document.getElementById('feedbackForm');
+var username=document.getElementById('feedbackUsername');
+var message=document.getElementById('feedbackMessage');
+var website=document.getElementById('feedbackWebsite');
+var counter=document.getElementById('feedbackCounter');
+var status=document.getElementById('feedbackStatus');
+var submit=document.getElementById('feedbackSubmit');
+
+function showStatus(type,text){
+status.className='feedback-status visible '+type;
+status.textContent=text;
+}
+
+message.addEventListener('input',function(){counter.textContent=message.value.length+' / 3000'});
+
+form.addEventListener('submit',function(event){
+event.preventDefault();
+status.className='feedback-status';
+if(website.value)return;
+var feedback=message.value.trim();
+if(!feedback){showStatus('error','Lütfen öneri veya isteğinizi yazın.');message.focus();return}
+submit.disabled=true;
+submit.textContent='Gönderiliyor...';
+fetch(endpoint,{
+method:'POST',
+headers:{'Content-Type':'application/json'},
+body:JSON.stringify({username:username.value.trim()||'Anonim',feedback:feedback})
+}).then(function(response){
+if(!response.ok)throw new Error('Request failed');
+form.reset();
+counter.textContent='0 / 3000';
+showStatus('success','Görüşünüz alındı. Katkınız için teşekkür ederiz.');
+}).catch(function(){
+showStatus('error','Mesajınız gönderilemedi. Lütfen daha sonra tekrar deneyin.');
+}).finally(function(){
+submit.disabled=false;
+submit.textContent='Gönder';
+});
+});
+})();
+</script>
