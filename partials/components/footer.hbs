@@ -26,6 +26,8 @@
             {{/social_accounts}}
         </div>
 
+        <p class="gh-footer-disclaimer">Tapu Mevzuat, vatandaşlara yönelik bağımsız bir bilgilendirme sitesidir. Resmi kurum sitesi değildir. İçerikler genel bilgilendirme amaçlıdır. Güncel ve bağlayıcı bilgiler için Tapu ve Kadastro Genel Müdürlüğü ve ilgili resmi kurum duyuruları kontrol edilmelidir.</p>
+
         <div class="gh-footer-bar">
             <span class="gh-footer-logo is-title">
                 {{#if @site.logo}}
@@ -34,20 +36,47 @@
                     {{@site.title}}
                 {{/if}}
             </span>
-            <p class="gh-footer-disclaimer">Tapu Mevzuat, vatandaşlara yönelik bağımsız bir bilgilendirme sitesidir. Resmi kurum sitesi değildir. İçerikler genel bilgilendirme amaçlıdır. Güncel ve bağlayıcı bilgiler için Tapu ve Kadastro Genel Müdürlüğü ve ilgili resmi kurum duyuruları kontrol edilmelidir.</p>
             <nav class="gh-footer-menu">
                 {{navigation type="secondary"}}
-            </nav>
-            <nav class="gh-footer-legal">
-                <a href="https://vatandasrehberi.net/gizlilik-politikasi.html" target="_blank" rel="noopener">Gizlilik Politikası</a>
-                <a href="https://vatandasrehberi.net/cerez-politikasi.html" target="_blank" rel="noopener">Çerez Politikası</a>
-                <a href="https://vatandasrehberi.net/kullanim-sartlari.html" target="_blank" rel="noopener">Kullanım Şartları</a>
-                <a href="https://vatandasrehberi.net/yasal-uyari.html" target="_blank" rel="noopener">Yasal Uyarı</a>
             </nav>
             <div class="gh-footer-copyright">
                 {{{t "Powered by {ghostlink}" ghostlink="<a href=\"https://ghost.org/\" target=\"_blank\" rel=\"noopener\">Ghost</a>"}}}
             </div>
         </div>
+
+        <nav class="gh-footer-legal">
+            <a href="https://vatandasrehberi.net/gizlilik-politikasi.html" target="_blank" rel="noopener">Gizlilik Politikası</a>
+            <a href="https://vatandasrehberi.net/cerez-politikasi.html" target="_blank" rel="noopener">Çerez Politikası</a>
+            <a href="https://vatandasrehberi.net/kullanim-sartlari.html" target="_blank" rel="noopener">Kullanım Şartları</a>
+            <a href="https://vatandasrehberi.net/yasal-uyari.html" target="_blank" rel="noopener">Yasal Uyarı</a>
+        </nav>
+
+        <style>
+            .gh-footer-disclaimer {
+                text-align: center;
+                font-size: 13px;
+                color: var(--color-secondary-text, #6b7280);
+                margin: 0 0 20px;
+                line-height: 1.6;
+            }
+            .gh-footer-legal {
+                display: flex;
+                flex-wrap: wrap;
+                justify-content: center;
+                gap: 4px 20px;
+                margin-top: 16px;
+                padding-top: 16px;
+                border-top: 1px solid var(--color-border, rgba(0,0,0,.08));
+            }
+            .gh-footer-legal a {
+                font-size: 12px;
+                color: var(--color-secondary-text, #6b7280);
+                text-decoration: none;
+            }
+            .gh-footer-legal a:hover {
+                color: var(--ghost-accent-color, #1E3A5F);
+            }
+        </style>
 
     </div>
 </footer>
