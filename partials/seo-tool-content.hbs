@@ -1,0 +1,168 @@
+<section class="seo-tool-content gh-outer" aria-label="{{appName}} rehberi">
+    <div class="seo-tool-inner gh-inner">
+        {{#if content}}
+            <div class="seo-tool-editorial gh-content is-body">
+                {{content}}
+            </div>
+        {{/if}}
+
+        {{#match tool "tapu"}}
+            <div class="seo-tool-guide">
+                <h2>Tapu harcı nasıl hesaplanır?</h2>
+                <p>Satış işleminde tapu harcı, beyan edilen satış bedeli üzerinden yürürlükteki oran uygulanarak hesaplanır. Döner sermaye ve işlem özelindeki diğer masraflar harçtan ayrı değerlendirilir. Araç; satış, bağış, ipotek terkini, intikal, tashih ve taksim seçenekleri için girilen bilgileri ayrı ayrı işler.</p>
+                <h2>Hesaplama örneği</h2>
+                <p>Satış bedelini ve varsa döner sermaye tutarını girin, masrafın alıcı ile satıcı arasında nasıl paylaşılacağını seçin. Sonuç ekranı harcı, ek masrafları ve taraflara düşen tahmini tutarı ayrı kalemler halinde gösterir.</p>
+                <h2>Kim öder ve hangi durumlar sonucu değiştirir?</h2>
+                <p>Satış sözleşmesindeki paylaşım, muafiyetler, taşınmaz sayısı, yetki talebi ve resmi tahakkuk sonucu ödenecek tutarı değiştirebilir. Hesaplama sonucu bilgi amaçlıdır; kesin ödeme tutarı ilgili Tapu Müdürlüğünün tahakkukunda belirlenir.</p>
+                <h2>Sık sorulan sorular</h2>
+                <h3>Tapu harcı satış bedeli üzerinden mi hesaplanır?</h3>
+                <p>Genel uygulamada beyan edilen devir ve iktisap bedeli esas alınır. Beyan değeri ilgili mevzuattaki alt sınırların altında olmamalıdır.</p>
+                <h3>Döner sermaye tapu harcına dahil midir?</h3>
+                <p>Hayır. Döner sermaye bedeli tapu harcından ayrı bir masraf kalemidir.</p>
+                <h3>Hesaplama resmi tahakkuk yerine geçer mi?</h3>
+                <p>Hayır. Muafiyetler ve işlem ayrıntıları nedeniyle Tapu Müdürlüğünün oluşturduğu resmi tahakkuk esas alınır.</p>
+                <h2>İlgili tapu rehberleri</h2>
+                <ul>
+                    <li><a href="/satis-islem-tanimi-ve-rehberi/">Tapu satış işleminin kapsamı ve masrafları</a></li>
+                    <li><a href="/satis-islemi-web-tapu-basvuru-rehberi/">Web Tapu satış başvurusu adımları</a></li>
+                    <li><a href="/islemlerde-gerekli-belgeler-nelerdir/">Tapu işlemlerinde gerekli belgeler</a></li>
+                </ul>
+                <h2>Resmi kaynaklar</h2>
+                <p><a href="https://www.tkgm.gov.tr/" target="_blank" rel="noopener noreferrer">Tapu ve Kadastro Genel Müdürlüğü</a> ile <a href="https://www.gib.gov.tr/" target="_blank" rel="noopener noreferrer">Gelir İdaresi Başkanlığı</a> duyuruları esas alınmalıdır.</p>
+            </div>
+        {{else match tool "kira"}}
+            <div class="seo-tool-guide">
+                <h2>Kira artış oranı nasıl hesaplanır?</h2>
+                <p>Araç, seçilen yenileme dönemine ait TÜFE on iki aylık ortalama değişim oranını mevcut kira bedeline uygular. Sözleşmede daha düşük bir oran varsa veya özel bir hukuki durum bulunuyorsa sonuç değişebilir.</p>
+                <h2>Hesaplama örneği</h2>
+                <p>Mevcut kira bedelini yazıp sözleşmenin yenileneceği ayı seçin. Araç, uygulanabilecek artış tutarını ve yeni aylık kira bedelini ayrı ayrı gösterir.</p>
+                <h2>Sık sorulan sorular</h2>
+                <h3>Konut ve iş yeri artışı aynı yöntemle mi hesaplanır?</h3>
+                <p>Türk Borçlar Kanunu kapsamındaki üst sınır değerlendirilirken sözleşmenin türü, süresi ve özel hükümleri ayrıca dikkate alınmalıdır.</p>
+                <h3>Ev sahibi TÜFE ortalamasından fazla zam yapabilir mi?</h3>
+                <p>Genel kural bakımından yenilenen kira dönemindeki artış, kanuni sınırı aşamaz. Beş yılı aşan sözleşmeler ve dava süreçleri farklı değerlendirmelere tabi olabilir.</p>
+                <h3>Hangi TÜFE verisi kullanılıyor?</h3>
+                <p>Seçilen döneme karşılık gelen TÜİK tüketici fiyat endeksi on iki aylık ortalama değişim verisi kullanılır.</p>
+                <h2>Resmi kaynaklar</h2>
+                <p><a href="https://data.tuik.gov.tr/" target="_blank" rel="noopener noreferrer">TÜİK veri portalı</a> ve <a href="https://www.mevzuat.gov.tr/mevzuatmetin/1.5.6098.pdf" target="_blank" rel="noopener noreferrer">Türk Borçlar Kanunu</a> kontrol edilmelidir.</p>
+            </div>
+        {{else match tool "ipotek"}}
+            <div class="seo-tool-guide">
+                <h2>İpotek tesis masrafı nasıl hesaplanır?</h2>
+                <p>İpotek bedeli, işlemde uygulanacak harç ve damga vergisi oranları ile taşınmaz sayısına bağlı döner sermaye kalemleri birlikte değerlendirilir. Muaf işlem seçeneği yalnızca uygun hukuki şartlar mevcutsa kullanılmalıdır.</p>
+                <h2>Hesaplama örneği</h2>
+                <p>İpotek bedelini, esas döner sermaye tutarını ve ipotek tesis edilecek taşınmaz sayısını girin. Araç her masrafı ve genel toplamı ayrı satırda gösterir.</p>
+                <h2>Sık sorulan sorular</h2>
+                <h3>Her ipotek işleminde aynı masraf mı çıkar?</h3>
+                <p>Hayır. İpotek bedeli, taşınmaz sayısı, muafiyet durumu ve güncel tarife sonucu etkiler.</p>
+                <h3>Birden fazla taşınmaz masrafı artırır mı?</h3>
+                <p>İlave taşınmazlar döner sermaye hesabında ek tutar doğurabilir.</p>
+                <h3>Banka kredili işlemlerde sonuç değişir mi?</h3>
+                <p>Kredi ve teminat yapısı ile uygulanabilir muafiyetler işlem bazında kontrol edilmelidir.</p>
+                <h2>İlgili rehberler ve resmi kaynaklar</h2>
+                <ul>
+                    <li><a href="/ipotek-islem-tanimi-ve-rehberi/">İpotek işleminin tanımı ve kapsamı</a></li>
+                    <li><a href="/ipotek-islemi-web-tapu-basvuru/">Web Tapu ipotek başvurusu</a></li>
+                    <li><a href="https://www.tkgm.gov.tr/" target="_blank" rel="noopener noreferrer">TKGM duyuruları ve tarifeleri</a></li>
+                </ul>
+            </div>
+        {{else match tool "deger-artis"}}
+            <div class="seo-tool-guide">
+                <h2>Değer artış kazancı nasıl hesaplanır?</h2>
+                <p>Gayrimenkulün alış ve satış tarihleri, alış maliyeti, satış bedeli, giderler, Yİ-ÜFE endekslemesi ve ilgili yılın istisna tutarı birlikte değerlendirilir. Edinim ile satış arasındaki süre de vergilendirme açısından önemlidir.</p>
+                <h2>Hesaplama örneği</h2>
+                <p>Alış ve satış bilgilerini eksiksiz girin. Araç endekslenmiş maliyeti, istisnayı, vergiye tabi kazancı ve tahmini gelir vergisini adım adım gösterir.</p>
+                <h2>Sık sorulan sorular</h2>
+                <h3>Beş yıldan sonra yapılan satış her zaman vergisiz midir?</h3>
+                <p>Edinim şekli, ticari faaliyet niteliği ve özel durumlar ayrıca incelenmelidir; yalnızca süreye bakılarak kesin karar verilmemelidir.</p>
+                <h3>Miras veya bağış yoluyla edinilen taşınmazlar dahil mi?</h3>
+                <p>İvazsız edinimler için farklı kurallar geçerli olduğundan bu aracın standart hesabına dahil değildir.</p>
+                <h3>Yİ-ÜFE endekslemesi ne zaman uygulanır?</h3>
+                <p>Kanundaki artış şartı sağlandığında alış maliyeti ilgili Yİ-ÜFE verileriyle endekslenebilir.</p>
+                <h2>Resmi kaynaklar</h2>
+                <p><a href="https://www.gib.gov.tr/" target="_blank" rel="noopener noreferrer">Gelir İdaresi Başkanlığı</a> rehberleri ve <a href="https://data.tuik.gov.tr/" target="_blank" rel="noopener noreferrer">TÜİK Yİ-ÜFE verileri</a> kontrol edilmelidir.</p>
+            </div>
+        {{else match tool "hisse"}}
+            <div class="seo-tool-guide">
+                <h2>Hisse paydaları nasıl eşitlenir?</h2>
+                <p>Farklı paydalara sahip kesirlerin paydalarının en küçük ortak katı bulunur. Her pay, kendi paydasının ortak paydaya ulaşması için gereken çarpanla genişletilir; böylece hisselerin değeri değişmeden tamamı aynı payda üzerinde gösterilir.</p>
+                <h2>Hesaplama örneği</h2>
+                <p>Hisseleri pay ve payda olarak ayrı satırlara girin veya hızlı giriş alanına virgülle ayırarak yazın. Araç ortak paydayı, her hissenin çarpanını ve eşitlenmiş karşılığını gösterir; toplamın tam hisseye eşit olup olmadığını da kontrol eder.</p>
+                <h2>Sık sorulan sorular</h2>
+                <h3>Payda eşitlemek hisse oranını değiştirir mi?</h3>
+                <p>Hayır. Pay ve payda aynı sayıyla çarpıldığı için kesrin temsil ettiği oran değişmez.</p>
+                <h3>Hisselerin toplamı neden bir bütünü vermiyor?</h3>
+                <p>Eksik veya fazla pay girilmiş olabilir. Sonuç bölümündeki toplam kontrolü farkı ortak payda üzerinden gösterir.</p>
+                <h3>Sonuç resmi işlem için yeterli midir?</h3>
+                <p>Araç matematiksel kontrol sağlar. Tescile esas paylar resmi belge ve Tapu Müdürlüğü incelemesiyle doğrulanmalıdır.</p>
+                <h2>İlgili rehberler ve resmi kaynak</h2>
+                <ul>
+                    <li><a href="/taksim-islem-tanimi-ve-rehberi/">Taksim işlemi rehberi</a></li>
+                    <li><a href="/satis-suretiyle-pay-temliki-islem-tanimi-ve-rehberi/">Pay temliki yoluyla satış</a></li>
+                    <li><a href="https://www.tkgm.gov.tr/" target="_blank" rel="noopener noreferrer">Tapu ve Kadastro Genel Müdürlüğü</a></li>
+                </ul>
+            </div>
+        {{/match}}
+
+        <p class="seo-tool-updated">Son güncelleme: <time datetime="{{date updated_at format="YYYY-MM-DD"}}">{{date updated_at format="DD.MM.YYYY"}}</time></p>
+    </div>
+</section>
+
+<script type="application/ld+json">
+{
+    "@context": "https://schema.org",
+    "@graph": [
+        {
+            "@type": "WebApplication",
+            "@id": "{{url absolute="true"}}#application",
+            "name": "{{appName}}",
+            "description": "{{appDescription}}",
+            "url": "{{url absolute="true"}}",
+            "applicationCategory": "FinanceApplication",
+            "operatingSystem": "Web",
+            "inLanguage": "tr-TR",
+            "isAccessibleForFree": true,
+            "publisher": {
+                "@type": "Organization",
+                "name": "{{@site.title}}",
+                "url": "{{@site.url}}"
+            },
+            "dateModified": "{{date updated_at format="YYYY-MM-DD"}}"
+        },
+        {
+            "@type": "BreadcrumbList",
+            "@id": "{{url absolute="true"}}#breadcrumb",
+            "itemListElement": [
+                {
+                    "@type": "ListItem",
+                    "position": 1,
+                    "name": "Ana Sayfa",
+                    "item": "{{@site.url}}"
+                },
+                {
+                    "@type": "ListItem",
+                    "position": 2,
+                    "name": "{{appName}}",
+                    "item": "{{url absolute="true"}}"
+                }
+            ]
+        }
+    ]
+}
+</script>
+
+<style>
+.seo-tool-content{background:#fff;border-top:1px solid #dde3ec}
+.seo-tool-inner{max-width:900px;padding-top:56px;padding-bottom:64px}
+.seo-tool-editorial{margin-bottom:42px;padding-bottom:36px;border-bottom:1px solid #dde3ec}
+.seo-tool-guide{color:#26384d;font-size:16px;line-height:1.75}
+.seo-tool-guide h2{margin:36px 0 12px;color:#142840;font-size:clamp(22px,3vw,28px);line-height:1.3}
+.seo-tool-guide h2:first-child{margin-top:0}
+.seo-tool-guide h3{margin:24px 0 8px;color:#1e3a5f;font-size:18px;line-height:1.4}
+.seo-tool-guide p{margin:0 0 16px}
+.seo-tool-guide ul{margin:0 0 18px;padding-left:22px}
+.seo-tool-guide li{margin:8px 0}
+.seo-tool-guide a{color:#1e3a5f;text-decoration:underline;text-decoration-color:#c8a24a;text-underline-offset:3px}
+.seo-tool-updated{margin:38px 0 0;padding-top:18px;border-top:1px solid #dde3ec;color:#63758a;font-size:13px}
+@media(max-width:700px){.seo-tool-inner{padding-top:40px;padding-bottom:48px}.seo-tool-guide{font-size:15px}}
+</style>

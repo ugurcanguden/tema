@@ -7,6 +7,7 @@
         <section class="gh-archive{{#if @custom.show_publication_info_sidebar}} has-sidebar{{/if}} gh-inner">
             <div class="gh-archive-inner">
                 <div class="gh-archive-wrapper">
+                    <p class="gh-author-kicker">Yazar ve içerik sorumlusu</p>
                     <h1 class="gh-article-title is-title">
                         {{#if website}}
                             <a class="gh-author-social-link" href="{{website}}" target="_blank" rel="noopener">{{name}}</a>
@@ -16,7 +17,10 @@
                     </h1>
                     {{#if bio}}
                         <p class="gh-article-excerpt">{{bio}}</p>
+                    {{else}}
+                        <p class="gh-article-excerpt">Tapu, kadastro ve gayrimenkul işlemleri hakkında kaynaklara dayalı rehber içerikler hazırlar.</p>
                     {{/if}}
+                    <p class="gh-author-editorial-note">İçerikler güncel mevzuat ve resmî kurum kaynakları kontrol edilerek hazırlanır. Mevzuat değişikliklerinde resmî duyurular ve işlem makamının değerlendirmesi esas alınır.</p>
                     <footer class="gh-author-meta">
                         <div class="gh-author-social">
                             {{#if twitter}}
@@ -62,3 +66,8 @@
     {{> "components/post-list" feed="archive" postFeedStyle=@custom.post_feed_style showTitle=false showSidebar=@custom.show_publication_info_sidebar}}
 
 </main>
+
+<style>
+.gh-author-kicker{margin:0 0 10px;color:var(--ghost-accent-color);font-size:12px;font-weight:700;letter-spacing:.08em;text-transform:uppercase}
+.gh-author-editorial-note{max-width:680px;margin:18px 0 0;padding:14px 16px;border-left:3px solid #c8a24a;background:rgba(200,162,74,.08);color:#4b5563;font-size:13px;line-height:1.65}
+</style>

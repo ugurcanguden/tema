@@ -5,12 +5,20 @@
     <section class="feedback-hero">
         <div class="feedback-shell">
             <span class="feedback-badge">Öneri ve İstekler</span>
-            <h1>{{title}}</h1>
-            <p>Vatandaş Rehberi'ni geliştirmemize yardımcı olacak görüşlerinizi paylaşın.</p>
+            <h1>Bize Yazın</h1>
+            <p>Tapudan'ı geliştirmemize yardımcı olacak görüşlerinizi paylaşın.</p>
         </div>
     </section>
 
     <section class="feedback-shell feedback-content">
+        <div class="feedback-contact">
+            <h2>İletişim</h2>
+            <p>Tapu Mevzuat ile iletişime geçmek için aşağıdaki e-posta adresini kullanabilirsiniz.</p>
+            <p><strong>E-posta:</strong> <a href="mailto:ugurcanguden@yandex.com">ugurcanguden@yandex.com</a></p>
+            <p>Görüş, öneri, düzeltme talepleri ve içerik bildirimleri için bizimle iletişime geçebilirsiniz.</p>
+            <p class="feedback-contact-note"><strong>Not:</strong> Bu site resmi kurumlara ait değildir. İçerikler yalnızca bilgilendirme amacıyla hazırlanır.</p>
+        </div>
+
         {{#if content}}
             <div class="feedback-intro gh-content is-body">{{content}}</div>
         {{/if}}
@@ -54,7 +62,12 @@
 .feedback-hero p{max-width:600px;margin:0 auto;color:rgba(255,255,255,.76);font-size:17px;line-height:1.7}
 .feedback-content{padding:0 0 80px}
 .feedback-intro{margin:42px 0 24px}
-.feedback-card{margin-top:-54px;padding:34px;background:#fff;border:1px solid var(--feedback-border);border-radius:16px;box-shadow:0 18px 46px rgba(20,40,64,.12)}
+.feedback-contact{margin-top:-54px;padding:28px 32px;background:#fff;border:1px solid var(--feedback-border);border-radius:16px;box-shadow:0 18px 46px rgba(20,40,64,.12)}
+.feedback-contact h2{margin:0 0 14px;color:var(--feedback-navy);font-size:24px;line-height:1.3}
+.feedback-contact p{margin:8px 0;color:#3d5068;font-size:14px;line-height:1.7}
+.feedback-contact a{color:var(--feedback-blue);font-weight:700;text-decoration-color:var(--feedback-gold);text-underline-offset:3px}
+.feedback-contact-note{margin-top:16px!important;padding:12px 14px;border-left:3px solid var(--feedback-gold);background:#fffbef}
+.feedback-card{margin-top:24px;padding:34px;background:#fff;border:1px solid var(--feedback-border);border-radius:16px;box-shadow:0 18px 46px rgba(20,40,64,.12)}
 .feedback-intro+.feedback-card{margin-top:0}
 .feedback-field{margin-bottom:22px}
 .feedback-field label{display:block;margin-bottom:8px;color:var(--feedback-navy);font-size:14px;font-weight:700}
@@ -73,7 +86,7 @@
 .feedback-submit:hover{transform:translateY(-1px)}
 .feedback-submit:disabled{cursor:wait;opacity:.65;transform:none}
 .feedback-honeypot{position:absolute!important;left:-9999px!important;width:1px!important;height:1px!important;overflow:hidden!important}
-@media(max-width:600px){.feedback-hero{padding:52px 0 82px}.feedback-shell{width:min(100% - 28px,760px)}.feedback-card{padding:24px 18px;border-radius:13px}}
+@media(max-width:600px){.feedback-hero{padding:52px 0 82px}.feedback-shell{width:min(100% - 28px,760px)}.feedback-contact,.feedback-card{padding:24px 18px;border-radius:13px}}
 </style>
 
 <script>

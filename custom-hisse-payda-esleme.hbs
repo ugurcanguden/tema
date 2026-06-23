@@ -1,4 +1,5 @@
 {{!< default}}
+{{#post}}
 <style>
 .hp-page *,.hp-page *::before,.hp-page *::after{box-sizing:border-box;margin:0;padding:0}
 :root{--navy:#1E3A5F;--navy-dark:#142840;--navy-light:#2a4f7c;--gold:#C8A24A;--gold-light:#debb6e;--surface:#fff;--surface-2:#f7f9fc;--surface-3:#eef2f7;--border:#dde3ec;--text-1:#0f1c2e;--text-2:#3d5068;--text-3:#7a90a8;--radius-sm:8px;--radius-md:14px;--radius-lg:22px;--shadow-md:0 8px 28px rgba(15,28,46,.10);--transition:.18s ease;--font-sans:'Inter',system-ui,-apple-system,sans-serif;--font-mono:'JetBrains Mono','Fira Code',monospace}
@@ -170,6 +171,7 @@ Hesapla
 </div>
 <button class="fab-toggle" id="fabToggle" type="button" aria-label="Araçlar menüsü"><span class="fab-ti"><svg width="18" height="18" viewBox="0 0 18 18" fill="none"><rect x="2.5" y="2.5" width="5" height="5" rx="1" stroke="white" stroke-width="1.5"/><rect x="10.5" y="2.5" width="5" height="5" rx="1" stroke="white" stroke-width="1.5"/><rect x="2.5" y="10.5" width="5" height="5" rx="1" stroke="white" stroke-width="1.5"/><rect x="10.5" y="10.5" width="5" height="5" rx="1" stroke="white" stroke-width="1.5"/></svg></span></button>
 </div>
+{{> "seo-tool-content" tool="hisse" appName="Hisse Payda Eşitleme" appDescription="Kat irtifakı ve kat mülkiyeti hisselerini ortak paydaya dönüştürme ve toplam hisseyi kontrol etme aracı."}}
 <script>(function(){var t=document.getElementById('fabToggle'),i=document.getElementById('fabItems');t.addEventListener('click',function(){var o=i.classList.toggle('open');t.classList.toggle('open',o)});document.addEventListener('click',function(e){if(!document.getElementById('fabWrap').contains(e.target)){i.classList.remove('open');t.classList.remove('open')}})})();</script>
 
 <script>
@@ -336,3 +338,4 @@ document.getElementById('hpQiInput').addEventListener('keydown',function(e){if(e
 addRow(null,null);addRow(null,null);
 })();
 </script>
+{{/post}}
